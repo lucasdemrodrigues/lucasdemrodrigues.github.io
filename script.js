@@ -26,139 +26,160 @@ window.addEventListener('pointermove', (e) => {
 
 document.getElementById('year').textContent = new Date().getFullYear();
 
-// Hero: superfície 3D orgânica animada em preto/grafite.
+// Fundo do Hero inspirado na configuração pública original do portfólio de Pedro Lauro.
+// Valores preservados: 40 partículas, links a 150 px, opacidade .5, largura 1,
+// velocidade 3, colisões, fundo preto e nenhuma interação com mouse/clique.
 const flowHost = document.querySelector('.hero-flow');
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 if (flowHost) {
   flowHost.innerHTML = '';
   flowHost.style.opacity = '1';
+  flowHost.style.background = '#000';
 
   const canvas = document.createElement('canvas');
   canvas.setAttribute('aria-hidden', 'true');
   canvas.style.width = '100%';
   canvas.style.height = '100%';
   canvas.style.display = 'block';
-  canvas.style.filter = 'contrast(1.06)';
   flowHost.appendChild(canvas);
 
-  const ctx = canvas.getContext('2d', { alpha: true });
+  const ctx = canvas.getContext('2d');
+  const particleCount = 40;
+  const linkDistance = 150;
+  const linkOpacity = 0.5;
+  const speed = 3;
+  const particles = [];
   let width = 0;
   let height = 0;
-  let dpr = Math.min(window.devicePixelRatio || 1, 1.6);
-  let raf = 0;
-  let start = performance.now();
+  let dpr = 1;
+  let lastTime = performance.now();
 
-  function resizeSurface() {
+  class Particle {
+    constructor() {
+      this.reset();
+    }
+
+    reset() {
+      this.x = Math.random() * width;
+      this.y = Math.random() * height;
+      const angle = Math.random() * Math.PI * 2;
+      const velocity = speed * (0.35 + Math.random() * 0.35);
+      this.vx = Math.cos(angle) * velocity;
+      this.vy = Math.sin(angle) * velocity;
+      this.radius = 1 + Math.random() * 4;
+    }
+
+    update(dt) {
+      if (reduceMotion) return;
+      this.x += this.vx * dt;
+      this.y += this.vy * dt;
+
+      // Equivalente visual ao outMode bounce da configuração original.
+      if (this.x <= this.radius || this.x >= width - this.radius) {
+        this.vx *= -1;
+        this.x = Math.max(this.radius, Math.min(width - this.radius, this.x));
+      }
+      if (this.y <= this.radius || this.y >= height - this.radius) {
+        this.vy *= -1;
+        this.y = Math.max(this.radius, Math.min(height - this.radius, this.y));
+      }
+    }
+
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255,255,255,0.5)';
+      ctx.fill();
+    }
+  }
+
+  function resizeParticles() {
     const rect = flowHost.getBoundingClientRect();
     width = Math.max(1, rect.width);
     height = Math.max(1, rect.height);
-    dpr = Math.min(window.devicePixelRatio || 1, 1.6);
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
     canvas.width = Math.round(width * dpr);
     canvas.height = Math.round(height * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    if (!particles.length) {
+      for (let i = 0; i < particleCount; i++) particles.push(new Particle());
+    } else {
+      particles.forEach(p => {
+        p.x = Math.min(p.x, width);
+        p.y = Math.min(p.y, height);
+      });
+    }
   }
 
-  function heightAt(u, v, t) {
-    const wave1 = Math.sin(u * 4.0 + t * 0.55) * 0.42;
-    const wave2 = Math.cos(v * 4.8 - t * 0.44) * 0.34;
-    const wave3 = Math.sin((u + v) * 3.2 + t * 0.30) * 0.24;
-    const swell1 = Math.exp(-((u - 0.64) ** 2 * 7.5 + (v - 0.42) ** 2 * 5.5)) * 1.55;
-    const swell2 = Math.exp(-((u - 0.88) ** 2 * 10 + (v - 0.72) ** 2 * 7)) * 0.95;
-    const dip = Math.exp(-((u - 0.48) ** 2 * 13 + (v - 0.56) ** 2 * 11)) * -0.75;
-    return wave1 + wave2 + wave3 + swell1 + swell2 + dip;
+  function resolveCollisions() {
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const a = particles[i];
+        const b = particles[j];
+        const dx = b.x - a.x;
+        const dy = b.y - a.y;
+        const minDist = a.radius + b.radius;
+        const distSq = dx * dx + dy * dy;
+        if (distSq > 0 && distSq < minDist * minDist) {
+          const dist = Math.sqrt(distSq);
+          const nx = dx / dist;
+          const ny = dy / dist;
+          const rel = (b.vx - a.vx) * nx + (b.vy - a.vy) * ny;
+          if (rel < 0) {
+            a.vx += rel * nx;
+            a.vy += rel * ny;
+            b.vx -= rel * nx;
+            b.vy -= rel * ny;
+          }
+        }
+      }
+    }
   }
 
-  function point(u, v, t) {
-    const z = heightAt(u, v, t);
-    const perspective = 1 / (1.18 - z * 0.11);
-    const baseX = (u - 0.5) * width * 1.18;
-    const baseY = (v - 0.5) * height * 0.92;
-    const twist = Math.sin(v * 3.1 + t * 0.25) * width * 0.028;
-    return {
-      x: width * 0.58 + (baseX + twist) * perspective,
-      y: height * 0.51 + (baseY - z * height * 0.19) * perspective,
-      z
-    };
+  function drawLinks() {
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const a = particles[i];
+        const b = particles[j];
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+        const dist = Math.hypot(dx, dy);
+        if (dist <= linkDistance) {
+          const opacity = (1 - dist / linkDistance) * linkOpacity;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.strokeStyle = `rgba(255,255,255,${opacity})`;
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+      }
+    }
   }
 
-  function drawSurface(now) {
-    const t = reduceMotion ? 1.8 : (now - start) / 1000;
+  function animate(now) {
+    const dt = Math.min((now - lastTime) / 16.6667, 2);
+    lastTime = now;
     ctx.clearRect(0, 0, width, height);
-
-    const bg = ctx.createLinearGradient(0, 0, width, height);
-    bg.addColorStop(0, 'rgba(0,0,0,0)');
-    bg.addColorStop(0.48, 'rgba(8,8,8,0.03)');
-    bg.addColorStop(1, 'rgba(0,0,0,0.22)');
-    ctx.fillStyle = bg;
+    ctx.fillStyle = '#000';
     ctx.fillRect(0, 0, width, height);
 
-    const cols = width < 700 ? 28 : 42;
-    const rows = width < 700 ? 18 : 26;
-    const pts = Array.from({ length: rows + 1 }, (_, r) =>
-      Array.from({ length: cols + 1 }, (_, c) => point(c / cols, r / rows, t))
-    );
+    particles.forEach(p => p.update(dt));
+    if (!reduceMotion) resolveCollisions();
+    drawLinks();
+    particles.forEach(p => p.draw());
 
-    // Superfície preenchida por pequenos quadriláteros com iluminação calculada.
-    for (let r = 0; r < rows; r++) {
-      for (let c = 0; c < cols; c++) {
-        const p1 = pts[r][c];
-        const p2 = pts[r][c + 1];
-        const p3 = pts[r + 1][c + 1];
-        const p4 = pts[r + 1][c];
-
-        const dzx = p2.z - p1.z;
-        const dzy = p4.z - p1.z;
-        const normalLight = Math.max(-1, Math.min(1, 0.45 - dzx * 1.15 - dzy * 0.85));
-        const depth = (p1.z + p2.z + p3.z + p4.z) / 4;
-        const edgeFade = Math.sin((c / cols) * Math.PI) * Math.sin((r / rows) * Math.PI);
-        const silver = Math.max(0, normalLight) * 58 + Math.max(0, depth) * 18;
-        const base = Math.max(7, 17 + silver);
-        const alpha = 0.10 + edgeFade * 0.43;
-
-        ctx.beginPath();
-        ctx.moveTo(p1.x, p1.y);
-        ctx.lineTo(p2.x, p2.y);
-        ctx.lineTo(p3.x, p3.y);
-        ctx.lineTo(p4.x, p4.y);
-        ctx.closePath();
-        ctx.fillStyle = `rgba(${base},${base},${base + 2},${alpha})`;
-        ctx.fill();
-      }
-    }
-
-    // Linhas de contorno discretas ajudam a leitura de profundidade sem parecer wireframe.
-    ctx.lineWidth = 0.7;
-    for (let r = 0; r <= rows; r += 2) {
-      ctx.beginPath();
-      for (let c = 0; c <= cols; c++) {
-        const p = pts[r][c];
-        if (c === 0) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y);
-      }
-      ctx.strokeStyle = 'rgba(210,210,214,0.075)';
-      ctx.stroke();
-    }
-
-    // Reflexo especular suave que desliza pela superfície.
-    const shineX = width * (0.63 + Math.sin(t * 0.17) * 0.08);
-    const shineY = height * (0.42 + Math.cos(t * 0.15) * 0.07);
-    const shine = ctx.createRadialGradient(shineX, shineY, 0, shineX, shineY, Math.max(width, height) * 0.34);
-    shine.addColorStop(0, 'rgba(255,255,255,0.13)');
-    shine.addColorStop(0.22, 'rgba(180,180,185,0.07)');
-    shine.addColorStop(1, 'rgba(255,255,255,0)');
-    ctx.fillStyle = shine;
-    ctx.fillRect(0, 0, width, height);
-
-    if (!reduceMotion) raf = requestAnimationFrame(drawSurface);
+    if (!reduceMotion) requestAnimationFrame(animate);
   }
 
-  resizeSurface();
-  drawSurface(performance.now());
+  resizeParticles();
+  animate(performance.now());
 
-  const resizeObserver = new ResizeObserver(() => resizeSurface());
+  const resizeObserver = new ResizeObserver(() => {
+    resizeParticles();
+    if (reduceMotion) animate(performance.now());
+  });
   resizeObserver.observe(flowHost);
-
-  if (reduceMotion) {
-    window.addEventListener('resize', () => drawSurface(performance.now()), { passive: true });
-  }
 }
