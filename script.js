@@ -54,25 +54,35 @@ if (topbar && menuToggle && mainNav) {
   });
 }
 
-// Copia o e-mail sem impedir que o restante do card continue abrindo o cliente de e-mail.
+// O card inteiro de e-mail copia o endereço. O elemento visual "Copiar"
+// funciona como indicador da ação e exibe o feedback de sucesso.
+const emailCard = document.querySelector('.email-card');
 const copyEmailButton = document.querySelector('.copy-email');
-if (copyEmailButton) {
-  copyEmailButton.addEventListener('click', async (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    const email = copyEmailButton.dataset.email;
-    const label = copyEmailButton.querySelector('.copy-label');
-    const icon = copyEmailButton.querySelector('.copy-icon');
-    const showCopied = () => {
-      if (label) label.textContent = 'Copiado';
-      if (icon) icon.textContent = '✓';
-      copyEmailButton.classList.add('copied');
-      setTimeout(() => {
-        if (label) label.textContent = 'Copiar';
-        if (icon) icon.textContent = '⧉';
-        copyEmailButton.classList.remove('copied');
-      }, 1800);
-    };
+if (emailCard && copyEmailButton) {
+  const email = copyEmailButton.dataset.email;
+  const label = copyEmailButton.querySelector('.copy-label');
+  const icon = copyEmailButton.querySelector('.copy-icon');
+  let feedbackTimer;
+
+  emailCard.style.cursor = 'pointer';
+  emailCard.setAttribute('role', 'button');
+  emailCard.setAttribute('tabindex', '0');
+  emailCard.setAttribute('aria-label', `Copiar e-mail ${email}`);
+
+  const showCopied = () => {
+    clearTimeout(feedbackTimer);
+    if (label) label.textContent = 'Copiado!';
+    if (icon) icon.textContent = '✓';
+    copyEmailButton.classList.add('copied');
+    feedbackTimer = setTimeout(() => {
+      if (label) label.textContent = 'Copiar';
+      if (icon) icon.textContent = '⧉';
+      copyEmailButton.classList.remove('copied');
+    }, 2000);
+  };
+
+  const copyEmail = async (event) => {
+    if (event) event.preventDefault();
     try {
       await navigator.clipboard.writeText(email);
       showCopied();
@@ -86,6 +96,14 @@ if (copyEmailButton) {
       document.execCommand('copy');
       temp.remove();
       showCopied();
+    }
+  };
+
+  emailCard.addEventListener('click', copyEmail);
+  emailCard.addEventListener('keydown', event => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      copyEmail(event);
     }
   });
 }
