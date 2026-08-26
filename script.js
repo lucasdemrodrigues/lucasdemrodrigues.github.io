@@ -26,6 +26,37 @@ window.addEventListener('pointermove', (e) => {
 
 document.getElementById('year').textContent = new Date().getFullYear();
 
+// Copia o e-mail sem impedir que o restante do card continue abrindo o cliente de e-mail.
+const copyEmailButton = document.querySelector('.copy-email');
+if (copyEmailButton) {
+  copyEmailButton.addEventListener('click', async (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const email = copyEmailButton.dataset.email;
+    try {
+      await navigator.clipboard.writeText(email);
+      const original = copyEmailButton.textContent;
+      copyEmailButton.textContent = 'COPIADO ✓';
+      copyEmailButton.classList.add('copied');
+      setTimeout(() => {
+        copyEmailButton.textContent = original;
+        copyEmailButton.classList.remove('copied');
+      }, 1800);
+    } catch {
+      const temp = document.createElement('textarea');
+      temp.value = email;
+      temp.style.position = 'fixed';
+      temp.style.opacity = '0';
+      document.body.appendChild(temp);
+      temp.select();
+      document.execCommand('copy');
+      temp.remove();
+      copyEmailButton.textContent = 'COPIADO ✓';
+      setTimeout(() => { copyEmailButton.textContent = 'COPIAR'; }, 1800);
+    }
+  });
+}
+
 // Fundo do Hero inspirado na configuração pública original do portfólio de Pedro Lauro.
 // Valores preservados: 40 partículas, links a 150 px, opacidade .5, largura 1,
 // velocidade 3, colisões, fundo preto e nenhuma interação com mouse/clique.
@@ -56,10 +87,7 @@ if (flowHost) {
   let lastTime = performance.now();
 
   class Particle {
-    constructor() {
-      this.reset();
-    }
-
+    constructor() { this.reset(); }
     reset() {
       this.x = Math.random() * width;
       this.y = Math.random() * height;
@@ -69,13 +97,10 @@ if (flowHost) {
       this.vy = Math.sin(angle) * velocity;
       this.radius = 1 + Math.random() * 4;
     }
-
     update(dt) {
       if (reduceMotion) return;
       this.x += this.vx * dt;
       this.y += this.vy * dt;
-
-      // Equivalente visual ao outMode bounce da configuração original.
       if (this.x <= this.radius || this.x >= width - this.radius) {
         this.vx *= -1;
         this.x = Math.max(this.radius, Math.min(width - this.radius, this.x));
@@ -85,7 +110,6 @@ if (flowHost) {
         this.y = Math.max(this.radius, Math.min(height - this.radius, this.y));
       }
     }
-
     draw() {
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
@@ -102,36 +126,26 @@ if (flowHost) {
     canvas.width = Math.round(width * dpr);
     canvas.height = Math.round(height * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
     if (!particles.length) {
       for (let i = 0; i < particleCount; i++) particles.push(new Particle());
     } else {
-      particles.forEach(p => {
-        p.x = Math.min(p.x, width);
-        p.y = Math.min(p.y, height);
-      });
+      particles.forEach(p => { p.x = Math.min(p.x, width); p.y = Math.min(p.y, height); });
     }
   }
 
   function resolveCollisions() {
     for (let i = 0; i < particles.length; i++) {
       for (let j = i + 1; j < particles.length; j++) {
-        const a = particles[i];
-        const b = particles[j];
-        const dx = b.x - a.x;
-        const dy = b.y - a.y;
+        const a = particles[i], b = particles[j];
+        const dx = b.x - a.x, dy = b.y - a.y;
         const minDist = a.radius + b.radius;
         const distSq = dx * dx + dy * dy;
         if (distSq > 0 && distSq < minDist * minDist) {
-          const dist = Math.sqrt(distSq);
-          const nx = dx / dist;
-          const ny = dy / dist;
+          const dist = Math.sqrt(distSq), nx = dx / dist, ny = dy / dist;
           const rel = (b.vx - a.vx) * nx + (b.vy - a.vy) * ny;
           if (rel < 0) {
-            a.vx += rel * nx;
-            a.vy += rel * ny;
-            b.vx -= rel * nx;
-            b.vy -= rel * ny;
+            a.vx += rel * nx; a.vy += rel * ny;
+            b.vx -= rel * nx; b.vy -= rel * ny;
           }
         }
       }
@@ -141,19 +155,12 @@ if (flowHost) {
   function drawLinks() {
     for (let i = 0; i < particles.length; i++) {
       for (let j = i + 1; j < particles.length; j++) {
-        const a = particles[i];
-        const b = particles[j];
-        const dx = a.x - b.x;
-        const dy = a.y - b.y;
-        const dist = Math.hypot(dx, dy);
+        const a = particles[i], b = particles[j];
+        const dist = Math.hypot(a.x - b.x, a.y - b.y);
         if (dist <= linkDistance) {
           const opacity = (1 - dist / linkDistance) * linkOpacity;
-          ctx.beginPath();
-          ctx.moveTo(a.x, a.y);
-          ctx.lineTo(b.x, b.y);
-          ctx.strokeStyle = `rgba(255,255,255,${opacity})`;
-          ctx.lineWidth = 1;
-          ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
+          ctx.strokeStyle = `rgba(255,255,255,${opacity})`; ctx.lineWidth = 1; ctx.stroke();
         }
       }
     }
@@ -163,23 +170,14 @@ if (flowHost) {
     const dt = Math.min((now - lastTime) / 16.6667, 2);
     lastTime = now;
     ctx.clearRect(0, 0, width, height);
-    ctx.fillStyle = '#000';
-    ctx.fillRect(0, 0, width, height);
-
+    ctx.fillStyle = '#000'; ctx.fillRect(0, 0, width, height);
     particles.forEach(p => p.update(dt));
     if (!reduceMotion) resolveCollisions();
-    drawLinks();
-    particles.forEach(p => p.draw());
-
+    drawLinks(); particles.forEach(p => p.draw());
     if (!reduceMotion) requestAnimationFrame(animate);
   }
 
-  resizeParticles();
-  animate(performance.now());
-
-  const resizeObserver = new ResizeObserver(() => {
-    resizeParticles();
-    if (reduceMotion) animate(performance.now());
-  });
+  resizeParticles(); animate(performance.now());
+  const resizeObserver = new ResizeObserver(() => { resizeParticles(); if (reduceMotion) animate(performance.now()); });
   resizeObserver.observe(flowHost);
 }
