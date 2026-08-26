@@ -26,6 +26,34 @@ window.addEventListener('pointermove', (e) => {
 
 document.getElementById('year').textContent = new Date().getFullYear();
 
+// Menu mobile.
+const topbar = document.querySelector('.topbar');
+const menuToggle = document.querySelector('.menu-toggle');
+const mainNav = document.getElementById('main-nav');
+if (topbar && menuToggle && mainNav) {
+  const closeMenu = () => {
+    topbar.classList.remove('menu-open');
+    menuToggle.setAttribute('aria-expanded', 'false');
+    menuToggle.setAttribute('aria-label', 'Abrir menu');
+  };
+  menuToggle.addEventListener('click', () => {
+    const opening = menuToggle.getAttribute('aria-expanded') !== 'true';
+    topbar.classList.toggle('menu-open', opening);
+    menuToggle.setAttribute('aria-expanded', String(opening));
+    menuToggle.setAttribute('aria-label', opening ? 'Fechar menu' : 'Abrir menu');
+  });
+  mainNav.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+  document.addEventListener('click', event => {
+    if (topbar.classList.contains('menu-open') && !topbar.contains(event.target)) closeMenu();
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') closeMenu();
+  });
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 900) closeMenu();
+  });
+}
+
 // Copia o e-mail sem impedir que o restante do card continue abrindo o cliente de e-mail.
 const copyEmailButton = document.querySelector('.copy-email');
 if (copyEmailButton) {
@@ -40,7 +68,7 @@ if (copyEmailButton) {
       if (icon) icon.textContent = '✓';
       copyEmailButton.classList.add('copied');
       setTimeout(() => {
-        if (label) label.textContent = 'Copiar e-mail';
+        if (label) label.textContent = 'Copiar';
         if (icon) icon.textContent = '⧉';
         copyEmailButton.classList.remove('copied');
       }, 1800);
