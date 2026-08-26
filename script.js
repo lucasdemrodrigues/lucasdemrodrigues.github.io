@@ -33,15 +33,21 @@ if (copyEmailButton) {
     event.preventDefault();
     event.stopPropagation();
     const email = copyEmailButton.dataset.email;
-    try {
-      await navigator.clipboard.writeText(email);
-      const original = copyEmailButton.textContent;
-      copyEmailButton.textContent = 'COPIADO ✓';
+    const label = copyEmailButton.querySelector('.copy-label');
+    const icon = copyEmailButton.querySelector('.copy-icon');
+    const showCopied = () => {
+      if (label) label.textContent = 'Copiado';
+      if (icon) icon.textContent = '✓';
       copyEmailButton.classList.add('copied');
       setTimeout(() => {
-        copyEmailButton.textContent = original;
+        if (label) label.textContent = 'Copiar e-mail';
+        if (icon) icon.textContent = '⧉';
         copyEmailButton.classList.remove('copied');
       }, 1800);
+    };
+    try {
+      await navigator.clipboard.writeText(email);
+      showCopied();
     } catch {
       const temp = document.createElement('textarea');
       temp.value = email;
@@ -51,8 +57,7 @@ if (copyEmailButton) {
       temp.select();
       document.execCommand('copy');
       temp.remove();
-      copyEmailButton.textContent = 'COPIADO ✓';
-      setTimeout(() => { copyEmailButton.textContent = 'COPIAR'; }, 1800);
+      showCopied();
     }
   });
 }
