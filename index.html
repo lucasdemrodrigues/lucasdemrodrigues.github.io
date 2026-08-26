@@ -4,31 +4,58 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Portfólio de Lucas Rodrigues — Marketing, CRM, Inteligência Comercial e Dados." />
-  <meta name="theme-color" content="#090b10" />
+  <meta name="theme-color" content="#000000" />
   <title>Lucas Rodrigues — Marketing, CRM & Dados</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="styles.css" />
   <style>
-    .hero{isolation:isolate;background-color:#090b10}
-    .hero:before{content:"";position:absolute;width:56vw;height:56vw;min-width:520px;min-height:520px;right:-18vw;top:-18vw;z-index:0;pointer-events:none;background:radial-gradient(circle at 30% 35%,rgba(88,215,255,.78),transparent 34%),radial-gradient(circle at 66% 62%,rgba(155,135,255,.88),transparent 37%),radial-gradient(circle at 42% 76%,rgba(219,80,255,.48),transparent 31%);filter:blur(24px) saturate(125%);opacity:.62;border-radius:42% 58% 62% 38% / 48% 38% 62% 52%;animation:liquidHeroA 17s ease-in-out infinite alternate;transform-origin:center}
-    .hero-orb{z-index:0;filter:blur(38px);opacity:.58;will-change:transform,border-radius}
-    .hero-orb-a{width:620px;height:520px;left:34%;top:4%;background:linear-gradient(135deg,rgba(85,122,255,.8),rgba(153,72,255,.84),rgba(239,72,190,.52));border-radius:62% 38% 46% 54% / 42% 58% 42% 58%;animation:liquidHeroB 19s ease-in-out infinite alternate}
-    .hero-orb-b{width:500px;height:430px;right:-7%;bottom:-10%;background:linear-gradient(130deg,rgba(38,207,255,.68),rgba(82,102,255,.72),rgba(173,79,255,.52));border-radius:43% 57% 65% 35% / 57% 37% 63% 43%;opacity:.48;animation:liquidHeroC 23s ease-in-out infinite alternate}
-    .grid-bg{background-image:linear-gradient(rgba(255,255,255,.028) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.028) 1px,transparent 1px);background-size:42px 42px}
-    .grid-bg:after{z-index:1;background:radial-gradient(circle at 50% 42%,transparent 0,rgba(9,11,16,.03) 42%,rgba(9,11,16,.52) 100%)}
+    .hero{isolation:isolate;background:#000}
+    .hero-flow{position:absolute;inset:0;z-index:0;width:100%;height:100%;pointer-events:none;opacity:.78}
+    .hero-flow svg{display:block;width:100%;height:100%}
+    .hero-flow .flow-main{transform-origin:50% 50%;animation:flowDrift 16s ease-in-out infinite alternate}
+    .hero-flow .flow-secondary{transform-origin:50% 50%;animation:flowDriftReverse 21s ease-in-out infinite alternate}
+    .grid-bg{background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:42px 42px}
+    .grid-bg:after{z-index:1;background:linear-gradient(90deg,rgba(0,0,0,.9) 0%,rgba(0,0,0,.58) 42%,rgba(0,0,0,.34) 68%,rgba(0,0,0,.72) 100%)}
     .hero-inner,.hero-side,.scroll-cue{z-index:3}
-    @keyframes liquidHeroA{0%{transform:translate3d(0,0,0) rotate(0deg) scale(1);border-radius:42% 58% 62% 38% / 48% 38% 62% 52%}50%{transform:translate3d(-6vw,8vh,0) rotate(14deg) scale(1.08,.94);border-radius:64% 36% 41% 59% / 35% 61% 39% 65%}100%{transform:translate3d(-2vw,15vh,0) rotate(-10deg) scale(.94,1.1);border-radius:36% 64% 58% 42% / 63% 35% 65% 37%}}
-    @keyframes liquidHeroB{0%{transform:translate3d(0,0,0) rotate(-8deg) scale(1);border-radius:62% 38% 46% 54% / 42% 58% 42% 58%}50%{transform:translate3d(-8vw,6vh,0) rotate(11deg) scale(1.1,.93);border-radius:39% 61% 59% 41% / 61% 39% 55% 45%}100%{transform:translate3d(4vw,13vh,0) rotate(22deg) scale(.93,1.08);border-radius:56% 44% 35% 65% / 36% 63% 37% 64%}}
-    @keyframes liquidHeroC{0%{transform:translate3d(0,0,0) rotate(0deg) scale(1)}50%{transform:translate3d(-10vw,-8vh,0) rotate(-18deg) scale(1.08,.9)}100%{transform:translate3d(-4vw,-14vh,0) rotate(12deg) scale(.92,1.12)}}
-    @media(max-width:900px){.hero:before{right:-36vw;top:-8vw;opacity:.48}.hero-orb-a{left:18%;top:16%;width:520px;height:430px;opacity:.46}.hero-orb-b{right:-28%;bottom:2%;opacity:.4}}
-    @media(max-width:620px){.hero:before{min-width:430px;min-height:430px;right:-55vw;top:4vh;opacity:.42}.hero-orb-a{width:420px;height:360px;left:0;top:18%;opacity:.38}.hero-orb-b{width:390px;height:330px;right:-48%;bottom:10%;opacity:.35}}
-    @media(prefers-reduced-motion:reduce){.hero:before,.hero-orb-a,.hero-orb-b{animation:none!important}}
+    .hero-side .signal-card{background:rgba(3,3,3,.62);border-color:rgba(255,255,255,.11)}
+    h1 span{background:linear-gradient(90deg,#fff,#c9c9c9 55%,#777);background-clip:text;-webkit-background-clip:text}
+    @keyframes flowDrift{0%{transform:translate3d(-2%,0,0) scale(1.03) rotate(-1deg)}50%{transform:translate3d(3%,-2%,0) scale(1.08,1.03) rotate(1.5deg)}100%{transform:translate3d(-1%,3%,0) scale(1.04,1.1) rotate(-1deg)}}
+    @keyframes flowDriftReverse{0%{transform:translate3d(2%,2%,0) scale(1.04)}50%{transform:translate3d(-4%,1%,0) scale(1.1,.98)}100%{transform:translate3d(3%,-3%,0) scale(1.03,1.08)}}
+    @media(max-width:900px){.hero-flow{opacity:.58}.grid-bg:after{background:linear-gradient(180deg,rgba(0,0,0,.76),rgba(0,0,0,.38) 55%,rgba(0,0,0,.75))}}
+    @media(prefers-reduced-motion:reduce){.hero-flow .flow-main,.hero-flow .flow-secondary{animation:none!important}}
   </style>
 </head>
 <body>
 <div class="cursor-glow" aria-hidden="true"></div>
 <header class="topbar"><a class="brand" href="#inicio">LR<span>.</span></a><nav><a href="#sobre">Sobre</a><a href="#experiencia">Experiência</a><a href="#projetos">Projetos</a><a href="#contato">Contato</a></nav></header>
 <main>
-<section class="hero grid-bg" id="inicio"><div class="hero-orb hero-orb-a"></div><div class="hero-orb hero-orb-b"></div><div class="hero-inner reveal"><div class="eyebrow"><span class="status-dot"></span> Marketing · CRM · Inteligência Comercial · Dados</div><h1>Transformo dados em<br><span>decisões mais claras.</span></h1><p class="hero-copy">Portfólio de Lucas Rodrigues, reunindo análise, visão de negócio e comunicação para transformar informação em ações mais úteis e mensuráveis.</p><div class="hero-actions"><a class="button primary" href="#projetos">Ver projetos <span>↓</span></a><a class="button ghost" href="#contato">Entrar em contato ↓</a></div></div><div class="hero-side reveal delay-1"><div class="signal-card spotlight-card"><div class="signal-top"><span>FOCO</span><span>01</span></div><strong>CRM & Jornadas</strong><p>Segmentação, comunicação e acompanhamento de performance.</p></div><div class="signal-card spotlight-card"><div class="signal-top"><span>FOCO</span><span>02</span></div><strong>Business Intelligence</strong><p>Dashboards, indicadores, análise e visualização de dados.</p></div><div class="signal-card spotlight-card"><div class="signal-top"><span>FOCO</span><span>03</span></div><strong>Marketing orientado a dados</strong><p>Leitura de comportamento e decisões guiadas por evidências.</p></div></div><a class="scroll-cue" href="#impacto"><span></span> SCROLL</a></section>
+<section class="hero grid-bg" id="inicio">
+  <div class="hero-flow" aria-hidden="true">
+    <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <filter id="liquid" x="-30%" y="-30%" width="160%" height="160%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.006 0.018" numOctaves="3" seed="7" result="noise">
+            <animate attributeName="baseFrequency" dur="18s" values="0.006 0.018;0.011 0.012;0.005 0.022;0.006 0.018" repeatCount="indefinite" />
+          </feTurbulence>
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="115" xChannelSelector="R" yChannelSelector="B">
+            <animate attributeName="scale" dur="14s" values="80;145;105;80" repeatCount="indefinite" />
+          </feDisplacementMap>
+          <feGaussianBlur stdDeviation="18" />
+        </filter>
+        <filter id="liquidSoft" x="-30%" y="-30%" width="160%" height="160%">
+          <feTurbulence type="turbulence" baseFrequency="0.004 0.012" numOctaves="2" seed="13" result="noise2">
+            <animate attributeName="baseFrequency" dur="24s" values="0.004 0.012;0.008 0.008;0.003 0.016;0.004 0.012" repeatCount="indefinite" />
+          </feTurbulence>
+          <feDisplacementMap in="SourceGraphic" in2="noise2" scale="155" />
+          <feGaussianBlur stdDeviation="32" />
+        </filter>
+        <linearGradient id="silver" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#050505"/><stop offset=".38" stop-color="#5e5e5e"/><stop offset=".55" stop-color="#d2d2d2"/><stop offset=".72" stop-color="#444"/><stop offset="1" stop-color="#050505"/></linearGradient>
+        <radialGradient id="smoke"><stop offset="0" stop-color="#bcbcbc" stop-opacity=".55"/><stop offset=".45" stop-color="#505050" stop-opacity=".34"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+      </defs>
+      <g class="flow-secondary" filter="url(#liquidSoft)" opacity=".55"><ellipse cx="1190" cy="250" rx="510" ry="240" fill="url(#smoke)"/><ellipse cx="1020" cy="720" rx="620" ry="210" fill="url(#smoke)"/></g>
+      <g class="flow-main" filter="url(#liquid)" opacity=".72"><path d="M-120 560 C180 320 370 370 600 510 S1040 700 1260 470 S1510 210 1730 360 L1730 820 C1410 690 1260 900 980 770 S520 650 300 790 S40 840 -120 760 Z" fill="url(#silver)"/><path d="M500 -130 C760 40 900 170 1120 105 S1450 -30 1720 180 L1720 360 C1420 210 1210 410 980 300 S690 120 450 180 Z" fill="url(#silver)" opacity=".48"/></g>
+    </svg>
+  </div>
+  <div class="hero-inner reveal"><div class="eyebrow"><span class="status-dot"></span> Marketing · CRM · Inteligência Comercial · Dados</div><h1>Transformo dados em<br><span>decisões mais claras.</span></h1><p class="hero-copy">Portfólio de Lucas Rodrigues, reunindo análise, visão de negócio e comunicação para transformar informação em ações mais úteis e mensuráveis.</p><div class="hero-actions"><a class="button primary" href="#projetos">Ver projetos <span>↓</span></a><a class="button ghost" href="#contato">Entrar em contato ↓</a></div></div><div class="hero-side reveal delay-1"><div class="signal-card spotlight-card"><div class="signal-top"><span>FOCO</span><span>01</span></div><strong>CRM & Jornadas</strong><p>Segmentação, comunicação e acompanhamento de performance.</p></div><div class="signal-card spotlight-card"><div class="signal-top"><span>FOCO</span><span>02</span></div><strong>Business Intelligence</strong><p>Dashboards, indicadores, análise e visualização de dados.</p></div><div class="signal-card spotlight-card"><div class="signal-top"><span>FOCO</span><span>03</span></div><strong>Marketing orientado a dados</strong><p>Leitura de comportamento e decisões guiadas por evidências.</p></div></div><a class="scroll-cue" href="#impacto"><span></span> SCROLL</a></section>
 <section class="impact section" id="impacto"><div class="section-kicker reveal">IMPACTO PROFISSIONAL</div><div class="metrics-grid"><article class="metric reveal spotlight-card"><span class="metric-num">+22%</span><p>conversão em iniciativas comerciais</p></article><article class="metric reveal delay-1 spotlight-card"><span class="metric-num">−75%</span><p>tempo em rotina de acompanhamento com dashboards</p></article><article class="metric reveal delay-2 spotlight-card"><span class="metric-num">+34%</span><p>adesão em iniciativa de relacionamento</p></article><article class="metric reveal delay-3 spotlight-card"><span class="metric-num">+9,2</span><p>pontos de evolução em NPS PME</p></article></div></section>
 <section class="about section" id="sobre"><div class="section-head reveal"><div><span class="section-kicker">SOBRE</span><h2>Entre o negócio e os dados.</h2></div><span class="section-index">02 / 05</span></div><div class="about-grid"><div class="about-copy reveal"><p class="lead">Minha trajetória combina Marketing e Administração com uma atuação cada vez mais analítica, conectando contexto de negócio, indicadores e experiência do cliente.</p><p>Tenho interesse especial em Inteligência Comercial, CRM e Marketing orientado a dados — áreas em que análise não é só relatório, mas ferramenta para priorizar, testar, aprender e decidir melhor.</p></div><div class="toolbox reveal delay-1"><span class="tool-label">FERRAMENTAS & CONHECIMENTOS</span><div class="chips"><span>Power BI</span><span>Power Query</span><span>DAX</span><span>SQL</span><span>Excel</span><span>CRM</span><span>KPIs</span><span>GitHub</span><span>NotebookLM</span></div></div></div></section>
 <section class="experience section" id="experiencia"><div class="section-head reveal"><div><span class="section-kicker">EXPERIÊNCIA</span><h2>Resultados que deixam rastro.</h2></div><span class="section-index">03 / 05</span></div><div class="timeline"><article class="timeline-item reveal"><div class="time">2021 — 2023</div><div class="timeline-content"><div class="timeline-title"><h3>Santander</h3><span>Estágio Comercial / Marketing B2B</span></div><p>Atuação com indicadores, campanhas, segmentação, jornadas, NPS e suporte a iniciativas comerciais para PMEs, conectando análise e execução.</p><div class="timeline-tags"><span>CRM</span><span>Marketing B2B</span><span>Indicadores</span><span>Dashboards</span></div></div></article><article class="timeline-item reveal"><div class="time">FORMAÇÃO</div><div class="timeline-content"><div class="timeline-title"><h3>Marketing + Administração</h3><span>Visão de negócio aplicada à análise</span></div><p>Base acadêmica voltada a mercado, comunicação e gestão, hoje ampliada com estudos de BI, SQL, modelagem e análise de dados.</p><div class="timeline-tags"><span>Marketing</span><span>Administração</span><span>BI</span><span>Dados</span></div></div></article></div></section>
