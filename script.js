@@ -26,8 +26,7 @@ window.addEventListener('pointermove', (e) => {
 
 document.getElementById('year').textContent = new Date().getFullYear();
 
-// Cursor magnético: o ponto acompanha o mouse e o anel segue com inércia,
-// sendo atraído de forma sutil para elementos interativos.
+// Cursor customizado: ponto acompanha o mouse, anel segue com inércia.
 const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -68,15 +67,12 @@ if (finePointer) {
   let ringX = mouseX;
   let ringY = mouseY;
   let hasMoved = false;
-  let magneticTarget = null;
 
   const setVisible = visible => {
     const opacity = visible ? '1' : '0';
     customCursorDot.style.opacity = opacity;
     customCursorRing.style.opacity = opacity;
   };
-
-  const getInteractive = target => target.closest('a,button,[role="button"],.contact-card,.text-link,.project-feature');
 
   window.addEventListener('pointermove', event => {
     if (event.pointerType && event.pointerType !== 'mouse') return;
@@ -89,41 +85,23 @@ if (finePointer) {
       ringY = mouseY;
       hasMoved = true;
     }
-    magneticTarget = getInteractive(event.target);
-    customCursorRing.classList.toggle('is-interactive', Boolean(magneticTarget));
     setVisible(true);
   });
 
+  document.addEventListener('pointerover', event => {
+    const interactive = event.target.closest('a,button,[role="button"],.contact-card,.text-link,.project-feature');
+    customCursorRing.classList.toggle('is-interactive', Boolean(interactive));
+  });
   document.addEventListener('pointerout', event => {
-    if (!event.relatedTarget) {
-      magneticTarget = null;
-      customCursorRing.classList.remove('is-interactive');
-      setVisible(false);
-    }
+    if (!event.relatedTarget) setVisible(false);
   });
   document.addEventListener('pointerdown', () => customCursorRing.classList.add('is-clicking'));
   document.addEventListener('pointerup', () => customCursorRing.classList.remove('is-clicking'));
 
   const animateCursor = () => {
-    let targetX = mouseX;
-    let targetY = mouseY;
-
-    if (magneticTarget && document.body.contains(magneticTarget) && !prefersReducedMotion) {
-      const rect = magneticTarget.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-      const dx = centerX - mouseX;
-      const dy = centerY - mouseY;
-      const distance = Math.hypot(dx, dy) || 1;
-      const maxPull = 18;
-      const pull = Math.min(maxPull, distance * 0.16);
-      targetX += (dx / distance) * pull;
-      targetY += (dy / distance) * pull;
-    }
-
-    const follow = prefersReducedMotion ? 1 : 0.17;
-    ringX += (targetX - ringX) * follow;
-    ringY += (targetY - ringY) * follow;
+    const follow = prefersReducedMotion ? 1 : 0.16;
+    ringX += (mouseX - ringX) * follow;
+    ringY += (mouseY - ringY) * follow;
     customCursorRing.style.left = `${ringX}px`;
     customCursorRing.style.top = `${ringY}px`;
     requestAnimationFrame(animateCursor);
