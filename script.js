@@ -61,6 +61,56 @@ themeToggle.addEventListener('click', () => {
 const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+// A faixa já funciona como bloco próprio; remove apenas o divisor superior.
+const skillsMarqueeBox = document.querySelector('.skills-marquee-box');
+if (skillsMarqueeBox) skillsMarqueeBox.style.borderTop = '0';
+
+// Impacto profissional: os números contam uma única vez quando entram na tela.
+const metricNumbers = [...document.querySelectorAll('.metric-num')];
+if (metricNumbers.length && !prefersReducedMotion) {
+  const metricData = metricNumbers.map(el => {
+    const original = el.textContent.trim();
+    const sign = original.startsWith('+') ? '+' : original.startsWith('−') || original.startsWith('-') ? '−' : '';
+    const suffix = original.includes('%') ? '%' : '';
+    const numericText = original.replace(/[+−%]/g, '').replace(',', '.');
+    const target = Number.parseFloat(numericText);
+    const decimals = original.includes(',') ? 1 : 0;
+    return { el, original, sign, suffix, target, decimals };
+  });
+
+  const formatMetric = ({ sign, suffix, decimals }, value) => {
+    const formatted = decimals ? value.toFixed(decimals).replace('.', ',') : Math.round(value).toString();
+    return `${sign}${formatted}${suffix}`;
+  };
+
+  metricData.forEach(item => { item.el.textContent = formatMetric(item, 0); });
+
+  const animateMetric = item => {
+    const duration = 1000;
+    const start = performance.now();
+    const tick = now => {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      item.el.textContent = formatMetric(item, item.target * eased);
+      if (progress < 1) requestAnimationFrame(tick);
+      else item.el.textContent = item.original;
+    };
+    requestAnimationFrame(tick);
+  };
+
+  const metricObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const number = entry.target.querySelector('.metric-num');
+      const item = metricData.find(data => data.el === number);
+      if (item) animateMetric(item);
+      metricObserver.unobserve(entry.target);
+    });
+  }, { threshold: 0.4 });
+
+  document.querySelectorAll('.metric').forEach(metric => metricObserver.observe(metric));
+}
+
 if (finePointer) {
   const cursorStyle = document.createElement('style');
   cursorStyle.textContent = `
