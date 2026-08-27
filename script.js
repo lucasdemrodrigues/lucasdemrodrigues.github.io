@@ -26,6 +26,105 @@ window.addEventListener('pointermove', (e) => {
 
 document.getElementById('year').textContent = new Date().getFullYear();
 
+// Cursor customizado: ponto acompanha o mouse, anel segue com inércia.
+const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let customCursorRing = null;
+let customCursorDot = null;
+let flashCursorGreen = () => {};
+
+if (finePointer) {
+  const cursorStyle = document.createElement('style');
+  cursorStyle.textContent = `
+    html.custom-cursor, html.custom-cursor body, html.custom-cursor a,
+    html.custom-cursor button, html.custom-cursor [role="button"],
+    html.custom-cursor input, html.custom-cursor textarea, html.custom-cursor select {
+      cursor: none !important;
+    }
+    .custom-cursor-dot,.custom-cursor-ring{
+      position:fixed;left:0;top:0;pointer-events:none;z-index:9999;
+      transform:translate(-50%,-50%);opacity:0;
+    }
+    .custom-cursor-dot{
+      width:6px;height:6px;border-radius:50%;background:#f4f4f4;
+      transition:width .16s,height .16s,background .16s,opacity .16s;
+    }
+    .custom-cursor-ring{
+      width:30px;height:30px;border:1px solid rgba(244,244,244,.72);border-radius:50%;
+      transition:width .2s,height .2s,border-color .2s,background .2s,opacity .16s;
+    }
+    .custom-cursor-ring.is-interactive{width:46px;height:46px;border-color:rgba(244,244,244,.95);background:rgba(255,255,255,.035)}
+    .custom-cursor-ring.is-clicking{width:54px;height:54px;background:rgba(255,255,255,.055)}
+    .custom-cursor-dot.is-green{background:#39ff14;box-shadow:0 0 10px rgba(57,255,20,.42)}
+    .custom-cursor-ring.is-green{border-color:#39ff14;background:rgba(57,255,20,.035)}
+  `;
+  document.head.appendChild(cursorStyle);
+  document.documentElement.classList.add('custom-cursor');
+
+  customCursorDot = document.createElement('div');
+  customCursorDot.className = 'custom-cursor-dot';
+  customCursorRing = document.createElement('div');
+  customCursorRing.className = 'custom-cursor-ring';
+  document.body.append(customCursorRing, customCursorDot);
+
+  let mouseX = innerWidth / 2;
+  let mouseY = innerHeight / 2;
+  let ringX = mouseX;
+  let ringY = mouseY;
+  let hasMoved = false;
+
+  const setVisible = visible => {
+    const opacity = visible ? '1' : '0';
+    customCursorDot.style.opacity = opacity;
+    customCursorRing.style.opacity = opacity;
+  };
+
+  window.addEventListener('pointermove', event => {
+    if (event.pointerType && event.pointerType !== 'mouse') return;
+    mouseX = event.clientX;
+    mouseY = event.clientY;
+    customCursorDot.style.left = `${mouseX}px`;
+    customCursorDot.style.top = `${mouseY}px`;
+    if (!hasMoved) {
+      ringX = mouseX;
+      ringY = mouseY;
+      hasMoved = true;
+    }
+    setVisible(true);
+  });
+
+  document.addEventListener('pointerover', event => {
+    const interactive = event.target.closest('a,button,[role="button"],.contact-card,.text-link,.project-feature');
+    customCursorRing.classList.toggle('is-interactive', Boolean(interactive));
+  });
+  document.addEventListener('pointerout', event => {
+    if (!event.relatedTarget) setVisible(false);
+  });
+  document.addEventListener('pointerdown', () => customCursorRing.classList.add('is-clicking'));
+  document.addEventListener('pointerup', () => customCursorRing.classList.remove('is-clicking'));
+
+  const animateCursor = () => {
+    const follow = prefersReducedMotion ? 1 : 0.16;
+    ringX += (mouseX - ringX) * follow;
+    ringY += (mouseY - ringY) * follow;
+    customCursorRing.style.left = `${ringX}px`;
+    customCursorRing.style.top = `${ringY}px`;
+    requestAnimationFrame(animateCursor);
+  };
+  animateCursor();
+
+  let greenTimer;
+  flashCursorGreen = () => {
+    clearTimeout(greenTimer);
+    customCursorDot.classList.add('is-green');
+    customCursorRing.classList.add('is-green');
+    greenTimer = setTimeout(() => {
+      customCursorDot.classList.remove('is-green');
+      customCursorRing.classList.remove('is-green');
+    }, 700);
+  };
+}
+
 // Menu mobile.
 const topbar = document.querySelector('.topbar');
 const menuToggle = document.querySelector('.menu-toggle');
@@ -74,6 +173,7 @@ if (emailCard && copyEmailButton) {
     if (label) label.textContent = 'Copiado!';
     if (icon) icon.textContent = '✓';
     copyEmailButton.classList.add('copied');
+    flashCursorGreen();
     feedbackTimer = setTimeout(() => {
       if (label) label.textContent = 'Copiar';
       if (icon) icon.textContent = '⧉';
