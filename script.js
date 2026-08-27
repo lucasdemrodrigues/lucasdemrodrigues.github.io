@@ -26,6 +26,37 @@ window.addEventListener('pointermove', (e) => {
 
 document.getElementById('year').textContent = new Date().getFullYear();
 
+// Tema: dark é sempre o padrão na primeira visita. Se o visitante escolher
+// manualmente outro tema, a preferência fica salva para as próximas visitas.
+const themeStyles = document.createElement('link');
+themeStyles.rel = 'stylesheet';
+themeStyles.href = 'theme.css';
+document.head.appendChild(themeStyles);
+
+const savedTheme = localStorage.getItem('portfolio-theme');
+if (savedTheme === 'light') document.body.classList.add('light-mode');
+
+const themeToggle = document.createElement('button');
+themeToggle.className = 'theme-toggle';
+themeToggle.type = 'button';
+document.querySelector('.topbar')?.appendChild(themeToggle);
+
+const syncThemeToggle = () => {
+  const isLight = document.body.classList.contains('light-mode');
+  themeToggle.textContent = isLight ? '☾' : '☀';
+  themeToggle.setAttribute('aria-label', isLight ? 'Ativar modo escuro' : 'Ativar modo claro');
+  themeToggle.setAttribute('title', isLight ? 'Modo escuro' : 'Modo claro');
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', isLight ? '#f4f2ed' : '#000000');
+};
+
+syncThemeToggle();
+themeToggle.addEventListener('click', () => {
+  document.body.classList.toggle('light-mode');
+  const isLight = document.body.classList.contains('light-mode');
+  localStorage.setItem('portfolio-theme', isLight ? 'light' : 'dark');
+  syncThemeToggle();
+});
+
 // Cursor customizado: ponto acompanha o mouse, anel segue com inércia.
 const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -44,7 +75,7 @@ if (finePointer) {
     }
     .custom-cursor-dot{
       width:6px;height:6px;border-radius:50%;background:#f4f4f4;
-      transition:width .16s,height .16s,opacity .16s;
+      transition:width .16s,height .16s,opacity .16s,background .25s;
     }
     .custom-cursor-ring{
       width:30px;height:30px;border:1px solid rgba(244,244,244,.72);border-radius:50%;
@@ -52,6 +83,10 @@ if (finePointer) {
     }
     .custom-cursor-ring.is-interactive{width:46px;height:46px;border-color:rgba(244,244,244,.95);background:rgba(255,255,255,.035)}
     .custom-cursor-ring.is-clicking{width:54px;height:54px;background:rgba(255,255,255,.055)}
+    body.light-mode .custom-cursor-dot{background:#202020}
+    body.light-mode .custom-cursor-ring{border-color:rgba(32,32,32,.7)}
+    body.light-mode .custom-cursor-ring.is-interactive{border-color:rgba(32,32,32,.92);background:rgba(0,0,0,.035)}
+    body.light-mode .custom-cursor-ring.is-clicking{background:rgba(0,0,0,.055)}
   `;
   document.head.appendChild(cursorStyle);
   document.documentElement.classList.add('custom-cursor');
@@ -200,7 +235,6 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').match
 if (flowHost) {
   flowHost.innerHTML = '';
   flowHost.style.opacity = '1';
-  flowHost.style.background = '#000';
 
   const canvas = document.createElement('canvas');
   canvas.setAttribute('aria-hidden', 'true');
@@ -219,6 +253,10 @@ if (flowHost) {
   let height = 0;
   let dpr = 1;
   let lastTime = performance.now();
+
+  const palette = () => document.body.classList.contains('light-mode')
+    ? { bg:'#f4f2ed', particle:'rgba(30,30,30,0.32)', link:[30,30,30] }
+    : { bg:'#000000', particle:'rgba(255,255,255,0.5)', link:[255,255,255] };
 
   class Particle {
     constructor() { this.reset(); }
@@ -247,7 +285,7 @@ if (flowHost) {
     draw() {
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(255,255,255,0.5)';
+      ctx.fillStyle = palette().particle;
       ctx.fill();
     }
   }
@@ -287,6 +325,7 @@ if (flowHost) {
   }
 
   function drawLinks() {
+    const colors = palette().link;
     for (let i = 0; i < particles.length; i++) {
       for (let j = i + 1; j < particles.length; j++) {
         const a = particles[i], b = particles[j];
@@ -294,7 +333,7 @@ if (flowHost) {
         if (dist <= linkDistance) {
           const opacity = (1 - dist / linkDistance) * linkOpacity;
           ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
-          ctx.strokeStyle = `rgba(255,255,255,${opacity})`; ctx.lineWidth = 1; ctx.stroke();
+          ctx.strokeStyle = `rgba(${colors[0]},${colors[1]},${colors[2]},${opacity})`; ctx.lineWidth = 1; ctx.stroke();
         }
       }
     }
@@ -303,8 +342,9 @@ if (flowHost) {
   function animate(now) {
     const dt = Math.min((now - lastTime) / 16.6667, 2);
     lastTime = now;
+    const colors = palette();
     ctx.clearRect(0, 0, width, height);
-    ctx.fillStyle = '#000'; ctx.fillRect(0, 0, width, height);
+    ctx.fillStyle = colors.bg; ctx.fillRect(0, 0, width, height);
     particles.forEach(p => p.update(dt));
     if (!reduceMotion) resolveCollisions();
     drawLinks(); particles.forEach(p => p.draw());
