@@ -263,52 +263,60 @@ if (emailCard && copyEmailButton) {
   });
 }
 
-// SQL showcase: sintaxe real, digitação uma única vez e cursor piscando ao final.
-const impactSection = document.getElementById('impacto');
-if (impactSection) {
-  const sqlCard = document.createElement('div');
-  sqlCard.className = 'sql-showcase';
-  sqlCard.innerHTML = `<div class="sql-windowbar"><span class="sql-dots"><i></i><i></i><i></i></span><span>portfolio.sql</span></div><pre class="sql-code" aria-label="Consulta SQL"><code></code><span class="sql-caret" aria-hidden="true"></span></pre>`;
-  impactSection.prepend(sqlCard);
-
-  const css = document.createElement('style');
-  css.textContent = `
-    .impact::before{display:none!important}.sql-showcase{width:min(100%,610px);margin:0 auto 70px;border:1px solid rgba(255,255,255,.13);border-radius:12px;overflow:hidden;background:#0d1424;box-shadow:0 24px 70px rgba(0,0,0,.2);font-family:"IBM Plex Mono",monospace}.sql-windowbar{height:46px;display:flex;align-items:center;justify-content:center;position:relative;border-bottom:1px solid rgba(38,198,218,.35);background:#202c40;color:#929bad;font-size:12px}.sql-dots{position:absolute;left:16px;display:flex;gap:6px}.sql-dots i{width:10px;height:10px;border-radius:50%;display:block}.sql-dots i:nth-child(1){background:#ff5f57}.sql-dots i:nth-child(2){background:#febc2e}.sql-dots i:nth-child(3){background:#28c840}.sql-code{margin:0;padding:25px 24px 28px;color:#d9dfeb;font:500 14px/1.7 "IBM Plex Mono",monospace;white-space:pre-wrap;min-height:170px}.sql-keyword{color:#00e5ff;font-weight:600}.sql-field{color:#f2f4f8}.sql-table{color:#168cff}.sql-string{color:#b8a7d9}.sql-caret{display:inline-block;width:2px;height:1.15em;margin-left:3px;vertical-align:-.18em;background:#00e5ff;animation:sqlBlink .8s steps(1) infinite}@keyframes sqlBlink{50%{opacity:0}}.light-mode .sql-showcase{border-color:rgba(0,0,0,.14);background:#f7f8fb;box-shadow:0 24px 70px rgba(0,0,0,.08)}.light-mode .sql-windowbar{background:#e8eaf0;color:#737887;border-bottom-color:rgba(0,120,150,.22)}.light-mode .sql-code{color:#303544}.light-mode .sql-keyword{color:#007d91}.light-mode .sql-field{color:#252a35}.light-mode .sql-table{color:#006bd6}.light-mode .sql-string{color:#7556a3}.light-mode .sql-caret{background:#007d91}@media(max-width:620px){.sql-showcase{margin-bottom:54px}.sql-code{font-size:12px;padding:22px 18px;min-height:155px}}@media(prefers-reduced-motion:reduce){.sql-caret{animation:none}}
-  `;
-  document.head.appendChild(css);
-
-  const code = sqlCard.querySelector('code');
+// SQL do Hero: digita a consulta uma única vez na entrada e mantém o cursor piscando ao final.
+const heroSqlCode = document.querySelector('.hero-sql-code');
+if (heroSqlCode) {
   const tokens = [
-    ['SELECT','sql-keyword'],[' ',''],['insights','sql-field'],[', ',''],['strategy','sql-field'],[', ',''],['results','sql-field'],['\n',''],
-    ['FROM','sql-keyword'],[' ',''],['marketing_data','sql-table'],['\n',''],
-    ['WHERE','sql-keyword'],[' ',''],['focus','sql-field'],[' = ',''],["'business'",'sql-string'],['\n',''],
-    ['ORDER BY','sql-keyword'],[' ',''],['impact','sql-field'],[' ',''],['DESC','sql-keyword'],[';','']
+    ['SELECT','kw'],[' ',''],['insights',''],[', ',''],['strategy',''],[', ',''],['results',''],['\n',''],
+    ['FROM','kw'],[' ',''],['marketing_data','obj'],['\n',''],
+    ['WHERE','kw'],[' ',''],['focus',''],[' = ',''],["'business'",'str'],['\n',''],
+    ['ORDER BY','kw'],[' ',''],['impact',''],[' ',''],['DESC','kw'],[';','']
   ];
-  const chars = [];
-  tokens.forEach(([text, cls]) => [...text].forEach(char => chars.push([char, cls])));
-  let typed = false;
-  const typeQuery = () => {
-    if (typed) return;
-    typed = true;
-    if (prefersReducedMotion) {
-      tokens.forEach(([text, cls]) => { const s=document.createElement('span'); s.className=cls; s.textContent=text; code.appendChild(s); });
-      return;
-    }
-    let i = 0;
-    const step = () => {
-      if (i >= chars.length) return;
-      const [char, cls] = chars[i++];
-      let last = code.lastElementChild;
-      if (!last || last.className !== cls) { last=document.createElement('span'); last.className=cls; code.appendChild(last); }
-      last.textContent += char;
-      setTimeout(step, char === '\n' ? 150 : 28 + Math.random()*35);
-    };
-    step();
+
+  const renderCompleteQuery = () => {
+    heroSqlCode.innerHTML = '';
+    tokens.forEach(([text, cls]) => {
+      const span = document.createElement('span');
+      if (cls) span.className = cls;
+      span.textContent = text;
+      heroSqlCode.appendChild(span);
+    });
+    const caret = document.createElement('span');
+    caret.className = 'sql-caret';
+    caret.setAttribute('aria-hidden', 'true');
+    heroSqlCode.appendChild(caret);
   };
-  const sqlObserver = new IntersectionObserver(entries => {
-    if (entries.some(e => e.isIntersecting)) { typeQuery(); sqlObserver.disconnect(); }
-  }, {threshold:.45});
-  sqlObserver.observe(sqlCard);
+
+  if (prefersReducedMotion) {
+    renderCompleteQuery();
+  } else {
+    heroSqlCode.innerHTML = '';
+    const chars = [];
+    tokens.forEach(([text, cls]) => [...text].forEach(char => chars.push([char, cls])));
+    let i = 0;
+
+    const step = () => {
+      if (i >= chars.length) {
+        const caret = document.createElement('span');
+        caret.className = 'sql-caret';
+        caret.setAttribute('aria-hidden', 'true');
+        heroSqlCode.appendChild(caret);
+        return;
+      }
+
+      const [char, cls] = chars[i++];
+      let last = heroSqlCode.lastElementChild;
+      if (!last || last.className !== cls) {
+        last = document.createElement('span');
+        if (cls) last.className = cls;
+        heroSqlCode.appendChild(last);
+      }
+      last.textContent += char;
+      setTimeout(step, char === '\n' ? 130 : 24 + Math.random() * 34);
+    };
+
+    setTimeout(step, 500);
+  }
 }
 
 // Fundo do Hero inspirado na configuração pública original do portfólio de Pedro Lauro.
