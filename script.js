@@ -172,6 +172,43 @@ if (topbar && menuToggle && mainNav) {
   });
 }
 
+// Scroll spy: sublinha discretamente a seção atualmente visível no menu.
+if (mainNav) {
+  const navLinks = [...mainNav.querySelectorAll('a[href^="#"]')];
+  const trackedSections = navLinks.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+  const activeStyle = document.createElement('style');
+  activeStyle.textContent = `
+    #main-nav a{position:relative}
+    #main-nav a::after{content:"";position:absolute;left:0;right:0;bottom:-7px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:center;opacity:.9;transition:transform .25s ease}
+    #main-nav a.is-active{color:#fff}
+    #main-nav a.is-active::after{transform:scaleX(1)}
+    body.light-mode #main-nav a.is-active{color:#111}
+    @media(max-width:900px){#main-nav a::after{display:none}#main-nav a.is-active{background:rgba(255,255,255,.055)}body.light-mode #main-nav a.is-active{background:rgba(0,0,0,.05)}}
+  `;
+  document.head.appendChild(activeStyle);
+
+  const setActiveNav = id => {
+    navLinks.forEach(link => link.classList.toggle('is-active', link.getAttribute('href') === `#${id}`));
+  };
+
+  const clearActiveNav = () => navLinks.forEach(link => link.classList.remove('is-active'));
+
+  const updateActiveNav = () => {
+    const marker = 120;
+    let active = null;
+    trackedSections.forEach(section => {
+      const rect = section.getBoundingClientRect();
+      if (rect.top <= marker && rect.bottom > marker) active = section.id;
+    });
+    if (active) setActiveNav(active);
+    else clearActiveNav();
+  };
+
+  updateActiveNav();
+  window.addEventListener('scroll', updateActiveNav, { passive:true });
+  window.addEventListener('resize', updateActiveNav);
+}
+
 // O card inteiro de e-mail copia o endereço. O elemento visual "Copiar"
 // funciona como indicador da ação e exibe o feedback de sucesso.
 const emailCard = document.querySelector('.email-card');
