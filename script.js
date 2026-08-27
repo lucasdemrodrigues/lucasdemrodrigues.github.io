@@ -29,9 +29,6 @@ document.getElementById('year').textContent = new Date().getFullYear();
 // Cursor customizado: ponto acompanha o mouse, anel segue com inércia.
 const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-let customCursorRing = null;
-let customCursorDot = null;
-let flashCursorGreen = () => {};
 
 if (finePointer) {
   const cursorStyle = document.createElement('style');
@@ -47,7 +44,7 @@ if (finePointer) {
     }
     .custom-cursor-dot{
       width:6px;height:6px;border-radius:50%;background:#f4f4f4;
-      transition:width .16s,height .16s,background .16s,opacity .16s;
+      transition:width .16s,height .16s,opacity .16s;
     }
     .custom-cursor-ring{
       width:30px;height:30px;border:1px solid rgba(244,244,244,.72);border-radius:50%;
@@ -55,15 +52,13 @@ if (finePointer) {
     }
     .custom-cursor-ring.is-interactive{width:46px;height:46px;border-color:rgba(244,244,244,.95);background:rgba(255,255,255,.035)}
     .custom-cursor-ring.is-clicking{width:54px;height:54px;background:rgba(255,255,255,.055)}
-    .custom-cursor-dot.is-green{background:#39ff14;box-shadow:0 0 10px rgba(57,255,20,.42)}
-    .custom-cursor-ring.is-green{border-color:#39ff14;background:rgba(57,255,20,.035)}
   `;
   document.head.appendChild(cursorStyle);
   document.documentElement.classList.add('custom-cursor');
 
-  customCursorDot = document.createElement('div');
+  const customCursorDot = document.createElement('div');
   customCursorDot.className = 'custom-cursor-dot';
-  customCursorRing = document.createElement('div');
+  const customCursorRing = document.createElement('div');
   customCursorRing.className = 'custom-cursor-ring';
   document.body.append(customCursorRing, customCursorDot);
 
@@ -112,17 +107,6 @@ if (finePointer) {
     requestAnimationFrame(animateCursor);
   };
   animateCursor();
-
-  let greenTimer;
-  flashCursorGreen = () => {
-    clearTimeout(greenTimer);
-    customCursorDot.classList.add('is-green');
-    customCursorRing.classList.add('is-green');
-    greenTimer = setTimeout(() => {
-      customCursorDot.classList.remove('is-green');
-      customCursorRing.classList.remove('is-green');
-    }, 700);
-  };
 }
 
 // Menu mobile.
@@ -173,7 +157,6 @@ if (emailCard && copyEmailButton) {
     if (label) label.textContent = 'Copiado!';
     if (icon) icon.textContent = '✓';
     copyEmailButton.classList.add('copied');
-    flashCursorGreen();
     feedbackTimer = setTimeout(() => {
       if (label) label.textContent = 'Copiar';
       if (icon) icon.textContent = '⧉';
