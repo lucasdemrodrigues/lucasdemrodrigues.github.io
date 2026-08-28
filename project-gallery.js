@@ -15,6 +15,7 @@
 
   const normalizeMetadata = (repo, metadata) => ({
     portfolio: metadata.portfolio === true,
+    order: Number.isFinite(Number(metadata.order)) ? Number(metadata.order) : Number.MAX_SAFE_INTEGER,
     title: metadata.title || humanize(repo.name),
     categories: Array.isArray(metadata.categories) ? metadata.categories.filter(category => categories.includes(category)) : [],
     description: metadata.description || repo.description || 'Projeto publicado no GitHub.',
@@ -62,7 +63,6 @@
     return article;
   };
 
-  // Lê o portfolio.json diretamente da branch padrão de cada repositório.
   const fetchPortfolioMetadata = async repo => {
     const url = `https://raw.githubusercontent.com/${GITHUB_USER}/${repo.name}/${repo.default_branch}/${PORTFOLIO_FILE}`;
     try {
@@ -108,7 +108,6 @@
   grid.setAttribute('aria-live', 'polite');
   filter.insertAdjacentElement('afterend', grid);
 
-  // Fallback: mantém os cards escritos no HTML até a sincronização terminar.
   existingProjects.forEach(project => {
     const text = project.textContent.toLowerCase();
     const cats = [];
@@ -157,19 +156,20 @@
 
   const syncFromGitHub = async () => {
     try {
-      // 1. A API lista os repositórios públicos.
       const response = await fetch(`https://api.github.com/users/${GITHUB_USER}/repos?per_page=100&sort=created&direction=asc`, {headers:{Accept:'application/vnd.github+json'}});
       if (!response.ok) throw new Error(`GitHub API ${response.status}`);
       const repos = (await response.json()).filter(repo => !repo.fork && !repo.archived && repo.name !== `${GITHUB_USER}.github.io`);
 
-      // 2. Para cada repositório, procuramos portfolio.json em paralelo.
       const candidates = await Promise.all(repos.map(async repo => ({repo, metadata: await fetchPortfolioMetadata(repo)})));
-
-      // 3. Só portfolio.json com "portfolio": true vira projeto no site.
-      const portfolioProjects = candidates.filter(item => item.metadata?.portfolio === true);
+      const portfolioProjects = candidates
+        .filter(item => item.metadata?.portfolio === true)
+        .sort((a, b) => {
+          const orderA = Number.isFinite(Number(a.metadata.order)) ? Number(a.metadata.order) : Number.MAX_SAFE_INTEGER;
+          const orderB = Number.isFinite(Number(b.metadata.order)) ? Number(b.metadata.order) : Number.MAX_SAFE_INTEGER;
+          return orderA - orderB || a.repo.name.localeCompare(b.repo.name, 'pt-BR');
+        });
       if (!portfolioProjects.length) throw new Error('Nenhum portfolio.json habilitado encontrado.');
 
-      // 4. O JSON fornece título, categorias, descrição, imagem e tags do card.
       const fragment = document.createDocumentFragment();
       portfolioProjects.forEach(({repo, metadata}) => fragment.appendChild(createCard(repo, metadata)));
       grid.replaceChildren(fragment);
@@ -182,7 +182,6 @@
         if (syncText) syncText.title = `Sincronizado com ${portfolioProjects.length} projeto${portfolioProjects.length === 1 ? '' : 's'} marcado${portfolioProjects.length === 1 ? '' : 's'} para o portfólio`;
       }
     } catch (error) {
-      // Se a API ou algum passo geral falhar, os cards estáticos continuam visíveis.
       console.warn('Não foi possível sincronizar projetos com o GitHub; usando projetos locais.', error);
       if (status) status.dataset.sync = 'fallback';
     }
