@@ -32,3 +32,6 @@ body.light-mode{background:radial-gradient(circle at 50% 18%,#fff 0,#f6f4ef 34%,
 
 /* Open Finance: zoom real de 1,25x, centralizado, com corte lateral controlado. */
 .projects-grid .project-visual-contain img{width:100%!important;height:100%!important;max-width:none!important;object-fit:contain!important;transform:scale(1.25);transform-origin:center}
+
+/* Indicador de scroll removido do hero. */
+.scroll-cue{display:none!important}
