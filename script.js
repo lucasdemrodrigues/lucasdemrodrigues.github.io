@@ -318,7 +318,7 @@ const heroSqlCode = document.querySelector('.hero-sql-code');
 if (heroSqlCode) {
   const tokens = [
     ['SELECT','kw'],[' ',''],['insights',''],[', ',''],['strategy',''],[', ',''],['results',''],['\n',''],
-    ['FROM','kw'],[' ',''],['marketing_data','obj'],['\n',''],
+    ['FROM','kw'],[' ',''],['experience','obj'],['\n',''],
     ['WHERE','kw'],[' ',''],['focus',''],[' = ',''],["'business'",'str'],['\n',''],
     ['ORDER BY','kw'],[' ',''],['impact',''],[' ',''],['DESC','kw'],[';','']
   ];
