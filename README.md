@@ -16,3 +16,5 @@ HTML, CSS e JavaScript, sem frameworks ou dependências de build.
 ## Publicação
 
 Este repositório utiliza o padrão de site pessoal do GitHub Pages: `lucasdemrodrigues.github.io`.
+
+Última verificação de publicação: 29/08/2026.
