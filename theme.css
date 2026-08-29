@@ -1,5 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&display=swap');
 
+/* Foco de teclado consistente em todos os controles interativos. */
+a:focus-visible,button:focus-visible,[role="button"]:focus-visible,[tabindex]:focus-visible{outline:2px solid rgba(255,255,255,.78);outline-offset:4px;border-radius:6px}.light-mode a:focus-visible,.light-mode button:focus-visible,.light-mode [role="button"]:focus-visible,.light-mode [tabindex]:focus-visible{outline-color:rgba(0,0,0,.68)}
+
 /* Tema alternativo claro. O modo escuro continua sendo o padrão do portfólio. */
 .theme-toggle{position:absolute;right:max(24px,calc((100vw - var(--max))/2));width:44px;height:30px;border:1px solid rgba(255,255,255,.35);border-radius:999px;background:rgba(255,255,255,.035);color:#f4f4f4;display:grid;place-items:center;padding:0;font-size:14px;line-height:1;cursor:pointer;transition:background .25s,border-color .25s,color .25s,transform .25s}.theme-toggle:hover{border-color:rgba(255,255,255,.58);background:rgba(255,255,255,.07);transform:translateY(-1px)}.theme-toggle:focus-visible{outline:2px solid rgba(255,255,255,.65);outline-offset:3px}.topbar nav{position:absolute;left:50%;transform:translateX(-50%);margin-right:0}.topbar nav a{font-weight:500}
 
