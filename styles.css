@@ -9,3 +9,6 @@ body .about-grid{grid-template-columns:minmax(0,1fr) 360px!important;gap:56px!im
 /* Dá mais presença ao segundo parágrafo do Sobre sem competir com a abertura. */
 body .about-copy p:not(.lead){color:#b3b3b3!important}
 body.light-mode .about-copy p:not(.lead){color:#666!important}
+
+/* Microinteração do logo: linha discreta surge da esquerda para a direita. */
+.brand{position:relative;display:inline-block}.brand:after{content:"";position:absolute;left:0;bottom:-4px;width:100%;height:1px;background:currentColor;opacity:.75;transform:scaleX(0);transform-origin:left center;transition:transform .24s cubic-bezier(.22,1,.36,1)}.brand:hover:after,.brand:focus-visible:after{transform:scaleX(1)}@media(prefers-reduced-motion:reduce){.brand:after{transition:none}}
