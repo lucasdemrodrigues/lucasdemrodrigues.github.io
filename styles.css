@@ -5,3 +5,6 @@
 
 /* Retrato da seção Sobre: sem moldura externa e sem recorte. */
 body .about-grid{grid-template-columns:minmax(0,1fr) 360px!important;gap:56px!important;align-items:start!important}body .about-photo{position:relative;left:-24px!important;justify-self:end!important;align-self:start!important;width:360px!important;max-width:100%;margin:0!important;aspect-ratio:auto!important;overflow:visible!important;border:0!important;border-radius:0!important;background:transparent!important}body .about-photo:after{display:none!important}body .about-photo img{width:100%!important;height:auto!important;display:block;object-fit:contain!important;object-position:center!important;filter:none!important;transition:none!important;transform:none!important}body .about-photo:hover img{transform:none!important;filter:none!important}body.light-mode .about-photo{border:0!important;background:transparent!important}@media(max-width:760px){body .about-grid{grid-template-columns:1fr!important;gap:32px!important}body .about-photo{left:0!important;justify-self:start!important;width:min(100%,360px)!important}}
+
+/* Dá mais presença ao segundo parágrafo do Sobre sem competir com a abertura. */
+body .about-copy p:not(.lead){color:#b3b3b3!important}
