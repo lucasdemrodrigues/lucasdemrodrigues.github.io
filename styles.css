@@ -8,3 +8,4 @@ body .about-grid{grid-template-columns:minmax(0,1fr) 360px!important;gap:56px!im
 
 /* Dá mais presença ao segundo parágrafo do Sobre sem competir com a abertura. */
 body .about-copy p:not(.lead){color:#b3b3b3!important}
+body.light-mode .about-copy p:not(.lead){color:#666!important}
