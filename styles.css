@@ -35,3 +35,22 @@ body.light-mode .projects-sync-dot{animation-name:project-status-pulse}
 @media(max-width:700px){.contact-links-grid{grid-template-columns:1fr}.email-card{padding-right:112px}.email-card .contact-card-copy{max-width:calc(100% - 112px)}}
 @media(max-width:620px){.section{padding-top:72px!important;padding-bottom:72px!important}.impact{padding-top:72px!important}.section-kicker{font-size:14px!important}.section-head,.focus-strip-label,.impact>.section-kicker,.tool-label,.contact-inner>.section-kicker{padding-bottom:16px!important;margin-bottom:36px!important}.focus-strip,.impact-tools{margin-bottom:144px!important}.languages-inline{margin-top:13px}.languages-inline strong,.languages-inline span{font-size:13px}.career-column-title{font-size:12px!important}.projects-status{margin-bottom:36px}.projects-sync{font-size:14px!important}#projetos .project-filter{font-size:13px!important;padding:10px 15px!important}}
 @media(max-width:430px){.contact-card-value{font-size:15px}.email-card{padding-right:62px}.email-card .contact-card-copy{max-width:calc(100% - 62px);overflow:hidden}.email-card .contact-card-value{overflow:hidden;text-overflow:ellipsis}.copy-email{right:16px;padding:8px;font-size:0}.copy-email .copy-icon{font-size:15px}}
+
+/* Estilos antes injetados pelo script.js. */
+.skills-marquee-box{border-top:0!important}
+html.custom-cursor,html.custom-cursor body,html.custom-cursor a,html.custom-cursor button,html.custom-cursor [role="button"],html.custom-cursor input,html.custom-cursor textarea,html.custom-cursor select{cursor:none!important}
+.custom-cursor-dot,.custom-cursor-ring{position:fixed;left:0;top:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);opacity:0}
+.custom-cursor-dot{width:6px;height:6px;border-radius:50%;background:#f4f4f4;transition:width .16s,height .16s,opacity .16s,background .25s}
+.custom-cursor-ring{width:30px;height:30px;border:1px solid rgba(244,244,244,.72);border-radius:50%;transition:width .2s,height .2s,border-color .2s,background .2s,opacity .16s}
+.custom-cursor-ring.is-interactive{width:46px;height:46px;border-color:rgba(244,244,244,.95);background:rgba(255,255,255,.035)}
+.custom-cursor-ring.is-clicking{width:54px;height:54px;background:rgba(255,255,255,.055)}
+body.light-mode .custom-cursor-dot{background:#202020}
+body.light-mode .custom-cursor-ring{border-color:rgba(32,32,32,.7)}
+body.light-mode .custom-cursor-ring.is-interactive{border-color:rgba(32,32,32,.92);background:rgba(0,0,0,.035)}
+body.light-mode .custom-cursor-ring.is-clicking{background:rgba(0,0,0,.055)}
+#main-nav a{position:relative}
+#main-nav a::after{content:"";position:absolute;left:0;right:0;bottom:-7px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:center;opacity:.9;transition:transform .25s ease}
+#main-nav a.is-active{color:#fff}
+#main-nav a.is-active::after{transform:scaleX(1)}
+body.light-mode #main-nav a.is-active{color:#111}
+@media(max-width:900px){#main-nav a::after{display:none}#main-nav a.is-active{background:rgba(255,255,255,.055)}body.light-mode #main-nav a.is-active{background:rgba(0,0,0,.05)}}
