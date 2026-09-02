@@ -60,10 +60,6 @@ themeToggle.addEventListener('click', () => {
 const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// A faixa já funciona como bloco próprio; remove apenas o divisor superior.
-const skillsMarqueeBox = document.querySelector('.skills-marquee-box');
-if (skillsMarqueeBox) skillsMarqueeBox.style.borderTop = '0';
-
 // Impacto profissional: os números contam uma única vez quando entram na tela.
 const metricNumbers = [...document.querySelectorAll('.metric-num')];
 if (metricNumbers.length && !prefersReducedMotion) {
@@ -111,33 +107,6 @@ if (metricNumbers.length && !prefersReducedMotion) {
 }
 
 if (finePointer) {
-  const cursorStyle = document.createElement('style');
-  cursorStyle.textContent = `
-    html.custom-cursor, html.custom-cursor body, html.custom-cursor a,
-    html.custom-cursor button, html.custom-cursor [role="button"],
-    html.custom-cursor input, html.custom-cursor textarea, html.custom-cursor select {
-      cursor: none !important;
-    }
-    .custom-cursor-dot,.custom-cursor-ring{
-      position:fixed;left:0;top:0;pointer-events:none;z-index:9999;
-      transform:translate(-50%,-50%);opacity:0;
-    }
-    .custom-cursor-dot{
-      width:6px;height:6px;border-radius:50%;background:#f4f4f4;
-      transition:width .16s,height .16s,opacity .16s,background .25s;
-    }
-    .custom-cursor-ring{
-      width:30px;height:30px;border:1px solid rgba(244,244,244,.72);border-radius:50%;
-      transition:width .2s,height .2s,border-color .2s,background .2s,opacity .16s;
-    }
-    .custom-cursor-ring.is-interactive{width:46px;height:46px;border-color:rgba(244,244,244,.95);background:rgba(255,255,255,.035)}
-    .custom-cursor-ring.is-clicking{width:54px;height:54px;background:rgba(255,255,255,.055)}
-    body.light-mode .custom-cursor-dot{background:#202020}
-    body.light-mode .custom-cursor-ring{border-color:rgba(32,32,32,.7)}
-    body.light-mode .custom-cursor-ring.is-interactive{border-color:rgba(32,32,32,.92);background:rgba(0,0,0,.035)}
-    body.light-mode .custom-cursor-ring.is-clicking{background:rgba(0,0,0,.055)}
-  `;
-  document.head.appendChild(cursorStyle);
   document.documentElement.classList.add('custom-cursor');
 
   const customCursorDot = document.createElement('div');
@@ -226,16 +195,6 @@ if (topbar && menuToggle && mainNav) {
 if (mainNav) {
   const navLinks = [...mainNav.querySelectorAll('a[href^="#"]')];
   const trackedSections = navLinks.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
-  const activeStyle = document.createElement('style');
-  activeStyle.textContent = `
-    #main-nav a{position:relative}
-    #main-nav a::after{content:"";position:absolute;left:0;right:0;bottom:-7px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:center;opacity:.9;transition:transform .25s ease}
-    #main-nav a.is-active{color:#fff}
-    #main-nav a.is-active::after{transform:scaleX(1)}
-    body.light-mode #main-nav a.is-active{color:#111}
-    @media(max-width:900px){#main-nav a::after{display:none}#main-nav a.is-active{background:rgba(255,255,255,.055)}body.light-mode #main-nav a.is-active{background:rgba(0,0,0,.05)}}
-  `;
-  document.head.appendChild(activeStyle);
 
   const setActiveNav = id => {
     navLinks.forEach(link => link.classList.toggle('is-active', link.getAttribute('href') === `#${id}`));
@@ -368,8 +327,6 @@ if (heroSqlCode) {
 }
 
 // Fundo do Hero inspirado na configuração pública original do portfólio de Pedro Lauro.
-// Valores preservados: 40 partículas, links a 150 px, opacidade .5, largura 1,
-// velocidade 3, colisões, fundo preto e nenhuma interação com mouse/clique.
 const flowHost = document.querySelector('.hero-flow');
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
