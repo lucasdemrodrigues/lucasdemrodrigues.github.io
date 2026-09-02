@@ -44,9 +44,8 @@ document.querySelector('.topbar')?.appendChild(themeToggle);
 const syncThemeToggle = () => {
   const isLight = document.body.classList.contains('light-mode');
   themeToggle.textContent = isLight ? '☾' : '☀';
-  themeToggle.setAttribute('aria-label', isLight ? 'Ativar modo escuro' : 'Ativar modo claro');
-  themeToggle.setAttribute('title', isLight ? 'Modo escuro' : 'Modo claro');
   document.querySelector('meta[name="theme-color"]')?.setAttribute('content', isLight ? '#f4f2ed' : '#000000');
+  document.dispatchEvent(new CustomEvent('portfolio:theme-state', { detail: { isLight } }));
 };
 
 syncThemeToggle();
@@ -194,21 +193,22 @@ if (finePointer) {
   animateCursor();
 }
 
-// Menu mobile.
+// Menu mobile: este arquivo controla apenas o estado. O texto acessível
+// é atualizado pelo sistema de idiomas conforme o idioma ativo.
 const topbar = document.querySelector('.topbar');
 const menuToggle = document.querySelector('.menu-toggle');
 const mainNav = document.getElementById('main-nav');
 if (topbar && menuToggle && mainNav) {
-  const closeMenu = () => {
-    topbar.classList.remove('menu-open');
-    menuToggle.setAttribute('aria-expanded', 'false');
-    menuToggle.setAttribute('aria-label', 'Abrir menu');
+  const setMenuState = open => {
+    topbar.classList.toggle('menu-open', open);
+    menuToggle.setAttribute('aria-expanded', String(open));
+    document.dispatchEvent(new CustomEvent('portfolio:menu-state', { detail: { open } }));
   };
+
+  const closeMenu = () => setMenuState(false);
+
   menuToggle.addEventListener('click', () => {
-    const opening = menuToggle.getAttribute('aria-expanded') !== 'true';
-    topbar.classList.toggle('menu-open', opening);
-    menuToggle.setAttribute('aria-expanded', String(opening));
-    menuToggle.setAttribute('aria-label', opening ? 'Fechar menu' : 'Abrir menu');
+    setMenuState(menuToggle.getAttribute('aria-expanded') !== 'true');
   });
   mainNav.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
   document.addEventListener('click', event => {
@@ -259,31 +259,29 @@ if (mainNav) {
   window.addEventListener('resize', updateActiveNav);
 }
 
-// O card inteiro de e-mail copia o endereço. O elemento visual "Copiar"
-// funciona como indicador da ação e exibe o feedback de sucesso.
+// O card inteiro de e-mail copia o endereço. Este arquivo controla o estado
+// visual; o texto de feedback é definido pelo sistema de idiomas.
 const emailCard = document.querySelector('.email-card');
 const copyEmailButton = document.querySelector('.copy-email');
 if (emailCard && copyEmailButton) {
   const email = copyEmailButton.dataset.email;
-  const label = copyEmailButton.querySelector('.copy-label');
   const icon = copyEmailButton.querySelector('.copy-icon');
   let feedbackTimer;
 
   emailCard.style.cursor = 'pointer';
   emailCard.setAttribute('role', 'button');
   emailCard.setAttribute('tabindex', '0');
-  emailCard.setAttribute('aria-label', `Copiar e-mail ${email}`);
+
+  const setCopyState = copied => {
+    if (icon) icon.textContent = copied ? '✓' : '⧉';
+    copyEmailButton.classList.toggle('copied', copied);
+    document.dispatchEvent(new CustomEvent('portfolio:copy-state', { detail: { copied } }));
+  };
 
   const showCopied = () => {
     clearTimeout(feedbackTimer);
-    if (label) label.textContent = 'Copiado!';
-    if (icon) icon.textContent = '✓';
-    copyEmailButton.classList.add('copied');
-    feedbackTimer = setTimeout(() => {
-      if (label) label.textContent = 'Copiar';
-      if (icon) icon.textContent = '⧉';
-      copyEmailButton.classList.remove('copied');
-    }, 2000);
+    setCopyState(true);
+    feedbackTimer = setTimeout(() => setCopyState(false), 2000);
   };
 
   const copyEmail = async (event) => {
