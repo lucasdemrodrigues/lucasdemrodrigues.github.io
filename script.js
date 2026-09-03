@@ -51,7 +51,7 @@ themeToggle.addEventListener('click', () => {
   syncThemeToggle();
 });
 
-// Cursor customizado: ponto acompanha o mouse, anel segue com inércia.
+// Preferências de interação usadas por cursor, métricas, SQL e fundo do Hero.
 const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -234,10 +234,6 @@ if (emailCard && copyEmailButton) {
   const icon = copyEmailButton.querySelector('.copy-icon');
   let feedbackTimer;
 
-  emailCard.style.cursor = 'pointer';
-  emailCard.setAttribute('role', 'button');
-  emailCard.setAttribute('tabindex', '0');
-
   const setCopyState = copied => {
     if (icon) icon.textContent = copied ? '✓' : '⧉';
     copyEmailButton.classList.toggle('copied', copied);
@@ -335,7 +331,6 @@ if (heroSqlCode) {
 
 // Fundo do Hero inspirado na configuração pública original do portfólio de Pedro Lauro.
 const flowHost = document.querySelector('.hero-flow');
-const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 if (flowHost) {
   flowHost.innerHTML = '';
@@ -375,7 +370,7 @@ if (flowHost) {
       this.radius = 1 + Math.random() * 4;
     }
     update(dt) {
-      if (reduceMotion) return;
+      if (prefersReducedMotion) return;
       this.x += this.vx * dt;
       this.y += this.vy * dt;
       if (this.x <= this.radius || this.x >= width - this.radius) {
@@ -451,12 +446,12 @@ if (flowHost) {
     ctx.clearRect(0, 0, width, height);
     ctx.fillStyle = colors.bg; ctx.fillRect(0, 0, width, height);
     particles.forEach(p => p.update(dt));
-    if (!reduceMotion) resolveCollisions();
+    if (!prefersReducedMotion) resolveCollisions();
     drawLinks(); particles.forEach(p => p.draw());
-    if (!reduceMotion) requestAnimationFrame(animate);
+    if (!prefersReducedMotion) requestAnimationFrame(animate);
   }
 
   resizeParticles(); animate(performance.now());
-  const resizeObserver = new ResizeObserver(() => { resizeParticles(); if (reduceMotion) animate(performance.now()); });
+  const resizeObserver = new ResizeObserver(() => { resizeParticles(); if (prefersReducedMotion) animate(performance.now()); });
   resizeObserver.observe(flowHost);
 }
