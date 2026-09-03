@@ -5,7 +5,7 @@ Site pessoal desenvolvido para GitHub Pages, com foco em Marketing, CRM, Intelig
 ## Conteúdo
 
 - Experiência e resultados profissionais
-- Ferramentas e conhecimentos
+- Competências e ferramentas
 - Projetos de Power BI, análise de dados e IA
 - Links para os repositórios completos
 - Versões em português, inglês e espanhol
@@ -17,14 +17,25 @@ HTML, CSS e JavaScript, sem frameworks ou dependências de build.
 
 ## Estrutura do repositório
 
-- `index.html` — estrutura e conteúdo-base da página.
-- `styles.css` — estilos visuais principais e responsividade.
-- `theme.css` — regras complementares de tema e ajustes visuais.
-- `script.js` — interações gerais do site, como animações, menu, tema, cursor, copiar e-mail, números animados e efeitos do Hero.
-- `project-gallery.js` — sincronização e renderização dinâmica dos projetos a partir do GitHub e dos arquivos `portfolio.json`.
-- `i18n.js` — internacionalização do site e seletor PT · EN · ES.
+- `index.html` — estrutura e conteúdo-base da página, sem estilos ou comportamentos inline.
+- `styles.css` — estrutura visual geral, layout, responsividade e componentes estáticos principais.
+- `theme.css` — tema claro, tipografia de detalhe e complementos visuais do Hero, Foco e faixa de competências.
+- `components.css` — seletor de idiomas e toda a camada visual dos projetos, incluindo fallback estático, filtros e galeria dinâmica.
+- `script.js` — interações gerais do site: animações, menu, tema, cursor, copiar e-mail, expansão da marca no header, scroll spy, números animados, SQL e fundo do Hero.
+- `project-gallery.js` — descoberta, validação, cache, sincronização e renderização dos projetos a partir do GitHub e dos arquivos `portfolio.json`.
+- `i18n.js` — internacionalização do conteúdo e estados da interface em português, inglês e espanhol.
 - `assets/` — arquivos visuais locais utilizados pelo site.
 - `README.md` — documentação do projeto.
+
+## Fluxo de interação entre os scripts
+
+Cada arquivo JavaScript mantém uma responsabilidade principal:
+
+- `script.js` controla os estados e interações gerais da página.
+- `project-gallery.js` é a fonte de dados dos projetos e publica os metadados carregados para o restante do site.
+- `i18n.js` traduz a interface e reage aos estados publicados pelos outros scripts, sem refazer as consultas dos projetos.
+
+A comunicação entre os scripts utiliza eventos customizados, como mudanças de tema, menu, cópia de e-mail, status da galeria e atualização dos metadados dos projetos. Isso evita que o sistema de idiomas precise observar alterações indiretas no DOM ou repetir requisições ao GitHub.
 
 ## Padrão para projetos exibidos no portfólio
 
@@ -53,6 +64,8 @@ Estrutura recomendada:
 
 `categories` funciona como identificador interno dos filtros e, por isso, não precisa ser traduzido. Os campos visíveis ao visitante — título, descrição e eyebrow — podem possuir versões específicas para inglês e espanhol.
 
+A galeria mantém uma versão local válida dos metadados em cache para uso temporário quando a consulta ao GitHub não estiver disponível. O HTML também contém cards básicos como fallback de segurança.
+
 ## Padrão para descrições de projetos
 
 Para os cards do portfólio, priorizar uma descrição curta e orientada ao negócio seguindo esta lógica:
@@ -80,6 +93,8 @@ Essa segunda estrutura é mais adequada para transformar o projeto em um mini-ca
 ## Diretriz de manutenção
 
 A prioridade é manter o site simples e estável. Mudanças de organização interna devem preservar o comportamento e a aparência existentes, evitando dependências ou arquivos adicionais sem necessidade.
+
+Antes de alterar um arquivo, trabalhar sempre sobre sua versão atual para evitar sobrescrever mudanças recentes. Refatorações devem ser pequenas e isoladas sempre que possível.
 
 ## Publicação
 
