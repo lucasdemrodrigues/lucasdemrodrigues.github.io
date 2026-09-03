@@ -61,8 +61,8 @@
   };
 
   sw.addEventListener('click',e=>{const b=e.target.closest('button[data-lang]');if(b)apply(b.dataset.lang)});
-  const status=q('.projects-status');if(status)new MutationObserver(translateProjects).observe(status,{attributes:true,attributeFilter:['data-sync']});
   document.addEventListener('portfolio:projects-data',translateProjects);
+  document.addEventListener('portfolio:projects-status',translateProjects);
   document.addEventListener('portfolio:menu-state',syncMenuLabel);
   document.addEventListener('portfolio:copy-state',syncCopyLabel);
   document.addEventListener('portfolio:theme-state',syncTheme);
