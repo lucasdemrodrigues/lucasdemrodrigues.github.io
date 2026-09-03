@@ -62,7 +62,6 @@
 
   sw.addEventListener('click',e=>{const b=e.target.closest('button[data-lang]');if(b)apply(b.dataset.lang)});
   const status=q('.projects-status');if(status)new MutationObserver(translateProjects).observe(status,{attributes:true,attributeFilter:['data-sync']});
-  const copyBox=q('.copy-email');if(copyBox)new MutationObserver(syncCopyLabel).observe(copyBox,{attributes:true,attributeFilter:['class']});
   document.addEventListener('portfolio:projects-data',translateProjects);
   document.addEventListener('portfolio:menu-state',syncMenuLabel);
   document.addEventListener('portfolio:copy-state',syncCopyLabel);
