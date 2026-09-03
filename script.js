@@ -28,11 +28,6 @@ document.getElementById('year').textContent = new Date().getFullYear();
 
 // Tema: dark é sempre o padrão na primeira visita. Se o visitante escolher
 // manualmente outro tema, a preferência fica salva para as próximas visitas.
-const themeStyles = document.createElement('link');
-themeStyles.rel = 'stylesheet';
-themeStyles.href = 'theme.css';
-document.head.appendChild(themeStyles);
-
 const savedTheme = localStorage.getItem('portfolio-theme');
 if (savedTheme === 'light') document.body.classList.add('light-mode');
 
