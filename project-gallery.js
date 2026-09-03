@@ -100,6 +100,7 @@
       sync.append(document.createTextNode(` ${text}`));
       sync.title=title;
     }
+    document.dispatchEvent(new CustomEvent('portfolio:projects-status',{detail:{state,title}}));
   };
   setStatus('loading','Sincronizando projetos com o GitHub...');
 
