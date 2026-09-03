@@ -162,6 +162,18 @@ if (finePointer) {
 const topbar = document.querySelector('.topbar');
 const menuToggle = document.querySelector('.menu-toggle');
 const mainNav = document.getElementById('main-nav');
+
+// O nome completo aparece no header somente depois que o Hero sai da área da barra.
+const hero = document.querySelector('#inicio');
+if (topbar && hero) {
+  const syncBrandExpansion = () => {
+    topbar.classList.toggle('brand-expanded', hero.getBoundingClientRect().bottom <= topbar.offsetHeight);
+  };
+  syncBrandExpansion();
+  window.addEventListener('scroll', syncBrandExpansion, { passive:true });
+  window.addEventListener('resize', syncBrandExpansion);
+}
+
 if (topbar && menuToggle && mainNav) {
   const setMenuState = open => {
     topbar.classList.toggle('menu-open', open);
