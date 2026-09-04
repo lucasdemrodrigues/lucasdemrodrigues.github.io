@@ -286,8 +286,13 @@ if (emailCard && copyEmailButton) {
 }
 
 // SQL do Hero: digita a consulta uma única vez na entrada e mantém o cursor piscando ao final.
+// As traffic lights também funcionam como um Easter egg inspirado em controles de janela.
 const heroSqlCode = document.querySelector('.hero-sql-code');
 if (heroSqlCode) {
+  const heroSql = heroSqlCode.closest('.hero-sql');
+  const heroSqlHead = heroSql?.querySelector('.hero-sql-head');
+  const heroSqlTitle = heroSqlHead?.querySelector('span');
+  const windowControls = heroSqlHead ? [...heroSqlHead.querySelectorAll('i')] : [];
   const tokens = [
     ['SELECT','kw'],[' ',''],['insights',''],[', ',''],['strategy',''],[', ',''],['results',''],['\n',''],
     ['FROM','kw'],[' ',''],['experience','obj'],['\n',''],
@@ -338,6 +343,141 @@ if (heroSqlCode) {
     };
 
     setTimeout(step, 500);
+  }
+
+  if (heroSql && heroSqlHead && heroSqlTitle && windowControls.length === 3) {
+    // O SQL continua decorativo para leitores de tela, mas os controles do Easter egg são acessíveis.
+    heroSql.removeAttribute('aria-hidden');
+    heroSqlCode.setAttribute('aria-hidden', 'true');
+    heroSql.style.transition = prefersReducedMotion ? 'none' : 'max-width .35s cubic-bezier(.22,1,.36,1), transform .35s cubic-bezier(.22,1,.36,1), border-radius .25s';
+
+    const result = document.createElement('div');
+    result.className = 'hero-sql-result';
+    result.textContent = '1 row returned';
+    result.setAttribute('role', 'status');
+    result.setAttribute('aria-live', 'polite');
+    result.hidden = true;
+    result.style.padding = '11px 25px 13px';
+    result.style.borderTop = '1px solid rgba(255,255,255,.10)';
+    result.style.font = '600 11px/1.4 "IBM Plex Mono", monospace';
+    result.style.letterSpacing = '.02em';
+    heroSql.appendChild(result);
+
+    const stateLabels = {
+      pt:{close:'Fechar portfolio.sql',minimize:'Minimizar portfolio.sql',maximize:'Maximizar portfolio.sql e mostrar resultado',restore:'Restaurar portfolio.sql'},
+      en:{close:'Close portfolio.sql',minimize:'Minimize portfolio.sql',maximize:'Maximize portfolio.sql and show result',restore:'Restore portfolio.sql'},
+      es:{close:'Cerrar portfolio.sql',minimize:'Minimizar portfolio.sql',maximize:'Maximizar portfolio.sql y mostrar resultado',restore:'Restaurar portfolio.sql'}
+    };
+
+    const currentLang = () => {
+      const value = document.documentElement.lang.toLowerCase();
+      return value.startsWith('en') ? 'en' : value.startsWith('es') ? 'es' : 'pt';
+    };
+
+    const syncControlLabels = () => {
+      const labels = stateLabels[currentLang()];
+      windowControls[0].setAttribute('aria-label', labels.close);
+      windowControls[1].setAttribute('aria-label', labels.minimize);
+      windowControls[2].setAttribute('aria-label', labels.maximize);
+      heroSqlTitle.setAttribute('aria-label', labels.restore);
+      windowControls[0].title = labels.close;
+      windowControls[1].title = labels.minimize;
+      windowControls[2].title = labels.maximize;
+      heroSqlTitle.title = labels.restore;
+    };
+
+    const makeControl = el => {
+      el.setAttribute('role', 'button');
+      el.tabIndex = 0;
+      el.style.cursor = 'pointer';
+    };
+    windowControls.forEach(makeControl);
+    makeControl(heroSqlTitle);
+    heroSqlTitle.style.userSelect = 'none';
+
+    const syncResultTheme = () => {
+      result.style.color = document.body.classList.contains('light-mode') ? '#147c2f' : '#39ff14';
+      result.style.borderTopColor = document.body.classList.contains('light-mode') ? 'rgba(0,0,0,.10)' : 'rgba(255,255,255,.10)';
+    };
+
+    const showControls = visible => windowControls.forEach(control => {
+      control.style.display = visible ? '' : 'none';
+    });
+
+    const restoreWindow = () => {
+      heroSql.dataset.windowState = 'normal';
+      heroSqlCode.style.display = '';
+      result.hidden = true;
+      showControls(true);
+      heroSql.style.maxWidth = '';
+      heroSql.style.transform = '';
+      heroSql.style.borderRadius = '';
+      heroSqlHead.style.justifyContent = '';
+      heroSqlTitle.style.transform = '';
+    };
+
+    const minimizeWindow = () => {
+      heroSql.dataset.windowState = 'minimized';
+      heroSqlCode.style.display = 'none';
+      result.hidden = true;
+      showControls(true);
+      heroSql.style.maxWidth = '360px';
+      heroSql.style.transform = window.innerWidth <= 900 ? 'none' : 'translateX(-70px)';
+      heroSql.style.borderRadius = '15px';
+      heroSqlHead.style.justifyContent = '';
+      heroSqlTitle.style.transform = '';
+    };
+
+    const closeWindow = () => {
+      heroSql.dataset.windowState = 'closed';
+      heroSqlCode.style.display = 'none';
+      result.hidden = true;
+      showControls(false);
+      heroSql.style.maxWidth = '165px';
+      heroSql.style.transform = window.innerWidth <= 900 ? 'none' : 'translateX(-70px)';
+      heroSql.style.borderRadius = '999px';
+      heroSqlHead.style.justifyContent = 'center';
+      heroSqlTitle.style.transform = 'none';
+    };
+
+    const maximizeWindow = () => {
+      heroSql.dataset.windowState = 'maximized';
+      renderCompleteQuery();
+      heroSqlCode.style.display = '';
+      showControls(true);
+      result.hidden = false;
+      heroSql.style.maxWidth = window.innerWidth <= 900 ? '100%' : '560px';
+      heroSql.style.transform = window.innerWidth <= 900 ? 'none' : 'translateX(-35px)';
+      heroSql.style.borderRadius = '15px';
+      heroSqlHead.style.justifyContent = '';
+      heroSqlTitle.style.transform = '';
+      syncResultTheme();
+    };
+
+    const activate = (el, action) => {
+      el.addEventListener('click', action);
+      el.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          action();
+        }
+      });
+    };
+
+    activate(windowControls[0], closeWindow);
+    activate(windowControls[1], minimizeWindow);
+    activate(windowControls[2], maximizeWindow);
+    activate(heroSqlTitle, restoreWindow);
+    syncControlLabels();
+    syncResultTheme();
+
+    document.addEventListener('portfolio:languagechange', syncControlLabels);
+    document.addEventListener('portfolio:theme-state', syncResultTheme);
+    window.addEventListener('resize', () => {
+      if (heroSql.dataset.windowState === 'maximized') maximizeWindow();
+      else if (heroSql.dataset.windowState === 'minimized') minimizeWindow();
+      else if (heroSql.dataset.windowState === 'closed') closeWindow();
+    });
   }
 }
 
