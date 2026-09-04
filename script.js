@@ -286,7 +286,7 @@ if (emailCard && copyEmailButton) {
 }
 
 // SQL do Hero: digita a consulta uma única vez na entrada e mantém o cursor piscando ao final.
-// Easter egg: apenas o botão verde ativa um Matrix temporário; portfolio.sql abre o GitHub.
+// Easter egg: o botão vermelho ativa discretamente um Matrix temporário; portfolio.sql abre o GitHub.
 const heroSqlCode = document.querySelector('.hero-sql-code');
 if (heroSqlCode) {
   const heroSql = heroSqlCode.closest('.hero-sql');
@@ -382,27 +382,25 @@ if (heroSqlCode) {
     let matrixTimer = 0;
     let matrixRunning = false;
 
-    const labels = {
-      pt:{matrix:'Ativar efeito Matrix',github:'Abrir perfil de Lucas Rodrigues no GitHub, abre em nova aba'},
-      en:{matrix:'Activate Matrix effect',github:'Open Lucas Rodrigues on GitHub, opens in a new tab'},
-      es:{matrix:'Activar efecto Matrix',github:'Abrir perfil de Lucas Rodrigues en GitHub, abre en una nueva pestaña'}
-    };
-
     const currentLang = () => {
       const value = document.documentElement.lang.toLowerCase();
       return value.startsWith('en') ? 'en' : value.startsWith('es') ? 'es' : 'pt';
     };
 
-    const syncLabels = () => {
-      const copy = labels[currentLang()];
-      windowControls[2].setAttribute('aria-label', copy.matrix);
-      windowControls[2].title = copy.matrix;
-      titleLink.setAttribute('aria-label', copy.github);
-      titleLink.title = copy.github;
+    const githubLabels = {
+      pt:'Abrir perfil de Lucas Rodrigues no GitHub, abre em nova aba',
+      en:'Open Lucas Rodrigues on GitHub, opens in a new tab',
+      es:'Abrir perfil de Lucas Rodrigues en GitHub, abre en una nueva pestaña'
     };
 
-    // Vermelho e amarelo permanecem apenas visuais/decorativos.
-    [windowControls[0], windowControls[1]].forEach(control => {
+    const syncLabels = () => {
+      const githubLabel = githubLabels[currentLang()];
+      titleLink.setAttribute('aria-label', githubLabel);
+      titleLink.removeAttribute('title');
+    };
+
+    // Amarelo e verde permanecem apenas visuais/decorativos.
+    [windowControls[1], windowControls[2]].forEach(control => {
       control.removeAttribute('role');
       control.removeAttribute('tabindex');
       control.removeAttribute('aria-label');
@@ -410,10 +408,12 @@ if (heroSqlCode) {
       control.style.cursor = 'default';
     });
 
-    // Somente o verde é um controle real.
-    windowControls[2].setAttribute('role', 'button');
-    windowControls[2].tabIndex = 0;
-    windowControls[2].style.cursor = 'pointer';
+    // O vermelho é o único controle do Easter egg, sem tooltip para preservar a surpresa.
+    windowControls[0].setAttribute('role', 'button');
+    windowControls[0].tabIndex = 0;
+    windowControls[0].removeAttribute('aria-label');
+    windowControls[0].removeAttribute('title');
+    windowControls[0].style.cursor = 'pointer';
 
     const stopMatrix = () => {
       if (matrixFrame) cancelAnimationFrame(matrixFrame);
@@ -438,7 +438,7 @@ if (heroSqlCode) {
       ctx.fillRect(0, 0, rect.width, rect.height);
       ctx.font = '16px "IBM Plex Mono", monospace';
       ctx.fillStyle = '#39ff14';
-      const chars = '01アイウエオカキクケコサシスセソ';
+      const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ#$%&*+-=/<>[]{}';
       for (let y = 20; y < rect.height; y += 24) {
         for (let x = 10; x < rect.width; x += 24) {
           ctx.globalAlpha = .22 + Math.random() * .65;
@@ -466,18 +466,18 @@ if (heroSqlCode) {
       matrixCanvas.height = Math.max(1, Math.round(rect.height * dpr));
       const ctx = matrixCanvas.getContext('2d');
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const fontSize = 18;
-      const columnGap = 22;
+      const fontSize = 17;
+      const columnGap = 21;
       const columns = Math.max(1, Math.floor(rect.width / columnGap));
       const drops = Array.from({length:columns}, () => Math.floor(Math.random() * -14));
-      const chars = '01アイウエオカキクケコサシスセソABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ#$%&*+-=/<>[]{}';
       let lastDraw = 0;
-      const frameInterval = 105;
+      const frameInterval = 78;
 
       const draw = now => {
         if (!lastDraw || now - lastDraw >= frameInterval) {
           lastDraw = now;
-          ctx.fillStyle = 'rgba(0,0,0,.16)';
+          ctx.fillStyle = 'rgba(0,0,0,.15)';
           ctx.fillRect(0, 0, rect.width, rect.height);
           ctx.font = `${fontSize}px "IBM Plex Mono", monospace`;
           for (let i = 0; i < drops.length; i++) {
@@ -485,14 +485,14 @@ if (heroSqlCode) {
             ctx.fillStyle = Math.random() > .96 ? '#d7ffd0' : '#39ff14';
             ctx.fillText(char, i * columnGap, drops[i] * fontSize);
             if (drops[i] * fontSize > rect.height && Math.random() > .94) drops[i] = 0;
-            else drops[i] += .55;
+            else drops[i] += .7;
           }
         }
         matrixFrame = requestAnimationFrame(draw);
       };
 
       matrixFrame = requestAnimationFrame(draw);
-      matrixTimer = setTimeout(stopMatrix, 3500);
+      matrixTimer = setTimeout(stopMatrix, 5000);
     };
 
     const activate = (el, action) => {
@@ -509,7 +509,7 @@ if (heroSqlCode) {
       });
     };
 
-    activate(windowControls[2], startMatrix);
+    activate(windowControls[0], startMatrix);
     syncLabels();
     document.addEventListener('portfolio:languagechange', syncLabels);
     window.addEventListener('resize', () => {
