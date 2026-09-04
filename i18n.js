@@ -7,6 +7,27 @@
     es:{html:'es',title:'Lucas Rodrigues — Marketing, CRM y Datos',desc:'Portafolio de Lucas Rodrigues — Marketing, CRM, Inteligencia Comercial y Datos.',nav:['Sobre mí','Trayectoria','Proyectos','Contacto'],eyebrow:'Inteligencia Comercial · CRM · Marketing · Datos',tagline:'Conectando clientes, datos y negocio.',actions:['Ver proyectos','Contactar'],about:['SOBRE MÍ','Mi experiencia profesional se ha desarrollado cerca del cliente y del negocio, evolucionando desde funciones comerciales y de relación con clientes hacia una actuación cada vez más vinculada a indicadores, segmentación y análisis.','Hoy utilizo datos para comprender escenarios y resultados, identificar oportunidades, mejorar procesos y apoyar la toma de decisiones, con experiencia en campañas, segmentación, recorridos del cliente, indicadores y experiencia del cliente.'],focus:['ENFOQUE',['CRM & Ciclo de Vida del Cliente','Business Intelligence','Marketing & Mercado'],['Segmentación, comunicación y seguimiento de resultados.','Modelado de datos, dashboards, indicadores y apoyo a la toma de decisiones.','Comportamiento del consumidor, investigación de mercado y rendimiento de campañas.']],tools:'COMPETENCIAS & HERRAMIENTAS',skill:{'Análise de Dados':'Análisis de Datos','Segmentação':'Segmentación'},languages:['IDIOMAS','Portugués · Nativo','Inglés · Intermedio','Español · Intermedio'],impact:['IMPACTO PROFESIONAL','Conversión de ofertas con NBO','Tiempo de actualización de informes','Adopción de CoPiloto en un año','Aumento del NPS de PyME','54,5 → 63,7 en 6 meses'],career:['TRAYECTORIA','EXPERIENCIA PROFESIONAL','FORMACIÓN',['Prácticas en Planificación Comercial B2B / Marketing / CRM','Analista de Relación con Clientes','Ventas / Posventa','Grado en Marketing','Técnico en Administración']],projects:'PROYECTOS',filters:{Todos:'Todos','Power BI':'Power BI',SQL:'SQL',Excel:'Excel',IA:'IA'},filterAria:'Filtrar proyectos por categoría',status:{loading:'Sincronizando proyectos con GitHub...',ok:'Proyectos sincronizados con GitHub mediante API',cache:'Proyectos mostrados en modo seguro',fallback:'Proyectos mostrados en modo seguro'},projectLink:'Ver proyecto en GitHub',newTab:'se abre en una pestaña nueva',contact:['CONTACTO','LINKEDIN','E-MAIL','Copiar','¡Copiado!'],copyEmail:'Copiar correo electrónico',copyAnnounce:'Correo electrónico copiado al portapapeles.',openLinkedin:'Abrir el perfil de Lucas Rodrigues en LinkedIn',footer:'São Paulo, Brasil',theme:['Activar modo oscuro','Activar modo claro','Modo oscuro','Modo claro'],menu:['Abrir menú','Cerrar menú']}
   };
 
+  const fallbackProjects={
+    'relatorio-de-vendas-power-bi':{
+      title:'Relatório de Vendas no Power BI',
+      title_en:'Sales Report in Power BI',
+      title_es:'Informe de Ventas en Power BI',
+      description:'Análise de vendas e lucratividade para identificar os produtos, segmentos, países e períodos com melhor desempenho e apoiar decisões comerciais com maior clareza.',
+      description_en:'Sales and profitability analysis to identify top-performing products, segments, countries and periods, supporting clearer commercial decision-making.',
+      description_es:'Análisis de ventas y rentabilidad para identificar los productos, segmentos, países y períodos con mejor desempeño y apoiar decisiones comerciales con maior claridad.',
+      eyebrow:'POWER BI',eyebrow_en:'POWER BI',eyebrow_es:'POWER BI'
+    },
+    'open-finance-com-notebooklm':{
+      title:'Open Finance no Gemini Notebook',
+      title_en:'Open Finance in Gemini Notebook',
+      title_es:'Open Finance en Gemini Notebook',
+      description:'Organização e síntese de informações sobre o Open Finance brasileiro a partir de curadoria de fontes e engenharia de prompts, com foco em facilitar a compreensão de seus principais atores, oportunidades e impactos no mercado financeiro.',
+      description_en:'Organization and synthesis of information on Brazilian Open Finance through source curation and prompt engineering, making its main players, opportunities and market impacts easier to understand.',
+      description_es:'Organización y síntesis de información sobre el Open Finance brasileño mediante curaduría de fuentes e ingeniería de prompts, con foco en facilitar la comprensión de sus principales actores, oportunidades e impactos en el mercado financiero.',
+      eyebrow:'IA & PESQUISA',eyebrow_en:'AI & RESEARCH',eyebrow_es:'IA & INVESTIGACIÓN'
+    }
+  };
+
   const topbar=document.querySelector('.topbar'),theme=document.querySelector('.theme-toggle'),controls=document.createElement('div');
   controls.className='topbar-controls';if(topbar)topbar.appendChild(controls);
   const sw=document.createElement('div');sw.className='language-switch';sw.setAttribute('role','group');sw.setAttribute('aria-label','Language / Idioma');
@@ -27,7 +48,7 @@
     if(status&&sync){const dot=q('.projects-sync-dot',sync),state=status.dataset.sync||'ok';[...sync.childNodes].filter(n=>n!==dot).forEach(n=>n.remove());sync.append(document.createTextNode(` ${c.status[state]||c.status.ok}`))}
     const metadata=projectMetadata();
     qa('#projetos .project-feature').forEach(card=>{
-      const repo=projectRepo(card),pc=localProjectText(metadata.get(repo),lang);
+      const repo=projectRepo(card),pc=localProjectText(metadata.get(repo)||fallbackProjects[repo],lang);
       if(pc?.title)text('h3',pc.title,card);
       if(pc?.description)text('.project-info > p',pc.description,card);
       if(pc?.eyebrow){const metaFirst=q('.project-meta span:first-child',card);if(metaFirst)metaFirst.textContent=pc.eyebrow}
