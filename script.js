@@ -286,12 +286,12 @@ if (emailCard && copyEmailButton) {
 }
 
 // SQL do Hero: digita a consulta uma única vez na entrada e mantém o cursor piscando ao final.
-// As traffic lights também funcionam como um Easter egg inspirado em controles de janela.
+// Easter eggs: vermelho fecha, o botão fechado restaura e verde ativa um Matrix temporário.
 const heroSqlCode = document.querySelector('.hero-sql-code');
 if (heroSqlCode) {
   const heroSql = heroSqlCode.closest('.hero-sql');
   const heroSqlHead = heroSql?.querySelector('.hero-sql-head');
-  const heroSqlTitle = heroSqlHead?.querySelector('span');
+  const originalTitle = heroSqlHead?.querySelector('span');
   const windowControls = heroSqlHead ? [...heroSqlHead.querySelectorAll('i')] : [];
   const tokens = [
     ['SELECT','kw'],[' ',''],['insights',''],[', ',''],['strategy',''],[', ',''],['results',''],['\n',''],
@@ -345,28 +345,48 @@ if (heroSqlCode) {
     setTimeout(step, 500);
   }
 
-  if (heroSql && heroSqlHead && heroSqlTitle && windowControls.length === 3) {
-    // O SQL continua decorativo para leitores de tela, mas os controles do Easter egg são acessíveis.
+  if (heroSql && heroSqlHead && originalTitle && windowControls.length === 3) {
     heroSql.removeAttribute('aria-hidden');
     heroSqlCode.setAttribute('aria-hidden', 'true');
+    heroSql.style.position = 'relative';
     heroSql.style.transition = prefersReducedMotion ? 'none' : 'max-width .35s cubic-bezier(.22,1,.36,1), transform .35s cubic-bezier(.22,1,.36,1), border-radius .25s';
 
-    const result = document.createElement('div');
-    result.className = 'hero-sql-result';
-    result.textContent = '1 row returned';
-    result.setAttribute('role', 'status');
-    result.setAttribute('aria-live', 'polite');
-    result.hidden = true;
-    result.style.padding = '11px 25px 13px';
-    result.style.borderTop = '1px solid rgba(255,255,255,.10)';
-    result.style.font = '600 11px/1.4 "IBM Plex Mono", monospace';
-    result.style.letterSpacing = '.02em';
-    heroSql.appendChild(result);
+    const titleLink = document.createElement('a');
+    titleLink.href = 'https://github.com/lucasdemrodrigues';
+    titleLink.target = '_blank';
+    titleLink.rel = 'noreferrer';
+    titleLink.textContent = 'portfolio.sql';
+    titleLink.style.marginLeft = 'auto';
+    titleLink.style.marginRight = 'auto';
+    titleLink.style.transform = 'translateX(-17px)';
+    titleLink.style.color = '#9da8bb';
+    titleLink.style.fontSize = '11px';
+    titleLink.style.textDecoration = 'none';
+    titleLink.style.cursor = 'pointer';
+    originalTitle.replaceWith(titleLink);
 
-    const stateLabels = {
-      pt:{close:'Fechar portfolio.sql',minimize:'Minimizar portfolio.sql',maximize:'Maximizar portfolio.sql e mostrar resultado',restore:'Restaurar portfolio.sql'},
-      en:{close:'Close portfolio.sql',minimize:'Minimize portfolio.sql',maximize:'Maximize portfolio.sql and show result',restore:'Restore portfolio.sql'},
-      es:{close:'Cerrar portfolio.sql',minimize:'Minimizar portfolio.sql',maximize:'Maximizar portfolio.sql y mostrar resultado',restore:'Restaurar portfolio.sql'}
+    const matrixCanvas = document.createElement('canvas');
+    matrixCanvas.setAttribute('aria-hidden', 'true');
+    matrixCanvas.style.position = 'absolute';
+    matrixCanvas.style.left = '0';
+    matrixCanvas.style.right = '0';
+    matrixCanvas.style.bottom = '0';
+    matrixCanvas.style.top = `${heroSqlHead.offsetHeight || 48}px`;
+    matrixCanvas.style.width = '100%';
+    matrixCanvas.style.height = `calc(100% - ${heroSqlHead.offsetHeight || 48}px)`;
+    matrixCanvas.style.display = 'none';
+    matrixCanvas.style.zIndex = '3';
+    matrixCanvas.style.background = '#000';
+    heroSql.appendChild(matrixCanvas);
+
+    let matrixFrame = 0;
+    let matrixTimer = 0;
+    let matrixRunning = false;
+
+    const labels = {
+      pt:{close:'Fechar portfolio.sql',matrix:'Ativar efeito Matrix',restore:'Restaurar portfolio.sql',github:'Abrir perfil de Lucas Rodrigues no GitHub, abre em nova aba'},
+      en:{close:'Close portfolio.sql',matrix:'Activate Matrix effect',restore:'Restore portfolio.sql',github:'Open Lucas Rodrigues on GitHub, opens in a new tab'},
+      es:{close:'Cerrar portfolio.sql',matrix:'Activar efecto Matrix',restore:'Restaurar portfolio.sql',github:'Abrir perfil de Lucas Rodrigues en GitHub, abre en una nueva pestaña'}
     };
 
     const currentLang = () => {
@@ -374,16 +394,15 @@ if (heroSqlCode) {
       return value.startsWith('en') ? 'en' : value.startsWith('es') ? 'es' : 'pt';
     };
 
-    const syncControlLabels = () => {
-      const labels = stateLabels[currentLang()];
-      windowControls[0].setAttribute('aria-label', labels.close);
-      windowControls[1].setAttribute('aria-label', labels.minimize);
-      windowControls[2].setAttribute('aria-label', labels.maximize);
-      heroSqlTitle.setAttribute('aria-label', labels.restore);
-      windowControls[0].title = labels.close;
-      windowControls[1].title = labels.minimize;
-      windowControls[2].title = labels.maximize;
-      heroSqlTitle.title = labels.restore;
+    const syncLabels = () => {
+      const copy = labels[currentLang()];
+      windowControls[0].setAttribute('aria-label', copy.close);
+      windowControls[0].title = copy.close;
+      windowControls[2].setAttribute('aria-label', copy.matrix);
+      windowControls[2].title = copy.matrix;
+      titleLink.setAttribute('aria-label', copy.github);
+      titleLink.title = copy.github;
+      if (heroSql.dataset.windowState === 'closed') heroSql.setAttribute('aria-label', copy.restore);
     };
 
     const makeControl = el => {
@@ -391,92 +410,170 @@ if (heroSqlCode) {
       el.tabIndex = 0;
       el.style.cursor = 'pointer';
     };
-    windowControls.forEach(makeControl);
-    makeControl(heroSqlTitle);
-    heroSqlTitle.style.userSelect = 'none';
 
-    const syncResultTheme = () => {
-      result.style.color = document.body.classList.contains('light-mode') ? '#147c2f' : '#39ff14';
-      result.style.borderTopColor = document.body.classList.contains('light-mode') ? 'rgba(0,0,0,.10)' : 'rgba(255,255,255,.10)';
+    makeControl(windowControls[0]);
+    makeControl(windowControls[2]);
+
+    // O amarelo permanece apenas visual/decorativo.
+    windowControls[1].removeAttribute('role');
+    windowControls[1].removeAttribute('tabindex');
+    windowControls[1].removeAttribute('aria-label');
+    windowControls[1].removeAttribute('title');
+    windowControls[1].style.cursor = 'default';
+
+    const stopMatrix = () => {
+      if (matrixFrame) cancelAnimationFrame(matrixFrame);
+      clearTimeout(matrixTimer);
+      matrixFrame = 0;
+      matrixTimer = 0;
+      matrixRunning = false;
+      matrixCanvas.style.display = 'none';
+      heroSqlCode.style.visibility = '';
+      const ctx = matrixCanvas.getContext('2d');
+      ctx.clearRect(0, 0, matrixCanvas.width, matrixCanvas.height);
     };
 
-    const showControls = visible => windowControls.forEach(control => {
-      control.style.display = visible ? '' : 'none';
-    });
-
     const restoreWindow = () => {
+      stopMatrix();
       heroSql.dataset.windowState = 'normal';
       heroSqlCode.style.display = '';
-      result.hidden = true;
-      showControls(true);
+      windowControls.forEach(control => { control.style.display = ''; });
       heroSql.style.maxWidth = '';
       heroSql.style.transform = '';
       heroSql.style.borderRadius = '';
       heroSqlHead.style.justifyContent = '';
-      heroSqlTitle.style.transform = '';
-    };
-
-    const minimizeWindow = () => {
-      heroSql.dataset.windowState = 'minimized';
-      heroSqlCode.style.display = 'none';
-      result.hidden = true;
-      showControls(true);
-      heroSql.style.maxWidth = '360px';
-      heroSql.style.transform = window.innerWidth <= 900 ? 'none' : 'translateX(-70px)';
-      heroSql.style.borderRadius = '15px';
-      heroSqlHead.style.justifyContent = '';
-      heroSqlTitle.style.transform = '';
+      titleLink.style.transform = 'translateX(-17px)';
+      titleLink.tabIndex = 0;
+      heroSql.removeAttribute('role');
+      heroSql.removeAttribute('tabindex');
+      heroSql.removeAttribute('aria-label');
+      heroSql.style.cursor = '';
     };
 
     const closeWindow = () => {
+      stopMatrix();
       heroSql.dataset.windowState = 'closed';
       heroSqlCode.style.display = 'none';
-      result.hidden = true;
-      showControls(false);
+      windowControls.forEach(control => { control.style.display = 'none'; });
       heroSql.style.maxWidth = '165px';
       heroSql.style.transform = window.innerWidth <= 900 ? 'none' : 'translateX(-70px)';
       heroSql.style.borderRadius = '999px';
       heroSqlHead.style.justifyContent = 'center';
-      heroSqlTitle.style.transform = 'none';
+      titleLink.style.transform = 'none';
+      titleLink.tabIndex = -1;
+      heroSql.setAttribute('role', 'button');
+      heroSql.tabIndex = 0;
+      heroSql.style.cursor = 'pointer';
+      syncLabels();
     };
 
-    const maximizeWindow = () => {
-      heroSql.dataset.windowState = 'maximized';
-      renderCompleteQuery();
-      heroSqlCode.style.display = '';
-      showControls(true);
-      result.hidden = false;
-      heroSql.style.maxWidth = window.innerWidth <= 900 ? '100%' : '560px';
-      heroSql.style.transform = window.innerWidth <= 900 ? 'none' : 'translateX(-35px)';
-      heroSql.style.borderRadius = '15px';
-      heroSqlHead.style.justifyContent = '';
-      heroSqlTitle.style.transform = '';
-      syncResultTheme();
+    const drawStaticMatrix = () => {
+      const rect = matrixCanvas.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      matrixCanvas.width = Math.max(1, Math.round(rect.width * dpr));
+      matrixCanvas.height = Math.max(1, Math.round(rect.height * dpr));
+      const ctx = matrixCanvas.getContext('2d');
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.fillStyle = '#000';
+      ctx.fillRect(0, 0, rect.width, rect.height);
+      ctx.font = '14px "IBM Plex Mono", monospace';
+      ctx.fillStyle = '#39ff14';
+      const chars = '01アイウエオカキクケコサシスセソ';
+      for (let y = 18; y < rect.height; y += 18) {
+        for (let x = 8; x < rect.width; x += 16) {
+          ctx.globalAlpha = .25 + Math.random() * .75;
+          ctx.fillText(chars[Math.floor(Math.random() * chars.length)], x, y);
+        }
+      }
+      ctx.globalAlpha = 1;
+    };
+
+    const startMatrix = () => {
+      if (matrixRunning || heroSql.dataset.windowState === 'closed') return;
+      matrixRunning = true;
+      matrixCanvas.style.display = 'block';
+      heroSqlCode.style.visibility = 'hidden';
+
+      if (prefersReducedMotion) {
+        drawStaticMatrix();
+        matrixTimer = setTimeout(stopMatrix, 900);
+        return;
+      }
+
+      const rect = matrixCanvas.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      matrixCanvas.width = Math.max(1, Math.round(rect.width * dpr));
+      matrixCanvas.height = Math.max(1, Math.round(rect.height * dpr));
+      const ctx = matrixCanvas.getContext('2d');
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const fontSize = 14;
+      const columns = Math.max(1, Math.floor(rect.width / fontSize));
+      const drops = Array.from({length:columns}, () => Math.floor(Math.random() * -20));
+      const chars = '01アイウエオカキクケコサシスセソABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+      const draw = () => {
+        ctx.fillStyle = 'rgba(0,0,0,.12)';
+        ctx.fillRect(0, 0, rect.width, rect.height);
+        ctx.font = `${fontSize}px "IBM Plex Mono", monospace`;
+        for (let i = 0; i < drops.length; i++) {
+          const char = chars[Math.floor(Math.random() * chars.length)];
+          ctx.fillStyle = Math.random() > .94 ? '#d7ffd0' : '#39ff14';
+          ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+          if (drops[i] * fontSize > rect.height && Math.random() > .97) drops[i] = 0;
+          drops[i]++;
+        }
+        matrixFrame = requestAnimationFrame(draw);
+      };
+
+      draw();
+      matrixTimer = setTimeout(stopMatrix, 2600);
     };
 
     const activate = (el, action) => {
-      el.addEventListener('click', action);
+      el.addEventListener('click', event => {
+        event.stopPropagation();
+        action();
+      });
       el.addEventListener('keydown', event => {
         if (event.key === 'Enter' || event.key === ' ') {
           event.preventDefault();
+          event.stopPropagation();
           action();
         }
       });
     };
 
     activate(windowControls[0], closeWindow);
-    activate(windowControls[1], minimizeWindow);
-    activate(windowControls[2], maximizeWindow);
-    activate(heroSqlTitle, restoreWindow);
-    syncControlLabels();
-    syncResultTheme();
+    activate(windowControls[2], startMatrix);
 
-    document.addEventListener('portfolio:languagechange', syncControlLabels);
-    document.addEventListener('portfolio:theme-state', syncResultTheme);
+    heroSql.addEventListener('click', event => {
+      if (heroSql.dataset.windowState !== 'closed') return;
+      event.preventDefault();
+      restoreWindow();
+    });
+    heroSql.addEventListener('keydown', event => {
+      if (heroSql.dataset.windowState === 'closed' && (event.key === 'Enter' || event.key === ' ')) {
+        event.preventDefault();
+        restoreWindow();
+      }
+    });
+
+    titleLink.addEventListener('click', event => {
+      if (heroSql.dataset.windowState === 'closed') {
+        event.preventDefault();
+        event.stopPropagation();
+        restoreWindow();
+      }
+    });
+
+    syncLabels();
+    document.addEventListener('portfolio:languagechange', syncLabels);
     window.addEventListener('resize', () => {
-      if (heroSql.dataset.windowState === 'maximized') maximizeWindow();
-      else if (heroSql.dataset.windowState === 'minimized') minimizeWindow();
-      else if (heroSql.dataset.windowState === 'closed') closeWindow();
+      if (heroSql.dataset.windowState === 'closed') closeWindow();
+      else if (matrixRunning) {
+        stopMatrix();
+        startMatrix();
+      }
     });
   }
 }
