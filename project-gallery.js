@@ -83,8 +83,7 @@
     return a;
   };
 
-  const head=section.querySelector('.section-head'),heading=head?.querySelector('h2');
-  if(heading)heading.remove();
+  const head=section.querySelector('.section-head');
   const status=section.querySelector('.projects-status'),lead=status?.querySelector('strong');
   if(lead)lead.remove();
   if(status){
