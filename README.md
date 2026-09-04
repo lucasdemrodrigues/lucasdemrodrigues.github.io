@@ -21,7 +21,9 @@ HTML, CSS e JavaScript, sem frameworks ou dependências de build.
 - `styles.css` — estrutura visual geral, layout, responsividade e componentes estáticos principais.
 - `theme.css` — tema claro, tipografia de detalhe e complementos visuais do Hero, Foco e faixa de competências.
 - `components.css` — seletor de idiomas, componentes visuais complementares, Easter egg do terminal SQL e toda a camada visual dos projetos, incluindo fallback estático, filtros e galeria dinâmica.
-- `script.js` — interações gerais do site: animações, menu, tema, cursor, copiar e-mail, expansão da marca no header, scroll spy, números animados, SQL do Hero, Easter egg com glitch/Matrix e fundo animado do Hero.
+- `core.js` — interações gerais do site: animações de entrada, tema, cursor, menu, expansão da marca no header, scroll spy, números animados e cópia de e-mail.
+- `hero-sql.js` — digitação da consulta SQL do Hero, acessibilidade do terminal e Easter egg com glitch/Matrix.
+- `hero-flow.js` — fundo animado de partículas e conexões do Hero, incluindo adaptação aos temas e preferência por movimento reduzido.
 - `project-gallery.js` — descoberta, validação, cache, sincronização e renderização dos projetos a partir do GitHub e dos arquivos `portfolio.json`.
 - `i18n.js` — internacionalização do conteúdo e estados da interface em português, inglês e espanhol.
 - `assets/` — arquivos visuais locais utilizados pelo site.
@@ -31,7 +33,9 @@ HTML, CSS e JavaScript, sem frameworks ou dependências de build.
 
 Cada arquivo JavaScript mantém uma responsabilidade principal:
 
-- `script.js` controla os estados e interações gerais da página. A lógica do terminal SQL e de seu Easter egg fica isolada em uma inicialização própria dentro do arquivo, enquanto sua aparência está em `components.css`.
+- `core.js` controla os estados e interações gerais da página e define preferências de interação compartilhadas pelos módulos carregados em seguida.
+- `hero-sql.js` concentra exclusivamente o comportamento do terminal SQL e de seu Easter egg; sua aparência permanece em `components.css`.
+- `hero-flow.js` concentra exclusivamente a animação de fundo do Hero.
 - `project-gallery.js` é a fonte de dados dos projetos e publica os metadados carregados para o restante do site.
 - `i18n.js` traduz a interface e reage aos estados publicados pelos outros scripts, sem refazer as consultas dos projetos.
 
