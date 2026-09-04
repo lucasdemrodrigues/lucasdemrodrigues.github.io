@@ -53,6 +53,7 @@
   const makeFallbackVisual=title=>{
     const v=document.createElement('div');
     v.className='project-visual project-visual-fallback';
+    v.setAttribute('aria-hidden','true');
     v.innerHTML=`<span>${escapeHTML(title)}</span>`;
     return v;
   };
