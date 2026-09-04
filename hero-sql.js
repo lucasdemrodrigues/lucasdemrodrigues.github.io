@@ -60,15 +60,15 @@ const initHeroSql = () => {
 
   if (!heroSql || !heroSqlHead || !originalTitle || windowControls.length !== 3) return;
 
-  // O SQL continua decorativo para leitores de tela; apenas os elementos interativos são expostos.
-  heroSql.removeAttribute('aria-hidden');
-  heroSqlCode.setAttribute('aria-hidden', 'true');
+  // O terminal inteiro é decorativo para tecnologias assistivas.
+  heroSql.setAttribute('aria-hidden', 'true');
 
   const titleLink = document.createElement('a');
   titleLink.className = 'hero-sql-title-link';
   titleLink.href = 'https://github.com/lucasdemrodrigues';
   titleLink.target = '_blank';
   titleLink.rel = 'noreferrer';
+  titleLink.tabIndex = -1;
   titleLink.textContent = 'portfolio.sql';
   originalTitle.replaceWith(titleLink);
 
@@ -93,31 +93,6 @@ const initHeroSql = () => {
   let glitchTimer = 0;
   let matrixRunning = false;
 
-  const currentLang = () => {
-    const value = document.documentElement.lang.toLowerCase();
-    return value.startsWith('en') ? 'en' : value.startsWith('es') ? 'es' : 'pt';
-  };
-
-  const githubLabels = {
-    pt:'Abrir perfil de Lucas Rodrigues no GitHub, abre em nova aba',
-    en:'Open Lucas Rodrigues on GitHub, opens in a new tab',
-    es:'Abrir perfil de Lucas Rodrigues en GitHub, abre en una nueva pestaña'
-  };
-
-  const controlLabels = {
-    pt:'Controle da janela',
-    en:'Window control',
-    es:'Control de ventana'
-  };
-
-  const syncLabels = () => {
-    const lang = currentLang();
-    titleLink.setAttribute('aria-label', githubLabels[lang]);
-    titleLink.removeAttribute('title');
-    windowControls[0].setAttribute('aria-label', controlLabels[lang]);
-    windowControls[0].removeAttribute('title');
-  };
-
   [windowControls[1], windowControls[2]].forEach(control => {
     control.classList.add('hero-sql-control-passive');
     control.removeAttribute('role');
@@ -127,8 +102,9 @@ const initHeroSql = () => {
   });
 
   windowControls[0].classList.add('hero-sql-control-active');
-  windowControls[0].setAttribute('role', 'button');
-  windowControls[0].tabIndex = 0;
+  windowControls[0].removeAttribute('role');
+  windowControls[0].removeAttribute('tabindex');
+  windowControls[0].removeAttribute('aria-label');
   windowControls[0].removeAttribute('title');
 
   const resetGlitch = () => {
@@ -271,23 +247,11 @@ const initHeroSql = () => {
     runGlitch(beginMatrixRain);
   };
 
-  const activate = (el, action) => {
-    el.addEventListener('click', event => {
-      event.stopPropagation();
-      action();
-    });
-    el.addEventListener('keydown', event => {
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        event.stopPropagation();
-        action();
-      }
-    });
-  };
+  windowControls[0].addEventListener('click', event => {
+    event.stopPropagation();
+    startMatrix();
+  });
 
-  activate(windowControls[0], startMatrix);
-  syncLabels();
-  document.addEventListener('portfolio:languagechange', syncLabels);
   window.addEventListener('resize', () => {
     if (matrixRunning) {
       stopMatrix();
