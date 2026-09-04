@@ -66,6 +66,14 @@ Estrutura recomendada:
 
 A galeria mantém uma versão local válida dos metadados em cache para uso temporário quando a consulta ao GitHub não estiver disponível. O HTML também contém cards básicos como fallback de segurança.
 
+### Adicionando novos projetos
+
+Todo projeto que deve aparecer automaticamente na galeria precisa possuir um arquivo `portfolio.json` válido no próprio repositório, incluindo os campos visíveis em português, inglês e espanhol.
+
+O fallback final do site é independente da sincronização com o GitHub e deve permanecer enxuto. Caso um novo projeto também deva aparecer nesse modo de segurança, adicionar seu card básico ao `index.html` e suas traduções PT/EN/ES ao objeto `fallbackProjects` em `i18n.js`.
+
+Fluxo da galeria: **GitHub → cache local → fallback estático**.
+
 ## Padrão para descrições de projetos
 
 Para os cards do portfólio, priorizar uma descrição curta e orientada ao negócio seguindo esta lógica:
