@@ -71,7 +71,7 @@
       }
       const img=document.createElement('img');
       img.src=d.image;
-      img.alt=`Prévia do projeto ${d.title}`;
+      img.alt='';
       img.loading='lazy';
       v.appendChild(img);
       a.appendChild(v);
