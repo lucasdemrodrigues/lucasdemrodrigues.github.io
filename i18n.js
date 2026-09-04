@@ -14,7 +14,7 @@
       title_es:'Informe de Ventas en Power BI',
       description:'Análise de vendas e lucratividade para identificar os produtos, segmentos, países e períodos com melhor desempenho e apoiar decisões comerciais com maior clareza.',
       description_en:'Sales and profitability analysis to identify top-performing products, segments, countries and periods, supporting clearer commercial decision-making.',
-      description_es:'Análisis de ventas y rentabilidad para identificar los productos, segmentos, países y períodos con mejor desempeño y apoiar decisiones comerciales con maior claridad.',
+      description_es:'Análisis de ventas y rentabilidad para identificar los productos, segmentos, países y períodos con mejor desempeño y apoyar decisiones comerciales con mayor claridad.',
       eyebrow:'POWER BI',eyebrow_en:'POWER BI',eyebrow_es:'POWER BI'
     },
     'open-finance-com-notebooklm':{
@@ -46,9 +46,9 @@
     qa('.project-filter').forEach(b=>b.textContent=c.filters[b.dataset.filter]||b.dataset.filter);
     const status=q('.projects-status'),sync=q('.projects-sync');
     if(status&&sync){const dot=q('.projects-sync-dot',sync),state=status.dataset.sync||'ok';[...sync.childNodes].filter(n=>n!==dot).forEach(n=>n.remove());sync.append(document.createTextNode(` ${c.status[state]||c.status.ok}`))}
-    const metadata=projectMetadata();
+    const metadata=projectMetadata(),fallbackMode=status?.dataset.sync==='fallback';
     qa('#projetos .project-feature').forEach(card=>{
-      const repo=projectRepo(card),pc=localProjectText(metadata.get(repo)||fallbackProjects[repo],lang);
+      const repo=projectRepo(card),pc=localProjectText(metadata.get(repo)||(fallbackMode?fallbackProjects[repo]:null),lang);
       if(pc?.title)text('h3',pc.title,card);
       if(pc?.description)text('.project-info > p',pc.description,card);
       if(pc?.eyebrow){const metaFirst=q('.project-meta span:first-child',card);if(metaFirst)metaFirst.textContent=pc.eyebrow}
