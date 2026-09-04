@@ -191,23 +191,35 @@ if (topbar && menuToggle && mainNav) {
     if (topbar.classList.contains('menu-open') && !topbar.contains(event.target)) closeMenu();
   });
   document.addEventListener('keydown', event => {
-    if (event.key === 'Escape') closeMenu();
+    if (event.key === 'Escape' && topbar.classList.contains('menu-open')) {
+      closeMenu();
+      menuToggle.focus();
+    }
   });
   window.addEventListener('resize', () => {
     if (window.innerWidth > 900) closeMenu();
   });
 }
 
-// Scroll spy: sublinha discretamente a seção atualmente visível no menu.
+// Scroll spy: sublinha discretamente a seção atualmente visível no menu e
+// informa semanticamente qual localização está ativa.
 if (mainNav) {
   const navLinks = [...mainNav.querySelectorAll('a[href^="#"]')];
   const trackedSections = navLinks.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
 
   const setActiveNav = id => {
-    navLinks.forEach(link => link.classList.toggle('is-active', link.getAttribute('href') === `#${id}`));
+    navLinks.forEach(link => {
+      const active = link.getAttribute('href') === `#${id}`;
+      link.classList.toggle('is-active', active);
+      if (active) link.setAttribute('aria-current', 'location');
+      else link.removeAttribute('aria-current');
+    });
   };
 
-  const clearActiveNav = () => navLinks.forEach(link => link.classList.remove('is-active'));
+  const clearActiveNav = () => navLinks.forEach(link => {
+    link.classList.remove('is-active');
+    link.removeAttribute('aria-current');
+  });
 
   const updateActiveNav = () => {
     const marker = 120;
