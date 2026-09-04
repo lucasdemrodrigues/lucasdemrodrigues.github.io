@@ -286,7 +286,7 @@ if (emailCard && copyEmailButton) {
 }
 
 // SQL do Hero: digita a consulta uma única vez na entrada e mantém o cursor piscando ao final.
-// Easter egg: o botão vermelho ativa discretamente um Matrix temporário; portfolio.sql abre o GitHub.
+// Easter egg: o botão vermelho causa um glitch curto antes de um Matrix temporário; portfolio.sql abre o GitHub.
 const heroSqlCode = document.querySelector('.hero-sql-code');
 if (heroSqlCode) {
   const heroSql = heroSqlCode.closest('.hero-sql');
@@ -378,8 +378,30 @@ if (heroSqlCode) {
     matrixCanvas.style.background = '#000';
     heroSql.appendChild(matrixCanvas);
 
+    const glitchBands = document.createElement('div');
+    glitchBands.setAttribute('aria-hidden', 'true');
+    glitchBands.style.position = 'absolute';
+    glitchBands.style.left = '0';
+    glitchBands.style.right = '0';
+    glitchBands.style.bottom = '0';
+    glitchBands.style.top = `${heroSqlHead.offsetHeight || 48}px`;
+    glitchBands.style.zIndex = '4';
+    glitchBands.style.pointerEvents = 'none';
+    glitchBands.style.display = 'none';
+    for (let i = 0; i < 3; i++) {
+      const band = document.createElement('span');
+      band.style.position = 'absolute';
+      band.style.left = '0';
+      band.style.right = '0';
+      band.style.height = `${2 + i}px`;
+      band.style.background = i === 1 ? 'rgba(0,229,255,.38)' : 'rgba(57,255,20,.3)';
+      glitchBands.appendChild(band);
+    }
+    heroSql.appendChild(glitchBands);
+
     let matrixFrame = 0;
     let matrixTimer = 0;
+    let glitchTimer = 0;
     let matrixRunning = false;
 
     const currentLang = () => {
@@ -393,13 +415,20 @@ if (heroSqlCode) {
       es:'Abrir perfil de Lucas Rodrigues en GitHub, abre en una nueva pestaña'
     };
 
-    const syncLabels = () => {
-      const githubLabel = githubLabels[currentLang()];
-      titleLink.setAttribute('aria-label', githubLabel);
-      titleLink.removeAttribute('title');
+    const controlLabels = {
+      pt:'Controle da janela',
+      en:'Window control',
+      es:'Control de ventana'
     };
 
-    // Amarelo e verde permanecem apenas visuais/decorativos.
+    const syncLabels = () => {
+      const lang = currentLang();
+      titleLink.setAttribute('aria-label', githubLabels[lang]);
+      titleLink.removeAttribute('title');
+      windowControls[0].setAttribute('aria-label', controlLabels[lang]);
+      windowControls[0].removeAttribute('title');
+    };
+
     [windowControls[1], windowControls[2]].forEach(control => {
       control.removeAttribute('role');
       control.removeAttribute('tabindex');
@@ -408,16 +437,25 @@ if (heroSqlCode) {
       control.style.cursor = 'default';
     });
 
-    // O vermelho é o único controle do Easter egg, sem tooltip para preservar a surpresa.
     windowControls[0].setAttribute('role', 'button');
     windowControls[0].tabIndex = 0;
-    windowControls[0].removeAttribute('aria-label');
     windowControls[0].removeAttribute('title');
     windowControls[0].style.cursor = 'pointer';
+
+    const resetGlitch = () => {
+      clearTimeout(glitchTimer);
+      glitchTimer = 0;
+      glitchBands.style.display = 'none';
+      heroSqlCode.style.transform = '';
+      heroSqlCode.style.filter = '';
+      heroSqlCode.style.textShadow = '';
+      heroSqlCode.style.opacity = '';
+    };
 
     const stopMatrix = () => {
       if (matrixFrame) cancelAnimationFrame(matrixFrame);
       clearTimeout(matrixTimer);
+      resetGlitch();
       matrixFrame = 0;
       matrixTimer = 0;
       matrixRunning = false;
@@ -448,17 +486,10 @@ if (heroSqlCode) {
       ctx.globalAlpha = 1;
     };
 
-    const startMatrix = () => {
-      if (matrixRunning) return;
-      matrixRunning = true;
+    const beginMatrixRain = () => {
+      resetGlitch();
       matrixCanvas.style.display = 'block';
       heroSqlCode.style.visibility = 'hidden';
-
-      if (prefersReducedMotion) {
-        drawStaticMatrix();
-        matrixTimer = setTimeout(stopMatrix, 1000);
-        return;
-      }
 
       const rect = matrixCanvas.getBoundingClientRect();
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -493,6 +524,62 @@ if (heroSqlCode) {
 
       matrixFrame = requestAnimationFrame(draw);
       matrixTimer = setTimeout(stopMatrix, 5000);
+    };
+
+    const runGlitch = next => {
+      if (prefersReducedMotion) {
+        next();
+        return;
+      }
+
+      const frames = [
+        {x:3, skew:-.5, opacity:.92},
+        {x:-4, skew:.7, opacity:.72},
+        {x:2, skew:-.35, opacity:1},
+        {x:-2, skew:.4, opacity:.82},
+        {x:0, skew:0, opacity:1}
+      ];
+      let index = 0;
+      glitchBands.style.display = 'block';
+
+      const tick = () => {
+        const frame = frames[index];
+        heroSqlCode.style.transform = `translateX(${frame.x}px) skewX(${frame.skew}deg)`;
+        heroSqlCode.style.filter = index % 2 ? 'contrast(1.35) saturate(1.45)' : 'contrast(1.15)';
+        heroSqlCode.style.textShadow = index % 2
+          ? '-2px 0 rgba(255,45,90,.72),2px 0 rgba(0,229,255,.72)'
+          : '1px 0 rgba(57,255,20,.55)';
+        heroSqlCode.style.opacity = String(frame.opacity);
+        [...glitchBands.children].forEach((band, bandIndex) => {
+          band.style.top = `${12 + Math.random() * 72}%`;
+          band.style.transform = `translateX(${(Math.random() - .5) * 14}px)`;
+          band.style.opacity = String(.35 + Math.random() * .6);
+        });
+
+        index++;
+        if (index < frames.length) glitchTimer = setTimeout(tick, 70);
+        else {
+          resetGlitch();
+          next();
+        }
+      };
+
+      tick();
+    };
+
+    const startMatrix = () => {
+      if (matrixRunning) return;
+      matrixRunning = true;
+
+      if (prefersReducedMotion) {
+        matrixCanvas.style.display = 'block';
+        heroSqlCode.style.visibility = 'hidden';
+        drawStaticMatrix();
+        matrixTimer = setTimeout(stopMatrix, 1000);
+        return;
+      }
+
+      runGlitch(beginMatrixRain);
     };
 
     const activate = (el, action) => {
