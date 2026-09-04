@@ -32,7 +32,6 @@
       if(pc?.description)text('.project-info > p',pc.description,card);
       if(pc?.eyebrow){const metaFirst=q('.project-meta span:first-child',card);if(metaFirst)metaFirst.textContent=pc.eyebrow}
       const title=q('h3',card)?.textContent.trim()||'';
-      const img=q('.project-visual img',card);if(img)img.alt=lang==='en'?`Preview of the ${title} project`:lang==='es'?`Vista previa del proyecto ${title}`:`Prévia do projeto ${title}`;
       const link=q('.text-link',card);if(link){lead(link,c.projectLink);link.setAttribute('aria-label',`${c.projectLink}: ${title}, ${c.newTab}`)}
       qa('.project-tags span',card).forEach(tag=>{if(!tag.dataset.baseTag)tag.dataset.baseTag=tag.textContent.trim();if(tag.dataset.baseTag==='Pesquisa')tag.textContent=lang==='en'?'Research':lang==='es'?'Investigación':'Pesquisa'});
     });
