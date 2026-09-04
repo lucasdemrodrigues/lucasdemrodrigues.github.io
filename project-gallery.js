@@ -87,7 +87,12 @@
   if(heading)heading.remove();
   const status=section.querySelector('.projects-status'),lead=status?.querySelector('strong');
   if(lead)lead.remove();
-  if(status)status.classList.add('projects-status-compact');
+  if(status){
+    status.classList.add('projects-status-compact');
+    status.setAttribute('role','status');
+    status.setAttribute('aria-live','polite');
+    status.setAttribute('aria-atomic','true');
+  }
   const sync=status?.querySelector('.projects-sync');
 
   const setStatus=(state,text,title='')=>{
@@ -114,7 +119,7 @@
   });
   if(status)status.insertAdjacentElement('afterend',filter);else head?.insertAdjacentElement('afterend',filter);
   const grid=document.createElement('div');
-  grid.className='projects-grid';grid.setAttribute('aria-live','polite');filter.insertAdjacentElement('afterend',grid);
+  grid.className='projects-grid';filter.insertAdjacentElement('afterend',grid);
   existing.forEach(p=>{
     const t=p.textContent.toLowerCase(),cs=[];
     if(t.includes('power bi'))cs.push('Power BI');if(t.includes('sql'))cs.push('SQL');if(t.includes('excel'))cs.push('Excel');if(t.includes('notebooklm')||t.includes('prompt engineering')||t.includes('ia &')||t.includes('inteligência artificial'))cs.push('IA');
