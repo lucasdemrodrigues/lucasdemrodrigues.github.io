@@ -286,7 +286,7 @@ if (emailCard && copyEmailButton) {
 }
 
 // SQL do Hero: digita a consulta uma única vez na entrada e mantém o cursor piscando ao final.
-// Easter eggs: vermelho fecha, o botão fechado restaura e verde ativa um Matrix temporário.
+// Easter egg: apenas o botão verde ativa um Matrix temporário; portfolio.sql abre o GitHub.
 const heroSqlCode = document.querySelector('.hero-sql-code');
 if (heroSqlCode) {
   const heroSql = heroSqlCode.closest('.hero-sql');
@@ -349,7 +349,6 @@ if (heroSqlCode) {
     heroSql.removeAttribute('aria-hidden');
     heroSqlCode.setAttribute('aria-hidden', 'true');
     heroSql.style.position = 'relative';
-    heroSql.style.transition = prefersReducedMotion ? 'none' : 'max-width .35s cubic-bezier(.22,1,.36,1), transform .35s cubic-bezier(.22,1,.36,1), border-radius .25s';
 
     const titleLink = document.createElement('a');
     titleLink.href = 'https://github.com/lucasdemrodrigues';
@@ -384,9 +383,9 @@ if (heroSqlCode) {
     let matrixRunning = false;
 
     const labels = {
-      pt:{close:'Fechar portfolio.sql',matrix:'Ativar efeito Matrix',restore:'Restaurar portfolio.sql',github:'Abrir perfil de Lucas Rodrigues no GitHub, abre em nova aba'},
-      en:{close:'Close portfolio.sql',matrix:'Activate Matrix effect',restore:'Restore portfolio.sql',github:'Open Lucas Rodrigues on GitHub, opens in a new tab'},
-      es:{close:'Cerrar portfolio.sql',matrix:'Activar efecto Matrix',restore:'Restaurar portfolio.sql',github:'Abrir perfil de Lucas Rodrigues en GitHub, abre en una nueva pestaña'}
+      pt:{matrix:'Ativar efeito Matrix',github:'Abrir perfil de Lucas Rodrigues no GitHub, abre em nova aba'},
+      en:{matrix:'Activate Matrix effect',github:'Open Lucas Rodrigues on GitHub, opens in a new tab'},
+      es:{matrix:'Activar efecto Matrix',github:'Abrir perfil de Lucas Rodrigues en GitHub, abre en una nueva pestaña'}
     };
 
     const currentLang = () => {
@@ -396,30 +395,25 @@ if (heroSqlCode) {
 
     const syncLabels = () => {
       const copy = labels[currentLang()];
-      windowControls[0].setAttribute('aria-label', copy.close);
-      windowControls[0].title = copy.close;
       windowControls[2].setAttribute('aria-label', copy.matrix);
       windowControls[2].title = copy.matrix;
       titleLink.setAttribute('aria-label', copy.github);
       titleLink.title = copy.github;
-      if (heroSql.dataset.windowState === 'closed') heroSql.setAttribute('aria-label', copy.restore);
     };
 
-    const makeControl = el => {
-      el.setAttribute('role', 'button');
-      el.tabIndex = 0;
-      el.style.cursor = 'pointer';
-    };
+    // Vermelho e amarelo permanecem apenas visuais/decorativos.
+    [windowControls[0], windowControls[1]].forEach(control => {
+      control.removeAttribute('role');
+      control.removeAttribute('tabindex');
+      control.removeAttribute('aria-label');
+      control.removeAttribute('title');
+      control.style.cursor = 'default';
+    });
 
-    makeControl(windowControls[0]);
-    makeControl(windowControls[2]);
-
-    // O amarelo permanece apenas visual/decorativo.
-    windowControls[1].removeAttribute('role');
-    windowControls[1].removeAttribute('tabindex');
-    windowControls[1].removeAttribute('aria-label');
-    windowControls[1].removeAttribute('title');
-    windowControls[1].style.cursor = 'default';
+    // Somente o verde é um controle real.
+    windowControls[2].setAttribute('role', 'button');
+    windowControls[2].tabIndex = 0;
+    windowControls[2].style.cursor = 'pointer';
 
     const stopMatrix = () => {
       if (matrixFrame) cancelAnimationFrame(matrixFrame);
@@ -433,40 +427,6 @@ if (heroSqlCode) {
       ctx.clearRect(0, 0, matrixCanvas.width, matrixCanvas.height);
     };
 
-    const restoreWindow = () => {
-      stopMatrix();
-      heroSql.dataset.windowState = 'normal';
-      heroSqlCode.style.display = '';
-      windowControls.forEach(control => { control.style.display = ''; });
-      heroSql.style.maxWidth = '';
-      heroSql.style.transform = '';
-      heroSql.style.borderRadius = '';
-      heroSqlHead.style.justifyContent = '';
-      titleLink.style.transform = 'translateX(-17px)';
-      titleLink.tabIndex = 0;
-      heroSql.removeAttribute('role');
-      heroSql.removeAttribute('tabindex');
-      heroSql.removeAttribute('aria-label');
-      heroSql.style.cursor = '';
-    };
-
-    const closeWindow = () => {
-      stopMatrix();
-      heroSql.dataset.windowState = 'closed';
-      heroSqlCode.style.display = 'none';
-      windowControls.forEach(control => { control.style.display = 'none'; });
-      heroSql.style.maxWidth = '165px';
-      heroSql.style.transform = window.innerWidth <= 900 ? 'none' : 'translateX(-70px)';
-      heroSql.style.borderRadius = '999px';
-      heroSqlHead.style.justifyContent = 'center';
-      titleLink.style.transform = 'none';
-      titleLink.tabIndex = -1;
-      heroSql.setAttribute('role', 'button');
-      heroSql.tabIndex = 0;
-      heroSql.style.cursor = 'pointer';
-      syncLabels();
-    };
-
     const drawStaticMatrix = () => {
       const rect = matrixCanvas.getBoundingClientRect();
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -476,12 +436,12 @@ if (heroSqlCode) {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.fillStyle = '#000';
       ctx.fillRect(0, 0, rect.width, rect.height);
-      ctx.font = '14px "IBM Plex Mono", monospace';
+      ctx.font = '16px "IBM Plex Mono", monospace';
       ctx.fillStyle = '#39ff14';
       const chars = '01アイウエオカキクケコサシスセソ';
-      for (let y = 18; y < rect.height; y += 18) {
-        for (let x = 8; x < rect.width; x += 16) {
-          ctx.globalAlpha = .25 + Math.random() * .75;
+      for (let y = 20; y < rect.height; y += 24) {
+        for (let x = 10; x < rect.width; x += 24) {
+          ctx.globalAlpha = .22 + Math.random() * .65;
           ctx.fillText(chars[Math.floor(Math.random() * chars.length)], x, y);
         }
       }
@@ -489,14 +449,14 @@ if (heroSqlCode) {
     };
 
     const startMatrix = () => {
-      if (matrixRunning || heroSql.dataset.windowState === 'closed') return;
+      if (matrixRunning) return;
       matrixRunning = true;
       matrixCanvas.style.display = 'block';
       heroSqlCode.style.visibility = 'hidden';
 
       if (prefersReducedMotion) {
         drawStaticMatrix();
-        matrixTimer = setTimeout(stopMatrix, 900);
+        matrixTimer = setTimeout(stopMatrix, 1000);
         return;
       }
 
@@ -506,27 +466,33 @@ if (heroSqlCode) {
       matrixCanvas.height = Math.max(1, Math.round(rect.height * dpr));
       const ctx = matrixCanvas.getContext('2d');
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const fontSize = 14;
-      const columns = Math.max(1, Math.floor(rect.width / fontSize));
-      const drops = Array.from({length:columns}, () => Math.floor(Math.random() * -20));
+      const fontSize = 18;
+      const columnGap = 22;
+      const columns = Math.max(1, Math.floor(rect.width / columnGap));
+      const drops = Array.from({length:columns}, () => Math.floor(Math.random() * -14));
       const chars = '01アイウエオカキクケコサシスセソABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      let lastDraw = 0;
+      const frameInterval = 105;
 
-      const draw = () => {
-        ctx.fillStyle = 'rgba(0,0,0,.12)';
-        ctx.fillRect(0, 0, rect.width, rect.height);
-        ctx.font = `${fontSize}px "IBM Plex Mono", monospace`;
-        for (let i = 0; i < drops.length; i++) {
-          const char = chars[Math.floor(Math.random() * chars.length)];
-          ctx.fillStyle = Math.random() > .94 ? '#d7ffd0' : '#39ff14';
-          ctx.fillText(char, i * fontSize, drops[i] * fontSize);
-          if (drops[i] * fontSize > rect.height && Math.random() > .97) drops[i] = 0;
-          drops[i]++;
+      const draw = now => {
+        if (!lastDraw || now - lastDraw >= frameInterval) {
+          lastDraw = now;
+          ctx.fillStyle = 'rgba(0,0,0,.16)';
+          ctx.fillRect(0, 0, rect.width, rect.height);
+          ctx.font = `${fontSize}px "IBM Plex Mono", monospace`;
+          for (let i = 0; i < drops.length; i++) {
+            const char = chars[Math.floor(Math.random() * chars.length)];
+            ctx.fillStyle = Math.random() > .96 ? '#d7ffd0' : '#39ff14';
+            ctx.fillText(char, i * columnGap, drops[i] * fontSize);
+            if (drops[i] * fontSize > rect.height && Math.random() > .94) drops[i] = 0;
+            else drops[i] += .55;
+          }
         }
         matrixFrame = requestAnimationFrame(draw);
       };
 
-      draw();
-      matrixTimer = setTimeout(stopMatrix, 2600);
+      matrixFrame = requestAnimationFrame(draw);
+      matrixTimer = setTimeout(stopMatrix, 3500);
     };
 
     const activate = (el, action) => {
@@ -543,34 +509,11 @@ if (heroSqlCode) {
       });
     };
 
-    activate(windowControls[0], closeWindow);
     activate(windowControls[2], startMatrix);
-
-    heroSql.addEventListener('click', event => {
-      if (heroSql.dataset.windowState !== 'closed') return;
-      event.preventDefault();
-      restoreWindow();
-    });
-    heroSql.addEventListener('keydown', event => {
-      if (heroSql.dataset.windowState === 'closed' && (event.key === 'Enter' || event.key === ' ')) {
-        event.preventDefault();
-        restoreWindow();
-      }
-    });
-
-    titleLink.addEventListener('click', event => {
-      if (heroSql.dataset.windowState === 'closed') {
-        event.preventDefault();
-        event.stopPropagation();
-        restoreWindow();
-      }
-    });
-
     syncLabels();
     document.addEventListener('portfolio:languagechange', syncLabels);
     window.addEventListener('resize', () => {
-      if (heroSql.dataset.windowState === 'closed') closeWindow();
-      else if (matrixRunning) {
+      if (matrixRunning) {
         stopMatrix();
         startMatrix();
       }
