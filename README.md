@@ -36,8 +36,8 @@ Ao mesmo tempo, o projeto foi pensado como uma experiência prática de aprendiz
 
 ### Principais funcionalidades
 
-- Versões em **português, inglês e espanhol**;
-- Tema **claro e escuro**;
+- Versões em português, inglês e espanhol;
+- Tema claro e escuro;
 - Galeria de projetos integrada à API do GitHub;
 - Cache local e fallback estático para maior resiliência;
 - Filtros por categoria de projeto;
