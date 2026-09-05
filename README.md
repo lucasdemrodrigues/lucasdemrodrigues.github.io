@@ -10,6 +10,22 @@
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)
 
+## 📑 Índice
+
+- [Contexto](#-contexto)
+- [Objetivo](#-objetivo)
+- [Meu papel no projeto](#-meu-papel-no-projeto)
+- [Como a IA foi utilizada](#-como-a-ia-foi-utilizada)
+- [Principais funcionalidades](#-principais-funcionalidades)
+- [Decisões de produto e experiência](#-decisões-de-produto-e-experiência)
+- [Acessibilidade e internacionalização](#-acessibilidade-e-internacionalização)
+- [Arquitetura do projeto](#-arquitetura-do-projeto)
+- [Integração com GitHub](#-integração-com-github)
+- [Cicatrizes / troubleshooting](#-cicatrizes--troubleshooting)
+- [Aprendizados](#-aprendizados)
+- [Tecnologias](#-tecnologias)
+- [Publicação e manutenção](#-publicação-e-manutenção)
+
 Site pessoal desenvolvido para GitHub Pages, com foco em Marketing, CRM, Inteligência Comercial e Dados.
 
 ## Conteúdo
