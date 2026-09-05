@@ -1,6 +1,8 @@
 ![Capa do portfólio](assets/portfolio-cover.webp)
 
-# Portfólio profissional com apoio de IA: Construção e Evolução
+<h1 align="center">
+  Portfólio profissional com apoio de IA: Construção e Evolução
+</h1>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Status-Em%20evolução-0891B2" alt="Status">
