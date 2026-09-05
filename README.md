@@ -2,15 +2,19 @@
 
 # Portfólio profissional com apoio de IA: Construção e Evolução
 
-🔗 [Acesse o site](https://lucasdemrodrigues.github.io)
+<p align="center">
+  <img src="https://img.shields.io/badge/Status-Em%20evolução-0891B2" alt="Status">
+  <img src="https://img.shields.io/badge/Projeto-Pessoal-B45309" alt="Projeto">
+  <img src="https://img.shields.io/badge/IA-Vibe%20Coding-673AB7" alt="IA">
+  <img src="https://img.shields.io/badge/GitHub-API-181717?logo=github&logoColor=white" alt="GitHub API">
+  <img src="https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white" alt="HTML5">
+  <img src="https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white" alt="CSS3">
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black" alt="JavaScript">
+</p>
 
-![Status](https://img.shields.io/badge/Status-Em%20evolução-0891B2)
-![Projeto](https://img.shields.io/badge/Projeto-Pessoal-B45309)
-![IA](https://img.shields.io/badge/IA-Vibe%20Coding-673AB7)
-![GitHub API](https://img.shields.io/badge/GitHub-API-181717?logo=github&logoColor=white)
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)
+<p align="center">
+  🔗 <a href="https://lucasdemrodrigues.github.io">Acesse o site</a>
+</p>
 
 ## 📑 Índice
 
