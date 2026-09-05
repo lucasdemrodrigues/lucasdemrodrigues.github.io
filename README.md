@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-  🔗 <a href="https://lucasdemrodrigues.github.io">Acesse o site</a>
+  🔗 <a href="https://lucasdemrodrigues.github.io">Acessar o site</a>
 </p>
 
 ## 📑 Índice
