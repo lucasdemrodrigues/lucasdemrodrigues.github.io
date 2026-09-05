@@ -2,12 +2,14 @@
 
 # Portfólio profissional com apoio de IA: Construção e Evolução
 
-![Status](https://img.shields.io/badge/Status-Em%20evolução-brightgreen)
-![Projeto](https://img.shields.io/badge/Projeto-Pessoal-5B2A86)
-![IA](https://img.shields.io/badge/IA-Vibe%20Coding-673AB7)
-![GitHub API](https://img.shields.io/badge/GitHub-API-181717?logo=github&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Em%20evolu%C3%A7%C3%A3o-2563EB)
+![Projeto](https://img.shields.io/badge/Projeto-Pessoal-24292F)
+![IA](https://img.shields.io/badge/IA-Aplicada-7C3AED)
+![Vibe Coding](https://img.shields.io/badge/Vibe%20Coding-Assistido%20por%20IA-DB2777)
+![GitHub](https://img.shields.io/badge/GitHub-Integrado-16A34A?logo=github&logoColor=white)
+![API](https://img.shields.io/badge/API-GitHub-0891B2)
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-0F766E?logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)
 
 Site pessoal desenvolvido para GitHub Pages, com foco em Marketing, CRM, Inteligência Comercial e Dados.
