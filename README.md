@@ -30,7 +30,25 @@
 
 ## Visão Geral
 
+Este portfólio foi criado para complementar meu currículo e LinkedIn em um formato mais visual e integrado. Ele reúne perfil, projetos e principais resultados profissionais para que recrutadores e gestores compreendam rapidamente minhas competências e os tipos de problema que já ajudei a resolver.
 
+Ao mesmo tempo, o projeto foi pensado como uma experiência prática de aprendizado, utilizando IA generativa como apoio ao desenvolvimento e ao aprimoramento contínuo do portfólio.
+
+### Principais funcionalidades
+
+- Versões em **português, inglês e espanhol**;
+- Tema **claro e escuro**;
+- Galeria de projetos integrada à API do GitHub;
+- Cache local e fallback estático para maior resiliência;
+- Filtros por categoria de projeto;
+- Indicadores e resultados profissionais em destaque;
+- Layout responsivo para desktop e mobile;
+- Navegação por teclado e melhorias de acessibilidade;
+- Animações com suporte a `prefers-reduced-motion`;
+- Microinterações e Easter eggs discretos no Hero;
+- Links diretos para projetos, LinkedIn e contato por e-mail.
+
+____
 
 Site pessoal desenvolvido para GitHub Pages, com foco em Marketing, CRM, Inteligência Comercial e Dados.
 
