@@ -2,6 +2,9 @@
 
 # Portfólio profissional com apoio de IA: Construção e Evolução
 
+🔗 [**Acesse o site**]([https://notebook.google.com/notebook](https://lucasdemrodrigues.github.io  
+<sub>Acesse as fontes selecionadas e os materiais interativos gerados no Estúdio.</sub>
+
 ![Status](https://img.shields.io/badge/Status-Em%20evolução-0891B2)
 ![Projeto](https://img.shields.io/badge/Projeto-Pessoal-B45309)
 ![IA](https://img.shields.io/badge/IA-Vibe%20Coding-673AB7)
@@ -19,6 +22,10 @@
 - [Arquitetura e funcionalidades](#-arquitetura-e-funcionalidades)
 - [Desafios e soluções](#-desafios-e-soluções)
 - [Deploy e manutenção](#-deploy-e-manutenção)
+
+## Visão Geral
+
+
 
 Site pessoal desenvolvido para GitHub Pages, com foco em Marketing, CRM, Inteligência Comercial e Dados.
 
