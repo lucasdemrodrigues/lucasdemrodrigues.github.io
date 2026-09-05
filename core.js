@@ -137,7 +137,8 @@ if (finePointer) {
   });
 
   document.addEventListener('pointerover', event => {
-    const interactive = event.target.closest('a,button,[role="button"],.contact-card,.text-link,.project-feature');
+    const interactive = event.target.closest('a,button,[role="button"],.contact-card,.text-link,.project-feature,.hero-sql-control-active');
+    if (interactive?.classList.contains('hero-sql-control-active')) interactive.style.cursor = 'none';
     customCursorRing.classList.toggle('is-interactive', Boolean(interactive));
   });
   document.addEventListener('pointerout', event => {
