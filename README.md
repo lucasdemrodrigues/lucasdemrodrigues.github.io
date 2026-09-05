@@ -2,8 +2,7 @@
 
 # Portfólio profissional com apoio de IA: Construção e Evolução
 
-🔗 [**Acesse o site**]([https://notebook.google.com/notebook](https://lucasdemrodrigues.github.io  
-<sub>Acesse as fontes selecionadas e os materiais interativos gerados no Estúdio.</sub>
+🔗 [Acesse o site](https://lucasdemrodrigues.github.io)
 
 ![Status](https://img.shields.io/badge/Status-Em%20evolução-0891B2)
 ![Projeto](https://img.shields.io/badge/Projeto-Pessoal-B45309)
