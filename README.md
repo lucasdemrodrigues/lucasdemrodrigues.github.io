@@ -1,3 +1,5 @@
+![Capa do portfólio](assets/portfolio-cover.webp)
+
 # Portfólio — Lucas Rodrigues
 
 Site pessoal desenvolvido para GitHub Pages, com foco em Marketing, CRM, Inteligência Comercial e Dados.
