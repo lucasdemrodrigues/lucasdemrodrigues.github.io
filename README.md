@@ -1,6 +1,6 @@
 ![Capa do portfólio](assets/portfolio-cover.webp)
 
-# Portfólio profissional com apoio de IA: construção e evolução
+# Portfólio profissional com apoio de IA: Construção e Evolução
 
 Site pessoal desenvolvido para GitHub Pages, com foco em Marketing, CRM, Inteligência Comercial e Dados.
 
