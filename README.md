@@ -12,13 +12,13 @@
 
 ## 📑 Índice
 
-- [Visão Geral](#-visão-geral)
-- [Meu Papel no Projeto](#-meu-papel-no-projeto)
-- [Stack e Ferramentas](#-stack-e-ferramentas)
+- [Visão geral](#-visão-geral)
+- [Meu papel no projeto](#-meu-papel-no-projeto)
+- [Stack e ferramentas](#-stack-e-ferramentas)
 - [Fluxo com Inteligência Artificial](#-fluxo-com-inteligência-artificial)
-- [Arquitetura e Funcionalidades](#-arquitetura-e-funcionalidades)
-- [Desafios e Soluções](#-desafios-e-soluções)
-- [Deploy e Manutenção](#-deploy-e-manutenção)
+- [Arquitetura e funcionalidades](#-arquitetura-e-funcionalidades)
+- [Desafios e soluções](#-desafios-e-soluções)
+- [Deploy e manutenção](#-deploy-e-manutenção)
 
 Site pessoal desenvolvido para GitHub Pages, com foco em Marketing, CRM, Inteligência Comercial e Dados.
 
