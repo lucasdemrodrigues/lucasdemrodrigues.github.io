@@ -1,7 +1,7 @@
 ![Capa do portfólio](assets/portfolio-cover.webp)
 
 <h1 align="center">
-  Construção de um Portfólio Profissional com apoio de IA
+  Construção de um portfólio profissional com apoio de IA
 </h1>
 
 <p align="center">
