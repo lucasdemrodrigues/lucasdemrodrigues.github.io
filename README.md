@@ -1,6 +1,6 @@
 ![Capa do portfólio](assets/portfolio-cover.webp)
 
-# Portfólio — Lucas Rodrigues
+# Portfólio profissional com apoio de IA: construção e evolução
 
 Site pessoal desenvolvido para GitHub Pages, com foco em Marketing, CRM, Inteligência Comercial e Dados.
 
