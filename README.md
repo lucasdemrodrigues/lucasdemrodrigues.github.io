@@ -12,19 +12,13 @@
 
 ## 📑 Índice
 
-- [Contexto](#-contexto)
-- [Objetivo](#-objetivo)
-- [Meu papel no projeto](#-meu-papel-no-projeto)
-- [Como a IA foi utilizada](#-como-a-ia-foi-utilizada)
-- [Principais funcionalidades](#-principais-funcionalidades)
-- [Decisões de produto e experiência](#-decisões-de-produto-e-experiência)
-- [Acessibilidade e internacionalização](#-acessibilidade-e-internacionalização)
-- [Arquitetura do projeto](#-arquitetura-do-projeto)
-- [Integração com GitHub](#-integração-com-github)
-- [Cicatrizes / troubleshooting](#-cicatrizes--troubleshooting)
-- [Aprendizados](#-aprendizados)
-- [Tecnologias](#-tecnologias)
-- [Publicação e manutenção](#-publicação-e-manutenção)
+- [Visão Geral](#-visão-geral)
+- [Meu Papel no Projeto](#-meu-papel-no-projeto)
+- [Stack e Ferramentas](#-stack-e-ferramentas)
+- [Fluxo com Inteligência Artificial](#-fluxo-com-inteligência-artificial)
+- [Arquitetura e Funcionalidades](#-arquitetura-e-funcionalidades)
+- [Desafios e Soluções](#-desafios-e-soluções)
+- [Deploy e Manutenção](#-deploy-e-manutenção)
 
 Site pessoal desenvolvido para GitHub Pages, com foco em Marketing, CRM, Inteligência Comercial e Dados.
 
