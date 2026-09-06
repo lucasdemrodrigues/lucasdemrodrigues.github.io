@@ -110,3 +110,20 @@ document.addEventListener('click', event => {
     project_position: projectPosition
   });
 });
+
+// Intenção de contato: separa a ação específica do KPI consolidado.
+// LinkedIn é medido no clique; e-mail só é contado quando a cópia foi concluída.
+document.addEventListener('click', event => {
+  const linkedinLink = event.target.closest('#contato a[href*="linkedin.com"]');
+  if (!linkedinLink) return;
+
+  window.trackEvent('linkedin_click', { location: 'contact' });
+  window.trackEvent('contact_intent', { contact_method: 'linkedin' });
+});
+
+document.addEventListener('portfolio:copy-state', event => {
+  if (!event.detail?.copied) return;
+
+  window.trackEvent('email_copy', { location: 'contact' });
+  window.trackEvent('contact_intent', { contact_method: 'email' });
+});
