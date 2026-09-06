@@ -20,13 +20,13 @@
 
 ## 📑 Índice
 
-- [🔎 Visão geral](#-visão-geral)
-- [👤 Meu papel no projeto](#-meu-papel-no-projeto)
-- [Stack e ferramentas](#-stack-e-ferramentas)
-- [Fluxo com Inteligência Artificial](#-fluxo-com-inteligência-artificial)
-- [Arquitetura e funcionalidades](#-arquitetura-e-funcionalidades)
-- [Desafios e soluções](#-desafios-e-soluções)
-- [Deploy e manutenção](#-deploy-e-manutenção)
+- 🔎 [Visão geral](#visão-geral)
+- 👤 [Meu papel no projeto](#meu-papel-no-projeto)
+- 🧰 [Stack e ferramentas](#stack-e-ferramentas)
+- 🤖 [Fluxo com Inteligência Artificial](#fluxo-com-inteligência-artificial)
+- ⚙️ [Arquitetura e funcionalidades](#arquitetura-e-funcionalidades)
+- 🧩 [Desafios e soluções](#desafios-e-soluções)
+- 🚀 [Deploy e manutenção](#deploy-e-manutenção)
 
 ## 🔎 Visão Geral
 
