@@ -143,16 +143,18 @@ document.addEventListener('click', event => {
   }
 });
 
-// Easter eggs do terminal SQL: mede descoberta/uso sem interferir no comportamento.
+// Easter eggs do terminal SQL.
+// portfolio.sql pode ser capturado pelo clique; o Matrix publica um evento interno
+// porque seu clique interrompe a propagação para preservar o comportamento atual.
 document.addEventListener('click', event => {
-  const matrixControl = event.target.closest('.hero-sql-control-active');
-  if (matrixControl) {
-    window.trackEvent('easter_egg_trigger', { easter_egg_name: 'matrix' });
-    return;
-  }
-
   const portfolioSql = event.target.closest('.hero-sql-title-link');
   if (portfolioSql) {
     window.trackEvent('easter_egg_trigger', { easter_egg_name: 'portfolio_sql' });
   }
+});
+
+document.addEventListener('portfolio:easter-egg', event => {
+  const name = event.detail?.name;
+  if (!name) return;
+  window.trackEvent('easter_egg_trigger', { easter_egg_name: name });
 });
