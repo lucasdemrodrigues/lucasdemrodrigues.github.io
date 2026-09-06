@@ -249,6 +249,9 @@ const initHeroSql = () => {
 
   windowControls[0].addEventListener('click', event => {
     event.stopPropagation();
+    document.dispatchEvent(new CustomEvent('portfolio:easter-egg', {
+      detail: { name: 'matrix' }
+    }));
     startMatrix();
   });
 
