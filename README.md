@@ -46,7 +46,8 @@ Ao mesmo tempo, o projeto foi pensado como uma experiência prática de aprendiz
 - Navegação por teclado e melhorias de acessibilidade;
 - Animações com suporte a `prefers-reduced-motion`;
 - Microinterações e Easter eggs discretos no Hero;
-- Links diretos para projetos, LinkedIn e contato por e-mail.
+- Links diretos para projetos, LinkedIn e contato por e-mail;
+- Mensuração com Google Analytics 4 e eventos personalizados para aquisição, engajamento e intenção de contato.
 
 ---
 
@@ -92,6 +93,7 @@ HTML, CSS e JavaScript, sem frameworks ou dependências de build.
 - `styles.css` — estrutura visual geral, layout, responsividade e componentes estáticos principais.
 - `theme.css` — tema claro, tipografia de detalhe e complementos visuais do Hero, Foco e faixa de competências.
 - `components.css` — seletor de idiomas, componentes visuais complementares, Easter egg do terminal SQL e toda a camada visual dos projetos, incluindo fallback estático, filtros e galeria dinâmica.
+- `analytics.js` — configuração do Google Analytics 4 e camada central de instrumentação dos eventos personalizados do portfólio.
 - `core.js` — interações gerais do site: animações de entrada, tema, cursor, menu, expansão da marca no header, scroll spy, números animados e cópia de e-mail.
 - `hero-sql.js` — digitação da consulta SQL do Hero, acessibilidade do terminal e Easter egg com glitch/Matrix.
 - `hero-flow.js` — fundo animado de partículas e conexões do Hero, incluindo adaptação aos temas e preferência por movimento reduzido.
@@ -104,13 +106,33 @@ HTML, CSS e JavaScript, sem frameworks ou dependências de build.
 
 Cada arquivo JavaScript mantém uma responsabilidade principal:
 
+- `analytics.js` inicializa o GA4, centraliza o envio de eventos e observa interações relevantes sem espalhar chamadas diretas ao serviço pelos demais módulos.
 - `core.js` controla os estados e interações gerais da página e define preferências de interação compartilhadas pelos módulos carregados em seguida.
 - `hero-sql.js` concentra exclusivamente o comportamento do terminal SQL e de seu Easter egg; sua aparência permanece em `components.css`.
 - `hero-flow.js` concentra exclusivamente a animação de fundo do Hero.
 - `project-gallery.js` é a fonte de dados dos projetos e publica os metadados carregados para o restante do site.
 - `i18n.js` traduz a interface e reage aos estados publicados pelos outros scripts, sem refazer as consultas dos projetos.
 
-A comunicação entre os scripts utiliza eventos customizados, como mudanças de tema, menu, cópia de e-mail, status da galeria e atualização dos metadados dos projetos. Isso evita que o sistema de idiomas precise observar alterações indiretas no DOM ou repetir requisições ao GitHub.
+A comunicação entre os scripts utiliza eventos customizados, como mudanças de tema, menu, cópia de e-mail, status da galeria, atualização dos metadados dos projetos e acionamento do Easter egg Matrix. Isso evita acoplamento desnecessário entre os módulos e permite que a camada de analytics registre interações sem alterar seu comportamento visual.
+
+## Mensuração com Google Analytics 4
+
+O portfólio utiliza Google Analytics 4 para acompanhar aquisição, engajamento e sinais de intenção profissional. A instrumentação personalizada fica centralizada em `analytics.js` e complementa os eventos automáticos fornecidos pela métrica otimizada do GA4.
+
+Eventos personalizados atuais:
+
+- `section_view` — visualização qualificada das seções do site, com `section_name`;
+- `project_click` — clique em projeto, com `project_name`, `project_category` e `project_position`;
+- `linkedin_click` — clique no LinkedIn na área de contato;
+- `email_copy` — cópia concluída do endereço de e-mail;
+- `contact_intent` — consolida sinais de intenção de contato, com `contact_method` (`linkedin` ou `email`);
+- `language_change` — mudança ativa de idioma, com `selected_language` (`pt`, `en` ou `es`);
+- `theme_change` — mudança ativa de tema, com `theme` (`light` ou `dark`);
+- `easter_egg_trigger` — acionamento dos Easter eggs, com `easter_egg_name` (`matrix` ou `portfolio_sql`).
+
+O evento `github_click` não é utilizado na taxonomia atual para evitar duplicidade: acessos aos repositórios de projetos já são representados por `project_click`, enquanto o link `portfolio.sql` é medido como `easter_egg_trigger`.
+
+A aquisição por canais controlados será diferenciada por parâmetros UTM, incluindo LinkedIn, currículo, candidaturas específicas, assinatura de e-mail e Taggo via NFC ou QR Code.
 
 ## Padrão para projetos exibidos no portfólio
 
