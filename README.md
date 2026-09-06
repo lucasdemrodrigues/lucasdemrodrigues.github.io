@@ -21,7 +21,7 @@
 ## 📑 Índice
 
 - 🔎 [Visão geral](#visão-geral)
-- 👤 [Meu papel no projeto](#meu-papel-no-projeto)
+- 👤 [Meu papel](#meu-papel)
 - 🧰 [Stack e ferramentas](#stack-e-ferramentas)
 - 🤖 [Fluxo com Inteligência Artificial](#fluxo-com-inteligência-artificial)
 - ⚙️ [Arquitetura e funcionalidades](#arquitetura-e-funcionalidades)
@@ -50,7 +50,7 @@ Ao mesmo tempo, o projeto foi pensado como uma experiência prática de aprendiz
 
 ---
 
-## 👤 Meu papel no projeto
+## 👤 Meu papel
 
 Fui responsável pela direção e evolução do portfólio, definindo objetivos, prioridades, conteúdo, experiência do usuário, critérios de implementação e decisões técnicas ao longo do projeto.
 
