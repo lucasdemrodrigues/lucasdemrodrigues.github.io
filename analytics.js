@@ -127,3 +127,32 @@ document.addEventListener('portfolio:copy-state', event => {
   window.trackEvent('email_copy', { location: 'contact' });
   window.trackEvent('contact_intent', { contact_method: 'email' });
 });
+
+// Preferências de experiência: mede apenas mudanças feitas ativamente pelo visitante.
+document.addEventListener('click', event => {
+  const themeButton = event.target.closest('.theme-toggle');
+  if (themeButton) {
+    const theme = document.body.classList.contains('light-mode') ? 'light' : 'dark';
+    window.trackEvent('theme_change', { theme });
+    return;
+  }
+
+  const languageButton = event.target.closest('.language-switch button[data-lang]');
+  if (languageButton) {
+    window.trackEvent('language_change', { language: languageButton.dataset.lang });
+  }
+});
+
+// Easter eggs do terminal SQL: mede descoberta/uso sem interferir no comportamento.
+document.addEventListener('click', event => {
+  const matrixControl = event.target.closest('.hero-sql-control-active');
+  if (matrixControl) {
+    window.trackEvent('easter_egg_trigger', { easter_egg_name: 'matrix' });
+    return;
+  }
+
+  const portfolioSql = event.target.closest('.hero-sql-title-link');
+  if (portfolioSql) {
+    window.trackEvent('easter_egg_trigger', { easter_egg_name: 'portfolio_sql' });
+  }
+});
