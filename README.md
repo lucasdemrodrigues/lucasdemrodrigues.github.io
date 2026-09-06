@@ -21,8 +21,8 @@
 
 ## 📑 Índice
 
-- 🔎 [Visão geral](#visão-geral)
-- 👤 [Meu papel](#meu-papel)
+- 🔎 [Visão geral](#-visão-geral)
+- 👤 [Meu papel](#-meu-papel)
 - 🧰 [Stack e ferramentas](#stack-e-ferramentas)
 - 🤖 [Fluxo com Inteligência Artificial](#fluxo-com-inteligência-artificial)
 - ⚙️ [Arquitetura e funcionalidades](#arquitetura-e-funcionalidades)
