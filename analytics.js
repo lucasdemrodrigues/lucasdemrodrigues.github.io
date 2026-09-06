@@ -77,3 +77,36 @@ if ('IntersectionObserver' in window) {
     if (section) sectionObserver.observe(section);
   });
 }
+
+// Interesse em projetos: usa delegação de evento para funcionar tanto com
+// os cards estáticos quanto com os cards recriados dinamicamente pela galeria.
+document.addEventListener('click', event => {
+  const link = event.target.closest('#projetos .project-feature .text-link');
+  if (!link) return;
+
+  const card = link.closest('.project-feature');
+  if (!card) return;
+
+  const allCards = [...document.querySelectorAll('#projetos .project-feature')];
+  const repoFromUrl = (() => {
+    try {
+      const url = new URL(link.href);
+      return url.hostname === 'github.com' ? url.pathname.split('/').filter(Boolean)[1] || '' : '';
+    } catch {
+      return '';
+    }
+  })();
+
+  const projectName = card.dataset.repo || repoFromUrl || card.querySelector('h3')?.textContent.trim() || 'unknown';
+  const projectCategory = (card.dataset.categories || '')
+    .split('|')
+    .filter(Boolean)
+    .join(', ') || 'uncategorized';
+  const projectPosition = Math.max(1, allCards.indexOf(card) + 1);
+
+  window.trackEvent('project_click', {
+    project_name: projectName,
+    project_category: projectCategory,
+    project_position: projectPosition
+  });
+});
