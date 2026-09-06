@@ -9,7 +9,7 @@
   <img src="https://img.shields.io/badge/Projeto-Pessoal-B45309" alt="Projeto">
   <img src="https://img.shields.io/badge/IA-Vibe%20Coding-673AB7" alt="IA">
   <img src="https://img.shields.io/badge/GA4-Analytics-E37400?logo=googleanalytics&logoColor=white" alt="GA4 Analytics">
-  <img src="https://img.shields.io/badge/GitHub-API-181717?logo=github&logoColor=white" alt="GitHub API">
+  <img src="https://img.shields.io/badge/GitHub-API-4B5563?logo=github&logoColor=white" alt="GitHub API">
   <img src="https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white" alt="HTML5">
   <img src="https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white" alt="CSS3">
   <img src="https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black" alt="JavaScript">
