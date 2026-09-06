@@ -54,7 +54,7 @@ Ao mesmo tempo, o projeto foi pensado como uma experiência prática de aprendiz
 
 Fui responsável pela direção e evolução do portfólio, definindo objetivos, prioridades, conteúdo, experiência do usuário, critérios de implementação e decisões técnicas ao longo do projeto.
 
-A IA generativa foi utilizada como ferramenta de apoio ao desenvolvimento, enquanto as principais decisões e validações permaneceram sob minha responsabilidade.
+A IA generativa foi utilizada como ferramenta de apoio ao desenvolvimento, enquanto a avaliação das propostas e as decisões finais permaneceram sob minha responsabilidade.
 
 Entre minhas principais responsabilidades estiveram: 
 - Definição do objetivo e do posicionamento do portfólio;
