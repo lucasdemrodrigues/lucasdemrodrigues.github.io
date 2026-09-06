@@ -20,15 +20,15 @@
 
 ## 📑 Índice
 
-- [Visão geral](#-visão-geral)
-- [Meu papel no projeto](#-meu-papel-no-projeto)
+- [🔎 Visão geral](#-visão-geral)
+- [👤 Meu papel no projeto](#-meu-papel-no-projeto)
 - [Stack e ferramentas](#-stack-e-ferramentas)
 - [Fluxo com Inteligência Artificial](#-fluxo-com-inteligência-artificial)
 - [Arquitetura e funcionalidades](#-arquitetura-e-funcionalidades)
 - [Desafios e soluções](#-desafios-e-soluções)
 - [Deploy e manutenção](#-deploy-e-manutenção)
 
-## Visão Geral
+## 🔎 Visão Geral
 
 Este portfólio foi criado para complementar meu currículo e LinkedIn em um formato mais visual e integrado. Ele reúne perfil, projetos e principais resultados profissionais para que recrutadores e gestores compreendam rapidamente minhas competências e os tipos de problema que já ajudei a resolver.
 
@@ -47,6 +47,26 @@ Ao mesmo tempo, o projeto foi pensado como uma experiência prática de aprendiz
 - Animações com suporte a `prefers-reduced-motion`;
 - Microinterações e Easter eggs discretos no Hero;
 - Links diretos para projetos, LinkedIn e contato por e-mail.
+
+---
+
+## 👤 Meu papel no projeto
+
+Fui responsável pela direção e evolução do portfólio, definindo objetivos, prioridades, conteúdo, experiência do usuário, critérios de implementação e decisões técnicas ao longo do projeto.
+
+A IA generativa foi utilizada como ferramenta de apoio ao desenvolvimento, enquanto as principais decisões e validações permaneceram sob minha responsabilidade.
+
+Entre minhas principais responsabilidades estiveram: 
+- Definição do objetivo e do posicionamento do portfólio;
+- Direção visual e criativa;
+- Definição e priorização de funcionalidades;
+- Decisões de conteúdo e estrutura;
+- Definição de critérios de UX, responsividade e acessibilidade;
+- Avaliação e validação das propostas geradas por IA;
+- Revisão e validação das alterações de código;
+- Testes dos principais fluxos e interações;
+- Decisão sobre o que implementar, ajustar ou descartar;
+- Organização e evolução contínua do repositório.
 
 ____
 
