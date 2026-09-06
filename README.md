@@ -56,7 +56,7 @@ Fui responsável pela direção e evolução do portfólio, definindo objetivos,
 
 A IA generativa foi utilizada como ferramenta de apoio ao desenvolvimento, enquanto a avaliação das propostas e as decisões finais permaneceram sob minha responsabilidade.
 
-Entre minhas principais responsabilidades estiveram: 
+Na prática, isso envolveu: 
 - Definição do objetivo e do posicionamento do portfólio;
 - Direção visual e criativa;
 - Definição e priorização de funcionalidades;
