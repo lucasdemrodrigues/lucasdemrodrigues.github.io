@@ -139,7 +139,7 @@ document.addEventListener('click', event => {
 
   const languageButton = event.target.closest('.language-switch button[data-lang]');
   if (languageButton) {
-    window.trackEvent('language_change', { language: languageButton.dataset.lang });
+    window.trackEvent('language_change', { selected_language: languageButton.dataset.lang });
   }
 });
 
