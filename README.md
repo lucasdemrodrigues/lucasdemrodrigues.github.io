@@ -72,6 +72,17 @@ Na prática, isso envolveu:
 - Decisão sobre o que implementar, ajustar ou descartar;
 - Organização e evolução contínua do repositório.
 
+---
+
+  ## 🧰 Stack e ferramentas
+
+O portfólio foi desenvolvido com uma stack simples, leve e sem frameworks, priorizando controle sobre a implementação, facilidade de manutenção e compatibilidade com o GitHub Pages.
+
+**Front-end:** HTML5, CSS3 e JavaScript puro
+**Versionamento e desenvolvimento:** Git e GitHub
+**Hospedagem e integração:** GitHub Pages, GitHub API e `portfolio.json`
+**Analytics:** Google Analytics 4
+**IA de apoio:** ChatGPT e Gemini
 ____
 
 Site pessoal desenvolvido para GitHub Pages, com foco em Marketing, CRM, Inteligência Comercial e Dados.
