@@ -76,7 +76,7 @@ Na prática, isso envolveu:
 
   ## 🧰 Stack e ferramentas
 
-O portfólio foi desenvolvido com uma stack simples, leve e sem frameworks, priorizando controle sobre a implementação, facilidade de manutenção e compatibilidade com o GitHub Pages.
+O portfólio foi desenvolvido com uma stack simples, leve e sem frameworks, buscando manter a solução enxuta, reduzir dependências e facilitar a manutenção do projeto.
 
 - **Front-end:** HTML5, CSS3 e JavaScript puro
 - **Versionamento e desenvolvimento:** Git e GitHub
