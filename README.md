@@ -23,7 +23,7 @@
 
 - 🔎 [Visão geral](#-visão-geral)
 - 👤 [Meu papel](#-meu-papel)
-- 🧰 [Stack e ferramentas](#stack-e-ferramentas)
+- 🧰 [Stack e ferramentas](#-stack-e-ferramentas)
 - 🤖 [Fluxo com Inteligência Artificial](#fluxo-com-inteligência-artificial)
 - ⚙️ [Arquitetura e funcionalidades](#arquitetura-e-funcionalidades)
 - 📊 [Mensuração com GA4](#mensuração-com-ga4)
