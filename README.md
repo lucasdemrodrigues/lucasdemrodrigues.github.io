@@ -145,6 +145,8 @@ Eventos personalizados atuais:
 
 O evento `github_click` não é utilizado na taxonomia atual para evitar duplicidade: acessos aos repositórios de projetos já são representados por `project_click`, enquanto o link `portfolio.sql` é medido como `easter_egg_trigger`.
 
+Para facilitar a análise nos relatórios e explorações do GA4, os principais parâmetros dos eventos foram registrados como dimensões personalizadas. Os eventos `project_click` e `contact_intent` foram definidos como Eventos principais, representando, respectivamente, interesse nos projetos e intenção de contato profissional.
+
 A aquisição por canais controlados será diferenciada por parâmetros UTM, incluindo LinkedIn, currículo, candidaturas específicas, assinatura de e-mail e Taggo via NFC ou QR Code.
 
 ## Padrão para projetos exibidos no portfólio
