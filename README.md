@@ -55,22 +55,27 @@ Ao mesmo tempo, o projeto foi pensado como uma experiência prática de aprendiz
 
 ## 👤 Meu papel
 
-Fui responsável pela direção e evolução do portfólio, definindo objetivos, prioridades, conteúdo, experiência do usuário, critérios de implementação e decisões técnicas ao longo do projeto.
+Fui responsável pela direção e evolução do portfólio, definindo objetivos, prioridades, conteúdo, experiência do usuário, critérios de implementação e validação funcional e visual ao longo do desenvolvimento.
 
-A IA generativa foi utilizada como ferramenta de apoio ao desenvolvimento, enquanto a avaliação das propostas e as decisões finais permaneceram sob minha responsabilidade.
+A IA generativa atuou tanto como apoio consultivo quanto como agente de execução. A partir dos prompts e critérios definidos por mim, o agente propunha e aplicava mudanças no código, incluindo correções e refatorações.
 
-Na prática, isso envolveu:
+Nesse processo, minhas principais responsabilidades foram:
 
 - Definição do objetivo e do posicionamento do portfólio;
 - Direção visual e criativa;
 - Definição e priorização de funcionalidades;
 - Decisões de conteúdo e estrutura;
 - Definição de critérios de UX, responsividade e acessibilidade;
+- Transformação de necessidades em prompts e instruções;
 - Avaliação e validação das propostas geradas por IA;
-- Revisão e validação das alterações de código;
+- Validação funcional e visual das alterações;
 - Testes dos principais fluxos e interações;
 - Decisão sobre o que implementar, ajustar ou descartar;
 - Organização e evolução contínua do repositório.
+
+De forma geral, o processo seguia este fluxo:
+
+**Necessidade → Prompt → Proposta/execução pela IA → Revisão → Ajuste → Validação**
 
 ---
 
