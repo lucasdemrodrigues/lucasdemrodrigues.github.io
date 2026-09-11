@@ -93,6 +93,16 @@ O portfólio foi desenvolvido com uma stack simples, leve e sem frameworks, busc
 - `assets/` — arquivos visuais locais utilizados pelo site.
 - `README.md` — documentação do projeto.
 
+### Integração com GitHub
+
+A galeria de projetos consome a API do GitHub e utiliza os arquivos `portfolio.json` de cada repositório para identificar quais projetos devem ser exibidos, além de carregar seus principais metadados.
+
+Para aumentar a resiliência do site, o carregamento segue uma sequência de fallback:
+
+**GitHub → cache local → fallback estático**
+
+Assim, quando a consulta à API não está disponível, o site tenta utilizar uma versão local previamente válida e, em último caso, recorre aos cards estáticos presentes no próprio HTML.
+
 ### Principais funcionalidades
 
 - Versões em português, inglês e espanhol;
@@ -107,16 +117,6 @@ O portfólio foi desenvolvido com uma stack simples, leve e sem frameworks, busc
 - Microinterações e Easter eggs discretos no Hero;
 - Links diretos para projetos, LinkedIn e contato por e-mail;
 - Mensuração com Google Analytics 4 e eventos personalizados para aquisição, engajamento e intenção de contato.
-
-### Integração com GitHub
-
-A galeria de projetos consome a API do GitHub e utiliza os arquivos `portfolio.json` de cada repositório para identificar quais projetos devem ser exibidos, além de carregar seus principais metadados.
-
-Para aumentar a resiliência do site, o carregamento segue uma sequência de fallback:
-
-**GitHub → cache local → fallback estático**
-
-Assim, quando a consulta à API não está disponível, o site tenta utilizar uma versão local previamente válida e, em último caso, recorre aos cards estáticos presentes no próprio HTML.
 ____
 
 Site pessoal desenvolvido para GitHub Pages, com foco em Marketing, CRM, Inteligência Comercial e Dados.
