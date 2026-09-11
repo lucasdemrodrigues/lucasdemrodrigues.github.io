@@ -24,7 +24,7 @@
 - 🔎 [Visão geral](#-visão-geral)
 - 👤 [Meu papel](#-meu-papel)
 - 🧰 [Stack e ferramentas](#-stack-e-ferramentas)
-- ⚙️ [Arquitetura e funcionalidades](#-arquitetura-e-funcionalidades)
+- ⚙️ [Arquitetura e funcionalidades](#arquitetura-e-funcionalidades)
 - 📊 [Mensuração com GA4](#mensuração-com-ga4)
 - 🧩 [Desafios e soluções](#desafios-e-soluções)
 - 🚀 [Deploy e manutenção](#deploy-e-manutenção)
@@ -34,21 +34,6 @@
 Este portfólio foi criado para complementar meu currículo e LinkedIn em um formato mais visual e integrado. Ele reúne perfil, projetos e principais resultados profissionais para que recrutadores e gestores compreendam rapidamente minhas competências e os tipos de problema que já ajudei a resolver.
 
 Ao mesmo tempo, o projeto foi pensado como uma experiência prática de aprendizado, utilizando IA generativa como apoio ao desenvolvimento e ao aprimoramento contínuo do portfólio.
-
-### Principais funcionalidades
-
-- Versões em português, inglês e espanhol;
-- Tema claro e escuro;
-- Galeria de projetos integrada à API do GitHub;
-- Cache local e fallback estático para maior resiliência;
-- Filtros por categoria de projeto;
-- Indicadores e resultados profissionais em destaque;
-- Layout responsivo para desktop e mobile;
-- Navegação por teclado e melhorias de acessibilidade;
-- Animações com suporte a `prefers-reduced-motion`;
-- Microinterações e Easter eggs discretos no Hero;
-- Links diretos para projetos, LinkedIn e contato por e-mail;
-- Mensuração com Google Analytics 4 e eventos personalizados para aquisição, engajamento e intenção de contato.
 
 ---
 
@@ -90,6 +75,7 @@ O portfólio foi desenvolvido com uma stack simples, leve e sem frameworks, busc
 
 ---
 
+<a id="arquitetura-e-funcionalidades"></a>
 ## ⚙️ Arquitetura e funcionalidades
 
 ### Estrutura do repositório
@@ -106,6 +92,21 @@ O portfólio foi desenvolvido com uma stack simples, leve e sem frameworks, busc
 - `i18n.js` — internacionalização do conteúdo e estados da interface em português, inglês e espanhol.
 - `assets/` — arquivos visuais locais utilizados pelo site.
 - `README.md` — documentação do projeto.
+
+### Principais funcionalidades
+
+- Versões em português, inglês e espanhol;
+- Tema claro e escuro;
+- Galeria de projetos integrada à API do GitHub;
+- Cache local e fallback estático para maior resiliência;
+- Filtros por categoria de projeto;
+- Indicadores e resultados profissionais em destaque;
+- Layout responsivo para desktop e mobile;
+- Navegação por teclado e melhorias de acessibilidade;
+- Animações com suporte a `prefers-reduced-motion`;
+- Microinterações e Easter eggs discretos no Hero;
+- Links diretos para projetos, LinkedIn e contato por e-mail;
+- Mensuração com Google Analytics 4 e eventos personalizados para aquisição, engajamento e intenção de contato.
 ____
 
 Site pessoal desenvolvido para GitHub Pages, com foco em Marketing, CRM, Inteligência Comercial e Dados.
