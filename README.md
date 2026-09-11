@@ -87,6 +87,25 @@ O portfólio foi desenvolvido com uma stack simples, leve e sem frameworks, busc
 - **Hospedagem e integração:** GitHub Pages, GitHub API e `portfolio.json`
 - **Analytics:** Google Analytics 4
 - **IA de apoio:** ChatGPT e Gemini
+
+---
+
+## ⚙️ Arquitetura e funcionalidades
+
+### Estrutura do repositório
+
+- `index.html` — estrutura e conteúdo-base da página, sem estilos ou comportamentos inline.
+- `styles.css` — estrutura visual geral, layout, responsividade e componentes estáticos principais.
+- `theme.css` — tema claro, tipografia de detalhe e complementos visuais do Hero, Foco e faixa de competências.
+- `components.css` — seletor de idiomas, componentes visuais complementares, Easter egg do terminal SQL e toda a camada visual dos projetos, incluindo fallback estático, filtros e galeria dinâmica.
+- `analytics.js` — configuração do Google Analytics 4 e camada central de instrumentação dos eventos personalizados do portfólio.
+- `core.js` — interações gerais do site: animações de entrada, tema, cursor, menu, expansão da marca no header, scroll spy, números animados e cópia de e-mail.
+- `hero-sql.js` — digitação da consulta SQL do Hero, acessibilidade do terminal e Easter egg com glitch/Matrix.
+- `hero-flow.js` — fundo animado de partículas e conexões do Hero, incluindo adaptação aos temas e preferência por movimento reduzido.
+- `project-gallery.js` — descoberta, validação, cache, sincronização e renderização dos projetos a partir do GitHub e dos arquivos `portfolio.json`.
+- `i18n.js` — internacionalização do conteúdo e estados da interface em português, inglês e espanhol.
+- `assets/` — arquivos visuais locais utilizados pelo site.
+- `README.md` — documentação do projeto.
 ____
 
 Site pessoal desenvolvido para GitHub Pages, com foco em Marketing, CRM, Inteligência Comercial e Dados.
@@ -103,21 +122,6 @@ Site pessoal desenvolvido para GitHub Pages, com foco em Marketing, CRM, Intelig
 ## Tecnologias do site
 
 HTML, CSS e JavaScript, sem frameworks ou dependências de build.
-
-## Estrutura do repositório
-
-- `index.html` — estrutura e conteúdo-base da página, sem estilos ou comportamentos inline.
-- `styles.css` — estrutura visual geral, layout, responsividade e componentes estáticos principais.
-- `theme.css` — tema claro, tipografia de detalhe e complementos visuais do Hero, Foco e faixa de competências.
-- `components.css` — seletor de idiomas, componentes visuais complementares, Easter egg do terminal SQL e toda a camada visual dos projetos, incluindo fallback estático, filtros e galeria dinâmica.
-- `analytics.js` — configuração do Google Analytics 4 e camada central de instrumentação dos eventos personalizados do portfólio.
-- `core.js` — interações gerais do site: animações de entrada, tema, cursor, menu, expansão da marca no header, scroll spy, números animados e cópia de e-mail.
-- `hero-sql.js` — digitação da consulta SQL do Hero, acessibilidade do terminal e Easter egg com glitch/Matrix.
-- `hero-flow.js` — fundo animado de partículas e conexões do Hero, incluindo adaptação aos temas e preferência por movimento reduzido.
-- `project-gallery.js` — descoberta, validação, cache, sincronização e renderização dos projetos a partir do GitHub e dos arquivos `portfolio.json`.
-- `i18n.js` — internacionalização do conteúdo e estados da interface em português, inglês e espanhol.
-- `assets/` — arquivos visuais locais utilizados pelo site.
-- `README.md` — documentação do projeto.
 
 ## Fluxo de interação entre os scripts
 
