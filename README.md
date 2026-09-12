@@ -123,7 +123,7 @@ Assim, quando a consulta à API não está disponível, o site tenta utilizar um
 <a id="mensuracao-com-ga4"></a>
 ## 📊 Mensuração com GA4
 
-O portfólio utiliza Google Analytics 4 para acompanhar aquisição, engajamento e sinais de intenção profissional. A instrumentação personalizada fica centralizada em `analytics.js` e complementa os eventos automáticos fornecidos pela medição otimizada do GA4.
+O portfólio utiliza Google Analytics 4 para acompanhar aquisição (origem dos acessos), engajamento e sinais de intenção profissional. A instrumentação personalizada fica centralizada em `analytics.js` e complementa os eventos automáticos fornecidos pela medição otimizada do GA4.
 
 ### Eventos personalizados
 
@@ -140,7 +140,7 @@ Para facilitar a análise nos relatórios e explorações do GA4, os principais 
 
 **Funil principal:** Visita → Projetos → Clique em projeto → Intenção de contato.
 
-A aquisição por canais controlados será diferenciada por parâmetros UTM, incluindo LinkedIn, currículo, candidaturas específicas, assinatura de e-mail e Taggo via NFC ou QR Code.
+A origem dos acessos por canais controlados será identificada por parâmetros UTM, incluindo LinkedIn, currículo, plataformas de candidatura, assinatura de e-mail e Taggo.
 
 ____
 
