@@ -25,7 +25,7 @@
 - 👤 [Meu papel](#-meu-papel)
 - 🧰 [Stack e ferramentas](#-stack-e-ferramentas)
 - ⚙️ [Arquitetura e funcionalidades](#arquitetura-e-funcionalidades)
-- 📊 [Mensuração com GA4](#mensuração-com-ga4)
+- 📊 [Mensuração com GA4](#mensuracao-com-ga4)
 - 🧩 [Desafios e soluções](#desafios-e-soluções)
 - 🚀 [Deploy e manutenção](#deploy-e-manutenção)
 
@@ -117,6 +117,31 @@ Assim, quando a consulta à API não está disponível, o site tenta utilizar um
 - Microinterações e Easter eggs discretos no Hero;
 - Links diretos para projetos, LinkedIn e contato por e-mail;
 - Mensuração com Google Analytics 4 e eventos personalizados para aquisição, engajamento e intenção de contato.
+
+---
+
+<a id="mensuracao-com-ga4"></a>
+## 📊 Mensuração com GA4
+
+O portfólio utiliza Google Analytics 4 para acompanhar aquisição, engajamento e sinais de intenção profissional. A instrumentação personalizada fica centralizada em `analytics.js` e complementa os eventos automáticos fornecidos pela medição otimizada do GA4.
+
+### Eventos personalizados
+
+- `section_view` — visualização qualificada das seções do site, com `section_name`;
+- `project_click` — clique em projeto, com `project_name`, `project_category` e `project_position`;
+- `linkedin_click` — clique no LinkedIn na área de contato;
+- `email_copy` — cópia concluída do endereço de e-mail;
+- `contact_intent` — consolida sinais de intenção de contato, com `contact_method` (`linkedin` ou `email`);
+- `language_change` — mudança ativa de idioma, com `selected_language` (`pt`, `en` ou `es`);
+- `theme_change` — mudança ativa de tema, com `theme` (`light` ou `dark`);
+- `easter_egg_trigger` — acionamento dos Easter eggs, com `easter_egg_name` (`matrix` ou `portfolio_sql`).
+
+Para facilitar a análise nos relatórios e explorações do GA4, os principais parâmetros dos eventos foram registrados como dimensões personalizadas. Os eventos `project_click` e `contact_intent` foram definidos como Eventos principais, representando, respectivamente, interesse nos projetos e intenção de contato profissional.
+
+**Funil principal:** Visita → Projetos → Clique em projeto → Intenção de contato.
+
+A aquisição por canais controlados será diferenciada por parâmetros UTM, incluindo LinkedIn, currículo, candidaturas específicas, assinatura de e-mail e Taggo via NFC ou QR Code.
+
 ____
 
 Site pessoal desenvolvido para GitHub Pages, com foco em Marketing, CRM, Inteligência Comercial e Dados.
@@ -146,27 +171,6 @@ Cada arquivo JavaScript mantém uma responsabilidade principal:
 - `i18n.js` traduz a interface e reage aos estados publicados pelos outros scripts, sem refazer as consultas dos projetos.
 
 A comunicação entre os scripts utiliza eventos customizados, como mudanças de tema, menu, cópia de e-mail, status da galeria, atualização dos metadados dos projetos e acionamento do Easter egg Matrix. Isso evita acoplamento desnecessário entre os módulos e permite que a camada de analytics registre interações sem alterar seu comportamento visual.
-
-## Mensuração com Google Analytics 4
-
-O portfólio utiliza Google Analytics 4 para acompanhar aquisição, engajamento e sinais de intenção profissional. A instrumentação personalizada fica centralizada em `analytics.js` e complementa os eventos automáticos fornecidos pela métrica otimizada do GA4.
-
-Eventos personalizados atuais:
-
-- `section_view` — visualização qualificada das seções do site, com `section_name`;
-- `project_click` — clique em projeto, com `project_name`, `project_category` e `project_position`;
-- `linkedin_click` — clique no LinkedIn na área de contato;
-- `email_copy` — cópia concluída do endereço de e-mail;
-- `contact_intent` — consolida sinais de intenção de contato, com `contact_method` (`linkedin` ou `email`);
-- `language_change` — mudança ativa de idioma, com `selected_language` (`pt`, `en` ou `es`);
-- `theme_change` — mudança ativa de tema, com `theme` (`light` ou `dark`);
-- `easter_egg_trigger` — acionamento dos Easter eggs, com `easter_egg_name` (`matrix` ou `portfolio_sql`).
-
-O evento `github_click` não é utilizado na taxonomia atual para evitar duplicidade: acessos aos repositórios de projetos já são representados por `project_click`, enquanto o link `portfolio.sql` é medido como `easter_egg_trigger`.
-
-Para facilitar a análise nos relatórios e explorações do GA4, os principais parâmetros dos eventos foram registrados como dimensões personalizadas. Os eventos `project_click` e `contact_intent` foram definidos como Eventos principais, representando, respectivamente, interesse nos projetos e intenção de contato profissional.
-
-A aquisição por canais controlados será diferenciada por parâmetros UTM, incluindo LinkedIn, currículo, candidaturas específicas, assinatura de e-mail e Taggo via NFC ou QR Code.
 
 ## Padrão para projetos exibidos no portfólio
 
