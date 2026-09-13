@@ -149,21 +149,12 @@ A origem dos acessos por canais controlados será identificada por parâmetros U
 
 ### Refatoração do antigo `script.js`
 
-> **Problema**  
-> O crescimento do projeto concentrou diferentes comportamentos em um único arquivo.
->
-> **Solução**  
-> As responsabilidades foram distribuídas entre arquivos específicos, como `core.js`, `hero-sql.js`, `hero-flow.js`, `project-gallery.js`, `i18n.js` e `analytics.js`.
->
-> **Aprendizado**  
-> Separar responsabilidades tornou o projeto mais organizado e facilitou futuras alterações.
-
-#### 1. Modularização do JavaScript
-Novas funcionalidades centralizaram comportamentos em um único `script.js` monolítico.
-* **Solução:** Responsabilidades separadas em módulos coesos: `core.js`, `hero-sql.js`, `hero-flow.js`, `project-gallery.js`, `i18n.js` e `analytics.js`.
-> 💡 **Takeaway:** Isolar domínios facilitou manutenções pontuais sem efeitos colaterais na interface.
-
-## 🧩 Desafios de Engenharia & Soluções
+| Etapa | Resumo |
+|---|---|
+| **Desafio** | Diferentes comportamentos estavam concentrados em um único arquivo. |
+| **Causa** | Novas funcionalidades foram adicionadas ao longo da evolução do projeto. |
+| **Solução** | As responsabilidades foram distribuídas entre arquivos específicos. |
+| **Aprendizado** | Separar responsabilidades facilitou manutenção e futuras alterações. |
 
 | Desafio | Contexto Técnico | Solução Adotada | Impacto |
 | :--- | :--- | :--- | :--- |
