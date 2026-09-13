@@ -26,7 +26,7 @@
 - 🧰 [Stack e ferramentas](#-stack-e-ferramentas)
 - ⚙️ [Arquitetura e funcionalidades](#arquitetura-e-funcionalidades)
 - 📊 [Mensuração com GA4](#mensuracao-com-ga4)
-- 🧩 [Desafios e soluções](#desafios-e-soluções)
+- 🧩 [Desafios e soluções](#desafios-e-solucoes)
 - 🚀 [Deploy e manutenção](#deploy-e-manutenção)
 
 ## 🔎 Visão Geral
@@ -141,6 +141,91 @@ Para facilitar a análise nos relatórios e explorações do GA4, os principais 
 **Funil principal:** Visita → Projetos → Clique em projeto → Intenção de contato.
 
 A origem dos acessos por canais controlados será identificada por parâmetros UTM, incluindo LinkedIn, currículo, plataformas de candidatura, assinatura de e-mail e Taggo.
+
+---
+
+<a id="desafios-e-solucoes"></a>
+## 🧩 Desafios e soluções
+
+### Refatoração do antigo `script.js`
+
+**Desafio:** o crescimento do projeto concentrou diferentes comportamentos em um único arquivo.
+
+**Causa:** novas funcionalidades foram sendo adicionadas ao longo da evolução do portfólio.
+
+**Solução:** as responsabilidades foram distribuídas entre arquivos específicos, como `core.js`, `hero-sql.js`, `hero-flow.js`, `project-gallery.js`, `i18n.js` e `analytics.js`.
+
+**Aprendizado:** separar responsabilidades tornou o projeto mais organizado e facilitou futuras alterações.
+
+### Resiliência da galeria de projetos
+
+**Desafio:** a indisponibilidade ou limitação da API do GitHub poderia impedir o carregamento dos projetos.
+
+**Causa:** a galeria dependia de uma fonte externa para obter os metadados.
+
+**Solução:** foi adotado um fluxo em camadas: **GitHub → cache local → fallback estático**.
+
+**Aprendizado:** depender de uma única fonte aumenta a fragilidade; mecanismos de fallback ajudam a preservar a experiência do usuário.
+
+### Sincronização entre PT/EN/ES
+
+**Desafio:** manter conteúdo e estados da interface consistentes em três idiomas.
+
+**Causa:** alterações em textos, projetos ou componentes podiam gerar diferenças entre as versões.
+
+**Solução:** a internacionalização foi centralizada em `i18n.js`, com traduções e estados organizados de forma consistente.
+
+**Aprendizado:** centralizar conteúdo traduzível reduz retrabalho e diminui o risco de versões divergentes.
+
+### Acessibilidade do terminal SQL
+
+**Desafio:** manter o terminal como elemento visual e interativo sem prejudicar a navegação por teclado ou leitores de tela.
+
+**Causa:** efeitos visuais e Easter eggs podem adicionar elementos desnecessários à árvore de acessibilidade.
+
+**Solução:** foram ajustados foco, atributos de acessibilidade e comportamento dos elementos decorativos para preservar a experiência sem expor interações irrelevantes.
+
+**Aprendizado:** elementos visuais podem ser mantidos sem comprometer acessibilidade quando sua função é bem definida.
+
+### Organização dos estilos
+
+**Desafio:** o crescimento do site aumentou a quantidade de regras visuais e dificultou a manutenção em um único contexto.
+
+**Causa:** diferentes partes da interface exigiam estilos com responsabilidades distintas.
+
+**Solução:** os estilos foram organizados entre `styles.css`, `theme.css` e `components.css`, separando estrutura geral, temas e componentes específicos.
+
+**Aprendizado:** dividir estilos por responsabilidade facilita a manutenção sem exigir frameworks ou uma arquitetura mais complexa.
+
+### Problemas de animação
+
+**Desafio:** algumas animações e interações precisavam funcionar de forma consistente em diferentes temas e tamanhos de tela.
+
+**Causa:** efeitos visuais podem se comportar de maneira diferente conforme contexto, dispositivo ou preferência do usuário.
+
+**Solução:** os comportamentos foram ajustados e também passaram a respeitar `prefers-reduced-motion`.
+
+**Aprendizado:** animações devem complementar a experiência, não depender dela nem comprometer acessibilidade ou desempenho.
+
+### Deploy no GitHub Pages
+
+**Desafio:** garantir que mudanças no repositório fossem publicadas corretamente sem introduzir dependências de build desnecessárias.
+
+**Causa:** o projeto foi pensado para funcionar diretamente no GitHub Pages com HTML, CSS e JavaScript puro.
+
+**Solução:** a estrutura foi mantida compatível com hospedagem estática e com caminhos relativos entre arquivos e assets.
+
+**Aprendizado:** uma solução simples de deploy pode ser suficiente quando a arquitetura é compatível com o ambiente de publicação.
+
+### Simplificação e descarte de soluções
+
+**Desafio:** algumas propostas resolviam o problema, mas adicionavam complexidade maior do que o benefício entregue.
+
+**Causa:** durante a evolução do projeto, a IA podia sugerir abordagens mais sofisticadas do que o necessário para o escopo.
+
+**Solução:** soluções consideradas excessivas foram ajustadas ou descartadas, priorizando estabilidade, clareza e manutenção simples.
+
+**Aprendizado:** nem toda solução tecnicamente mais elaborada é a melhor solução; simplicidade também é um critério de qualidade.
 
 ____
 
