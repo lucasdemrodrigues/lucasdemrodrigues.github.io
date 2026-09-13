@@ -147,33 +147,13 @@ A origem dos acessos por canais controlados será identificada por parâmetros U
 <a id="desafios-e-solucoes"></a>
 ## 🧩 Desafios e soluções
 
-### Refatoração do antigo `script.js`
-
-| Etapa | Resumo |
-|---|---|
-| **Desafio** | Diferentes comportamentos estavam concentrados em um único arquivo. |
-| **Causa** | Novas funcionalidades foram adicionadas ao longo da evolução do projeto. |
-| **Solução** | As responsabilidades foram distribuídas entre arquivos específicos. |
-| **Aprendizado** | Separar responsabilidades facilitou manutenção e futuras alterações. |
-
-| Desafio | Contexto Técnico | Solução Adotada | Impacto |
-| :--- | :--- | :--- | :--- |
-| **Monólito JS** | Acúmulo de regras em `script.js` | Modularização (`core.js`, `i18n.js`, etc.) | Baixo acoplamento e manutenção previsível |
-| **Resiliência de API** | Limitações/rate-limit da API do GitHub | Cache local + fallback estático | Portfólio 100% funcional mesmo offline |
-| **Multi-idioma** | Estados divergentes entre PT/EN/ES | Engine de tradução centralizada no `i18n.js` | Consistência de layout e facilidade em novos textos |
-| **Acessibilidade** | Terminal SQL poluindo leitores de tela | Ajustes de foco, atributos ARIA e tags decorativas | Navegabilidade inclusiva sem perda do apelo visual |
-| **Escalar CSS** | Conflito de especificidade e escopo | Divisão: `styles.css`, `theme.css`, `components.css` | Organização sem depender de pré-processadores |
-| **Animações** | Impacto de performance e acessibilidade | Ajuste de transições e suporte a `prefers-reduced-motion` | Fluidez e respeito à preferência do usuário |
-| **Complexidade Extra** | Propostas de IA com sobre-engenharia | Poda ativa de dependências e foco em Vanilla Web | Código limpo, sem build steps e rápido no Pages |
-
-<details>
-<summary><b>1. Modularização do JavaScript</b> (de monolítico para modular)</summary>
-
-- **Cenário:** O acúmulo de features concentrou comportamentos em um único arquivo `script.js`.
-- **Solução:** Divisão de responsabilidades em módulos coesos (`core.js`, `hero-sql.js`, `hero-flow.js`, `project-gallery.js`, `i18n.js` e `analytics.js`).
-- **Aprendizado:** Isolar responsabilidades tornou o código previsível e fácil de testar/alterar.
-</details>
-
+| Desafio | Contexto | Solução adotada | Aprendizado |
+|---|---|---|---|
+| **Organização do JavaScript** | Diferentes comportamentos estavam concentrados no antigo `script.js` | Separação das responsabilidades entre arquivos específicos | Uma estrutura mais modular facilita manutenção e futuras alterações |
+| **Resiliência da galeria** | A API do GitHub pode ficar indisponível ou limitada | Cache local + fallback estático | Ter alternativas reduz a dependência de uma única fonte |
+| **PT/EN/ES** | Mudanças podiam gerar inconsistências entre idiomas | Traduções centralizadas em `i18n.js` | Centralização reduz retrabalho e divergências |
+| **Acessibilidade** | O terminal SQL e elementos decorativos podiam interferir na navegação assistiva | Ajustes de foco, atributos de acessibilidade e elementos decorativos | Recursos visuais podem coexistir com uma experiência acessível |
+| **Simplificação** | Algumas propostas adicionavam complexidade maior que o benefício | Ajuste ou descarte de soluções excessivas | Nem sempre a solução mais complexa é a mais adequada |
 ____
 
 Site pessoal desenvolvido para GitHub Pages, com foco em Marketing, CRM, Inteligência Comercial e Dados.
