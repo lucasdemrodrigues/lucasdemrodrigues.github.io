@@ -29,7 +29,7 @@
 - 🧩 [Desafios e soluções](#desafios-e-solucoes)
 - 🚀 [Deploy e manutenção](#deploy-e-manutencao)
 
-## 🔎 Visão Geral
+## 🔎 Visão geral
 
 Este portfólio foi criado para complementar meu currículo e LinkedIn em um formato mais visual e integrado. Ele reúne perfil, projetos e principais resultados profissionais para que recrutadores e gestores compreendam rapidamente minhas competências e os tipos de problema que já ajudei a resolver.
 
@@ -41,7 +41,7 @@ Ao mesmo tempo, o projeto foi pensado como uma experiência prática de aprendiz
 
 Fui responsável pela direção e evolução do portfólio, definindo objetivos, prioridades, conteúdo, experiência do usuário, critérios de implementação e validação funcional e visual ao longo do desenvolvimento.
 
-A IA generativa atuou tanto como apoio consultivo quanto como agente de execução. A partir dos prompts e critérios definidos por mim, o agente propunha e aplicava mudanças no código, incluindo correções e refatorações.
+A IA generativa atuou tanto como apoio consultivo quanto como agente de execução. A partir dos prompts e critérios definidos por mim, os agentes de IA propunham e aplicavam mudanças no código, incluindo correções e refatorações.
 
 Nesse processo, minhas principais responsabilidades foram:
 
@@ -63,12 +63,12 @@ De forma geral, o processo seguia este fluxo:
 
 ---
 
-  ## 🧰 Stack e ferramentas
+## 🧰 Stack e ferramentas
 
 O portfólio foi desenvolvido com uma stack simples, leve e sem frameworks, buscando manter a solução enxuta, reduzir dependências e facilitar a manutenção do projeto.
 
 - **Front-end:** HTML5, CSS3 e JavaScript puro
-- **Versionamento e desenvolvimento:** Git e GitHub
+- **Versionamento e repositório:** Git e GitHub
 - **Hospedagem e integração:** GitHub Pages, GitHub API e `portfolio.json`
 - **Analytics:** Google Analytics 4
 - **IA de apoio:** ChatGPT e Gemini
@@ -186,7 +186,7 @@ A manutenção do projeto segue uma diretriz de preservar estabilidade e evitar 
 
 Sempre que possível:
 
-- Refatorações são pequenas e isoladas;
+- Refatorações são feitas de forma gradual e em partes pequenas;
 - Alterações estruturais são refletidas no `README.md`;
 - Mudanças devem preservar o comportamento existente, a responsividade e a acessibilidade;
 - Soluções mais complexas só são adotadas quando trazem benefício claro;
