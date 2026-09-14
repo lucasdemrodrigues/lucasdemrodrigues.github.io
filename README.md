@@ -1,3 +1,5 @@
+<a id="inicio"></a>
+
 ![Capa do portfólio](assets/portfolio-cover.webp)
 
 <h1 align="center">
@@ -182,3 +184,7 @@ Sempre que possível:
 - Mudanças devem preservar o comportamento existente, a responsividade e a acessibilidade;
 - Soluções mais complexas só são adotadas quando trazem benefício claro;
 - O site continua evoluindo conforme novos projetos, aprendizados e necessidades surgem.
+
+<p align="center">
+  <a href="#inicio">⬆️ Voltar ao início</a>
+</p>
