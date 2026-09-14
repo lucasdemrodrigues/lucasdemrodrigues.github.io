@@ -12,9 +12,9 @@
       title:'Portfólio profissional com IA e GA4',
       title_en:'Professional portfolio with AI and GA4',
       title_es:'Portafolio profesional con IA y GA4',
-      description:'Construção e evolução de um portfólio profissional com apoio de IA generativa, integração com GitHub e mensuração em GA4, com foco em apresentar projetos, resultados e sinais de interesse profissional de forma estruturada.',
-      description_en:'Development and evolution of a professional portfolio supported by generative AI, GitHub integration and GA4 measurement, focused on presenting projects, results and signals of professional interest in a structured way.',
-      description_es:'Construcción y evolución de un portafolio profesional con apoyo de IA generativa, integración con GitHub y medición en GA4, con foco en presentar proyectos, resultados y señales de interés profesional de forma estructurada.',
+      description:'Construção e evolução de um portfólio profissional estruturado do zero com apoio de IA generativa, integração com GitHub e mensuração em GA4, com foco em apresentar projetos, resultados e sinais de interesse profissional de forma estruturada.',
+      description_en:'Development and evolution of a professional portfolio built from scratch with generative AI support, GitHub integration and GA4 measurement, focused on presenting projects, results and signals of professional interest in a structured way.',
+      description_es:'Construcción y evolución de un portafolio profesional estructurado desde cero con apoyo de IA generativa, integración con GitHub y medición en GA4, con foco en presentar proyectos, resultados y señales de interés profesional de forma estructurada.',
       eyebrow:'IA & ANALYTICS',eyebrow_en:'AI & ANALYTICS',eyebrow_es:'IA & ANALYTICS'
     },
     'relatorio-de-vendas-power-bi':{
