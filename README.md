@@ -133,7 +133,7 @@ Para facilitar a análise nos relatórios e explorações do GA4, os principais 
 
 **Funil principal:** Visita → Projetos → Clique em projeto → Intenção de contato.
 
-A origem dos acessos por canais controlados será identificada por parâmetros UTM, incluindo LinkedIn, currículo, plataformas de candidatura, assinatura de e-mail e Taggo.
+A origem dos acessos por canais controlados pode ser identificada por parâmetros UTM, incluindo LinkedIn, currículo, plataformas de candidatura, assinatura de e-mail e Taggo.
 
 ---
 
