@@ -226,7 +226,7 @@
     try{
       const r=await fetch(`https://api.github.com/users/${GITHUB_USER}/repos?per_page=100&sort=created&direction=asc`,{headers:{Accept:'application/vnd.github+json'},cache:'no-cache'});
       if(!r.ok)throw new Error(`GitHub API ${r.status}`);
-      const repos=(await r.json()).filter(x=>!x.fork&&!x.archived&&x.name!==`${GITHUB_USER}.github.io`);
+      const repos=(await r.json()).filter(x=>!x.fork&&!x.archived);
       const collected=await Promise.all(repos.map(async repo=>({repo,metadata:await fetchPortfolioMetadata(repo)})));
       const valid=collected.filter(x=>x.metadata);
       if(!valid.length)throw new Error('Nenhum portfolio.json válido encontrado.');
