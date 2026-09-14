@@ -178,11 +178,11 @@ A manutenção do projeto segue uma diretriz de preservar estabilidade e evitar 
 
 Sempre que possível:
 
-- refatorações são pequenas e isoladas;
-- alterações estruturais são refletidas no `README.md`;
-- mudanças devem preservar o comportamento existente, a responsividade e a acessibilidade;
-- soluções mais complexas só são adotadas quando trazem benefício claro;
-- o site continua evoluindo conforme novos projetos, aprendizados e necessidades surgem.
+- Refatorações são pequenas e isoladas;
+- Alterações estruturais são refletidas no `README.md`;
+- Mudanças devem preservar o comportamento existente, a responsividade e a acessibilidade;
+- Soluções mais complexas só são adotadas quando trazem benefício claro;
+- O site continua evoluindo conforme novos projetos, aprendizados e necessidades surgem.
 
 ____
 
