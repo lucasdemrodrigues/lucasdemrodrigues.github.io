@@ -187,7 +187,7 @@ Sempre que possível:
 
 > 💡 Sinta-se à vontade para usar este projeto como referência. Para reutilizações relevantes da estrutura ou do design, agradeço a citação deste repositório. Conteúdos pessoais não devem ser reproduzidos.
 >
-> 🐛 Encontrou um erro? [Abra uma issue](https://github.com/lucasdemrodrigues/lucasdemrodrigues.github.io/issues).
+> Encontrou um erro? [Abra uma issue](https://github.com/lucasdemrodrigues/lucasdemrodrigues.github.io/issues).
 
 <p align="center">
   <a href="#inicio">⬆️ Voltar ao início</a>
