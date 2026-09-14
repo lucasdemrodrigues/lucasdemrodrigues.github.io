@@ -2,6 +2,7 @@ const initHeroSql = () => {
   const heroSqlCode = document.querySelector('.hero-sql-code');
   if (!heroSqlCode) return;
 
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const heroSql = heroSqlCode.closest('.hero-sql');
   const heroSqlHead = heroSql?.querySelector('.hero-sql-head');
   const originalTitle = heroSqlHead?.querySelector('span');
