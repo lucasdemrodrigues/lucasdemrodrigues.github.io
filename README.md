@@ -27,7 +27,7 @@
 - ⚙️ [Arquitetura e funcionalidades](#arquitetura-e-funcionalidades)
 - 📊 [Mensuração com GA4](#mensuracao-com-ga4)
 - 🧩 [Desafios e soluções](#desafios-e-solucoes)
-- 🚀 [Deploy e manutenção](#deploy-e-manutenção)
+- 🚀 [Deploy e manutenção](#deploy-e-manutencao)
 
 ## 🔎 Visão Geral
 
@@ -154,6 +154,36 @@ A origem dos acessos por canais controlados será identificada por parâmetros U
 | **PT/EN/ES** | Mudanças podiam gerar inconsistências entre idiomas | Traduções centralizadas em `i18n.js` | Centralização reduz retrabalho e divergências |
 | **Acessibilidade** | O terminal SQL e elementos decorativos podiam interferir na navegação assistiva | Ajustes de foco, atributos de acessibilidade e elementos decorativos | Recursos visuais podem coexistir com uma experiência acessível |
 | **Simplificação** | Algumas propostas adicionavam complexidade maior que o benefício | Ajuste ou descarte de soluções excessivas | Nem sempre a solução mais complexa é a mais adequada |
+
+---
+
+<a id="deploy-e-manutencao"></a>
+## 🚀 Deploy e manutenção
+
+### Publicação
+
+O portfólio é hospedado no GitHub Pages a partir do repositório `lucasdemrodrigues.github.io`, utilizando a estrutura padrão de site pessoal da plataforma.
+
+### Atualização dos projetos
+
+Os projetos exibidos na galeria são identificados por meio do arquivo `portfolio.json` presente em cada repositório.
+
+Quando um novo projeto deve aparecer no portfólio, seus metadados são definidos nesse arquivo e passam a ser consumidos pela galeria.
+
+Para manter a resiliência, o fallback estático também deve ser atualizado quando necessário, garantindo uma alternativa caso a consulta ao GitHub não esteja disponível.
+
+### Manutenção e evolução
+
+A manutenção do projeto segue uma diretriz de preservar estabilidade e evitar complexidade desnecessária.
+
+Sempre que possível:
+
+- refatorações são pequenas e isoladas;
+- alterações estruturais são refletidas no `README.md`;
+- mudanças devem preservar o comportamento existente, a responsividade e a acessibilidade;
+- soluções mais complexas só são adotadas quando trazem benefício claro;
+- o site continua evoluindo conforme novos projetos, aprendizados e necessidades surgem.
+
 ____
 
 Site pessoal desenvolvido para GitHub Pages, com foco em Marketing, CRM, Inteligência Comercial e Dados.
@@ -244,13 +274,3 @@ Para páginas ou READMEs de projetos mais completos, pode-se usar uma narrativa 
 **Problema → estratégia → execução → resultado**
 
 Essa segunda estrutura é mais adequada para transformar o projeto em um mini-case, enquanto a primeira deve ser a referência principal para os cards do site.
-
-## Diretriz de manutenção
-
-A prioridade é manter o site simples e estável. Mudanças de organização interna devem preservar o comportamento e a aparência existentes, evitando dependências ou arquivos adicionais sem necessidade.
-
-Antes de alterar um arquivo, trabalhar sempre sobre sua versão atual para evitar sobrescrever mudanças recentes. Refatorações devem ser pequenas e isoladas sempre que possível.
-
-## Publicação
-
-Este repositório utiliza o padrão de site pessoal do GitHub Pages: `lucasdemrodrigues.github.io`.
