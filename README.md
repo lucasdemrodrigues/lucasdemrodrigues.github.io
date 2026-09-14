@@ -107,6 +107,7 @@ Assim, quando a consulta à API não está disponível, o site tenta utilizar um
 - Layout responsivo para desktop e mobile;
 - Navegação por teclado e melhorias de acessibilidade;
 - Animações com suporte a `prefers-reduced-motion`;
+- Preloader de entrada com identidade visual da marca `LR.`;
 - Microinterações e Easter eggs discretos no Hero;
 - Links diretos para projetos, LinkedIn e contato por e-mail;
 - Mensuração com Google Analytics 4 e eventos personalizados para aquisição, engajamento e intenção de contato.
