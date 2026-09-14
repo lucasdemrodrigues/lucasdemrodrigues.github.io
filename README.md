@@ -105,6 +105,7 @@ Assim, quando a consulta à API não está disponível, o site tenta utilizar um
 - Filtros por categoria de projeto;
 - Indicadores e resultados profissionais em destaque;
 - Layout responsivo para desktop e mobile;
+- Metadados para SEO, Open Graph e compartilhamento social;
 - Navegação por teclado e melhorias de acessibilidade;
 - Animações com suporte a `prefers-reduced-motion`;
 - Preloader de entrada com identidade visual da marca `LR.`;
