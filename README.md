@@ -159,11 +159,7 @@ O portfólio é hospedado no GitHub Pages a partir do repositório `lucasdemrodr
 
 ### Atualização dos projetos
 
-Os projetos exibidos na galeria são identificados por meio do arquivo `portfolio.json` presente em cada repositório.
-
-Quando um novo projeto deve aparecer no portfólio, seus metadados são definidos nesse arquivo e passam a ser consumidos pela galeria.
-
-Para manter a resiliência, o fallback estático também deve ser atualizado quando necessário, garantindo uma alternativa caso a consulta ao GitHub não esteja disponível.
+Para adicionar ou atualizar um projeto na galeria, os metadados são definidos no arquivo `portfolio.json` do respectivo repositório. Quando necessário, o fallback estático também é mantido sincronizado como alternativa à consulta ao GitHub.
 
 ### Padrão de apresentação dos projetos
 
