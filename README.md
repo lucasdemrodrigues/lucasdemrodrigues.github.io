@@ -172,6 +172,14 @@ Quando um novo projeto deve aparecer no portfólio, seus metadados são definido
 
 Para manter a resiliência, o fallback estático também deve ser atualizado quando necessário, garantindo uma alternativa caso a consulta ao GitHub não esteja disponível.
 
+### Padrão de apresentação dos projetos
+
+As descrições dos projetos priorizam uma narrativa orientada ao negócio:
+
+**Problema/pergunta → análise/abordagem → finalidade**
+
+O objetivo é destacar primeiro o problema investigado e o valor da análise, evitando descrições baseadas apenas em ferramentas ou tarefas executadas.
+
 ### Manutenção e evolução
 
 A manutenção do projeto segue uma diretriz de preservar estabilidade e evitar complexidade desnecessária.
@@ -183,94 +191,3 @@ Sempre que possível:
 - Mudanças devem preservar o comportamento existente, a responsividade e a acessibilidade;
 - Soluções mais complexas só são adotadas quando trazem benefício claro;
 - O site continua evoluindo conforme novos projetos, aprendizados e necessidades surgem.
-
-____
-
-Site pessoal desenvolvido para GitHub Pages, com foco em Marketing, CRM, Inteligência Comercial e Dados.
-
-## Conteúdo
-
-- Experiência e resultados profissionais
-- Competências e ferramentas
-- Projetos de Power BI, análise de dados e IA
-- Links para os repositórios completos
-- Versões em português, inglês e espanhol
-- Tema escuro e claro
-
-## Tecnologias do site
-
-HTML, CSS e JavaScript, sem frameworks ou dependências de build.
-
-## Fluxo de interação entre os scripts
-
-Cada arquivo JavaScript mantém uma responsabilidade principal:
-
-- `analytics.js` inicializa o GA4, centraliza o envio de eventos e observa interações relevantes sem espalhar chamadas diretas ao serviço pelos demais módulos.
-- `core.js` controla os estados e interações gerais da página e define preferências de interação compartilhadas pelos módulos carregados em seguida.
-- `hero-sql.js` concentra exclusivamente o comportamento do terminal SQL e de seu Easter egg; sua aparência permanece em `components.css`.
-- `hero-flow.js` concentra exclusivamente a animação de fundo do Hero.
-- `project-gallery.js` é a fonte de dados dos projetos e publica os metadados carregados para o restante do site.
-- `i18n.js` traduz a interface e reage aos estados publicados pelos outros scripts, sem refazer as consultas dos projetos.
-
-A comunicação entre os scripts utiliza eventos customizados, como mudanças de tema, menu, cópia de e-mail, status da galeria, atualização dos metadados dos projetos e acionamento do Easter egg Matrix. Isso evita acoplamento desnecessário entre os módulos e permite que a camada de analytics registre interações sem alterar seu comportamento visual.
-
-## Padrão para projetos exibidos no portfólio
-
-Os projetos são identificados por um arquivo `portfolio.json` no próprio repositório do projeto. O campo `portfolio` deve estar definido como `true`.
-
-Estrutura recomendada:
-
-```json
-{
-  "portfolio": true,
-  "order": 1,
-  "title": "Título em português",
-  "title_en": "Title in English",
-  "title_es": "Título en español",
-  "categories": ["Power BI"],
-  "description": "Descrição em português.",
-  "description_en": "Description in English.",
-  "description_es": "Descripción en español.",
-  "image": "URL da imagem de preview",
-  "tags": ["Power BI", "DAX"],
-  "eyebrow": "POWER BI",
-  "eyebrow_en": "POWER BI",
-  "eyebrow_es": "POWER BI"
-}
-```
-
-`categories` funciona como identificador interno dos filtros e, por isso, não precisa ser traduzido. Os campos visíveis ao visitante — título, descrição e eyebrow — podem possuir versões específicas para inglês e espanhol.
-
-A galeria mantém uma versão local válida dos metadados em cache para uso temporário quando a consulta ao GitHub não estiver disponível. O HTML também contém cards básicos como fallback de segurança.
-
-### Adicionando novos projetos
-
-Todo projeto que deve aparecer automaticamente na galeria precisa possuir um arquivo `portfolio.json` válido no próprio repositório, incluindo os campos visíveis em português, inglês e espanhol.
-
-O fallback final do site é independente da sincronização com o GitHub e deve permanecer enxuto. Caso um novo projeto também deva aparecer nesse modo de segurança, adicionar seu card básico ao `index.html` e suas traduções PT/EN/ES ao objeto `fallbackProjects` em `i18n.js`.
-
-Fluxo da galeria: **GitHub → cache local → fallback estático**.
-
-## Padrão para descrições de projetos
-
-Para os cards do portfólio, priorizar uma descrição curta e orientada ao negócio seguindo esta lógica:
-
-**Problema/pergunta → análise/abordagem → finalidade**
-
-A descrição deve deixar claro:
-
-1. **Problema/pergunta:** o que precisava ser entendido, analisado ou resolvido.
-2. **Análise/abordagem:** como o projeto investigou ou tratou a questão, citando métodos ou ferramentas apenas quando agregarem contexto.
-3. **Finalidade:** para que a análise serve, como apoiar decisões, identificar oportunidades, facilitar entendimento ou melhorar processos.
-
-Evitar descrições que sejam apenas uma lista de ferramentas ou tarefas executadas. O foco principal deve ser o valor do projeto e a pergunta que ele ajuda a responder.
-
-Exemplo de estrutura:
-
-> Análise de [tema/problema] para identificar [achado ou questão investigada], utilizando [abordagem, quando relevante], com foco em [finalidade de negócio].
-
-Para páginas ou READMEs de projetos mais completos, pode-se usar uma narrativa mais detalhada:
-
-**Problema → estratégia → execução → resultado**
-
-Essa segunda estrutura é mais adequada para transformar o projeto em um mini-case, enquanto a primeira deve ser a referência principal para os cards do site.
