@@ -35,7 +35,7 @@
 
 Este portfólio foi criado para complementar meu currículo e LinkedIn em um formato mais visual e integrado. Ele reúne perfil, projetos e principais resultados profissionais para que recrutadores e gestores compreendam rapidamente minhas competências e os tipos de problema que já ajudei a resolver.
 
-Ao mesmo tempo, o projeto foi pensado como uma experiência prática de aprendizado, utilizando IA generativa como apoio ao desenvolvimento e ao aprimoramento contínuo do portfólio.
+Ao mesmo tempo, o projeto foi pensado como uma experiência prática de aprendizado, sendo estruturado do zero com apoio de IA generativa e aprimorado continuamente.
 
 ---
 
