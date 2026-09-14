@@ -1,3 +1,18 @@
+const introPreloader = document.querySelector('.intro-preloader');
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+if (introPreloader) {
+  const introDelay = reducedMotion ? 150 : 1150;
+
+  window.setTimeout(() => {
+    introPreloader.classList.add('is-hiding');
+    document.body.classList.remove('preloading');
+
+    const removeDelay = reducedMotion ? 0 : 450;
+    window.setTimeout(() => introPreloader.remove(), removeDelay);
+  }, introDelay);
+}
+
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
