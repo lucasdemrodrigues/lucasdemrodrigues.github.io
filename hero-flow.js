@@ -2,6 +2,8 @@
 const flowHost = document.querySelector('.hero-flow');
 
 if (flowHost) {
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   flowHost.innerHTML = '';
   flowHost.style.opacity = '1';
 
