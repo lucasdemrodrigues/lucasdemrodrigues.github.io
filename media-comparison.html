@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Comparação de mídia — Financial Sample</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="media-comparison.css" />
+</head>
+<body>
+  <main class="comparison-page">
+    <header class="comparison-header">
+      <span class="eyebrow">TESTE VISUAL</span>
+      <h1>GIF × vídeo</h1>
+      <p>Mesma apresentação e mesmo enquadramento para comparar qual formato funciona melhor no card do projeto Financial Sample.</p>
+    </header>
+
+    <section class="comparison-grid" aria-label="Comparação entre GIF e vídeo">
+      <article class="media-card">
+        <div class="media-label">
+          <span>GIF atual</span>
+          <small>4,3 MB</small>
+        </div>
+        <div class="media-frame">
+          <img
+            src="https://raw.githubusercontent.com/lucasdemrodrigues/relatorio-de-vendas-power-bi/main/assets/portfolio-preview.gif"
+            alt="Prévia animada em GIF do relatório Financial Sample"
+          />
+        </div>
+      </article>
+
+      <article class="media-card">
+        <div class="media-label">
+          <span>Vídeo</span>
+          <small>17 MB · sem som no site</small>
+        </div>
+        <div class="media-frame">
+          <video autoplay muted loop playsinline preload="metadata" aria-label="Prévia em vídeo do relatório Financial Sample">
+            <source src="https://raw.githubusercontent.com/lucasdemrodrigues/relatorio-de-vendas-power-bi/main/assets/financial-sample-demo.mp4" type="video/mp4" />
+            Seu navegador não oferece suporte à reprodução deste vídeo.
+          </video>
+        </div>
+      </article>
+    </section>
+
+    <p class="comparison-note">Esta página é apenas para comparação e não altera o card atual, o <code>portfolio.json</code> nem a instrumentação do GA4.</p>
+  </main>
+</body>
+</html>
