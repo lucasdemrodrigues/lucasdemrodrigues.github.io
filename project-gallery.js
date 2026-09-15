@@ -4,8 +4,9 @@
 
   const GITHUB_USER = 'lucasdemrodrigues';
   const PORTFOLIO_FILE = 'portfolio.json';
-  const CACHE_KEY = 'portfolio-projects-cache-v2';
+  const CACHE_KEY = 'portfolio-projects-cache-v3';
   const categories = ['Todos', 'Power BI', 'SQL', 'Excel', 'IA'];
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const escapeHTML = value => String(value || '').replace(/[&<>'"]/g, char => ({
     '&': '&amp;',
@@ -47,6 +48,12 @@
       errors.push('description deve ser um texto');
     }
     if (typeof metadata.image !== 'string') errors.push('image deve ser um texto/URL');
+    if (
+      metadata.image_reduced_motion != null &&
+      typeof metadata.image_reduced_motion !== 'string'
+    ) {
+      errors.push('image_reduced_motion deve ser um texto/URL');
+    }
     if (!Array.isArray(metadata.tags) || metadata.tags.some(tag => typeof tag !== 'string')) {
       errors.push('tags deve ser uma lista de textos');
     }
@@ -75,6 +82,7 @@
     description_en: cleanText(metadata, 'description_en'),
     description_es: cleanText(metadata, 'description_es'),
     image: metadata.image.trim(),
+    image_reduced_motion: cleanText(metadata, 'image_reduced_motion'),
     tags: metadata.tags.slice(0, 6),
     eyebrow: metadata.eyebrow.trim(),
     eyebrow_en: cleanText(metadata, 'eyebrow_en'),
@@ -114,18 +122,22 @@
 
     if (project.image) {
       const visual = document.createElement('div');
+      const imageSource = reducedMotion && project.image_reduced_motion
+        ? project.image_reduced_motion
+        : project.image;
+
       visual.className = 'project-visual';
 
       if (project.categories.includes('IA')) {
         visual.classList.add('project-visual-contain');
         visual.style.setProperty(
           '--project-image',
-          `url("${project.image.replace(/"/g, '%22')}")`
+          `url("${imageSource.replace(/"/g, '%22')}")`
         );
       }
 
       const image = document.createElement('img');
-      image.src = project.image;
+      image.src = imageSource;
       image.alt = '';
       image.loading = 'lazy';
       visual.appendChild(image);
@@ -245,7 +257,6 @@
     grid.appendChild(card);
   });
 
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const filterButtons = [...filterContainer.querySelectorAll('.project-filter')];
   let projects = [...grid.querySelectorAll('.project-feature')];
   let galleryEntered = reducedMotion;
