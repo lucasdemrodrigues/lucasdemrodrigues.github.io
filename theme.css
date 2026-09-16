@@ -35,3 +35,6 @@ body.light-mode{background:radial-gradient(circle at 50% 18%,#fff 0,#f6f4ef 34%,
 
 /* Legibilidade dos metadados pequenos. */
 .signal-top{font-size:11px;color:#999}.tool-label{font-size:12px;color:#999}.contact-card-label{font-size:11px;color:#a0a0a0}.copy-email{font-size:11px!important;color:#a0a0a0!important}footer{color:#8f8f8f}.light-mode .signal-top,.light-mode .tool-label,.light-mode .contact-card-label,.light-mode .copy-email,.light-mode footer{color:#626262!important}
+
+/* Feedback visual da cópia de e-mail. */
+.copy-email.copied,.email-card:hover .copy-email.copied{color:#39ff14!important}.light-mode .copy-email.copied,.light-mode .email-card:hover .copy-email.copied{color:#129b00!important}
