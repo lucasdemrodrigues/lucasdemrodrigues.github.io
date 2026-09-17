@@ -859,6 +859,48 @@
       "issuer": "Meliponário Pai e Filhos",
       "image": "https://drive.google.com/thumbnail?id=1R6eiK_nijtTxOXfXfSyvC1BuyGVBS3MD&sz=w1000",
       "url": "https://drive.google.com/file/d/1R6eiK_nijtTxOXfXfSyvC1BuyGVBS3MD/view"
+    },
+    {
+      "title": "Oficina: Inimigos Naturais das Abelhas Nativas",
+      "type": "Oficina",
+      "area": "Outros interesses",
+      "collection_id": null,
+      "issued_at": "2026-06-28",
+      "sequence": 1,
+      "hours": 4,
+      "count_hours": true,
+      "modality": "Presencial",
+      "issuer": "Meliponário Pai e Filhos",
+      "image": "https://drive.google.com/thumbnail?id=1Ezjy8vTQWp9feXA1ceKtN2bFCbEDBNGc&sz=w1000",
+      "url": "https://drive.google.com/file/d/1Ezjy8vTQWp9feXA1ceKtN2bFCbEDBNGc/view"
+    },
+    {
+      "title": "Oficina: Alimentação das Abelhas Nativas",
+      "type": "Oficina",
+      "area": "Outros interesses",
+      "collection_id": null,
+      "issued_at": "2026-07-26",
+      "sequence": 1,
+      "hours": 4,
+      "count_hours": true,
+      "modality": "Presencial",
+      "issuer": "Meliponário Floresta Viva",
+      "image": "https://drive.google.com/thumbnail?id=13aLuVqZ4RanEOw5WYgacXGaiJmXKrg6T&sz=w1000",
+      "url": "https://drive.google.com/file/d/13aLuVqZ4RanEOw5WYgacXGaiJmXKrg6T/view"
+    },
+    {
+      "title": "Oficina: Transferência de Ninhos, Iscas e Multiplicação de Colônias",
+      "type": "Oficina",
+      "area": "Outros interesses",
+      "collection_id": null,
+      "issued_at": "2026-08-30",
+      "sequence": 1,
+      "hours": 4,
+      "count_hours": true,
+      "modality": "Presencial",
+      "issuer": "Meliponário Floresta Viva",
+      "image": "https://drive.google.com/thumbnail?id=1ih8I1r2cA-l8Y4aFZdwkzUo9bGNrIcu3&sz=w1000",
+      "url": "https://drive.google.com/file/d/1ih8I1r2cA-l8Y4aFZdwkzUo9bGNrIcu3/view"
     }
   ]
 }
