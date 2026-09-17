@@ -1,7 +1,9 @@
 (() => {
   const DATA_URL = 'certificacoes.json';
-  const grid = document.getElementById('cert-grid');
+  const catalog = document.getElementById('cert-catalog');
   const order = document.getElementById('cert-order');
+  const collectionFilter = document.getElementById('collection-filter');
+  const areaFilters = [...document.querySelectorAll('[data-area]')];
   const modal = document.getElementById('cert-modal');
   const modalImage = document.getElementById('cert-modal-image');
   const modalTitle = document.getElementById('cert-modal-title');
@@ -34,22 +36,37 @@
   });
 
   let certificates = [];
-  let collection = {};
-  let summary = {};
+  let collections = [];
+  let activeArea = 'all';
   let areasPinned = false;
 
   const formatDate = iso => {
+    if (!iso) return '';
     const [year, month, day] = iso.split('-');
     return `${day}/${month}/${year}`;
   };
 
-  const percentage = (hours, total) => total > 0 ? Math.round((hours / total) * 100) : 0;
+  const sumHours = items => items
+    .filter(item => item.count_hours !== false)
+    .reduce((sum, item) => sum + (Number(item.hours) || 0), 0);
 
-  const sortCertificates = direction => [...certificates].sort((a, b) => {
-    if (a.issued_at === b.issued_at) return direction === 'desc' ? b.sequence - a.sequence : a.sequence - b.sequence;
-    return direction === 'desc'
-      ? b.issued_at.localeCompare(a.issued_at)
-      : a.issued_at.localeCompare(b.issued_at);
+  const percentage = (value, total) => total > 0 ? Math.round((value / total) * 100) : 0;
+
+  const sortCertificates = items => [...items].sort((a, b) => {
+    const direction = order.value === 'desc' ? -1 : 1;
+    const dateCompare = (a.issued_at || '').localeCompare(b.issued_at || '');
+    if (dateCompare !== 0) return dateCompare * direction;
+    return ((a.sequence || 0) - (b.sequence || 0)) * direction;
+  });
+
+  const getCollection = id => collections.find(item => item.id === id);
+
+  const getFilteredCertificates = () => certificates.filter(certificate => {
+    const matchesArea = activeArea === 'all' || certificate.area === activeArea;
+    const selectedCollection = collectionFilter.value;
+    const matchesCollection = selectedCollection === 'all'
+      || (selectedCollection === 'standalone' ? !certificate.collection_id : certificate.collection_id === selectedCollection);
+    return matchesArea && matchesCollection;
   });
 
   const setAreasPopover = open => {
@@ -59,15 +76,28 @@
   };
 
   const renderSummary = () => {
-    const totalHours = Number(summary.hours) || 0;
-    const areas = Array.isArray(summary.areas) ? summary.areas : [];
-    const modalities = Array.isArray(summary.modalities) ? summary.modalities : [];
+    const counted = certificates.filter(item => item.count_hours !== false);
+    const totalHours = sumHours(certificates);
+    const areaHours = new Map();
+    const modalityHours = new Map();
+
+    counted.forEach(certificate => {
+      if (certificate.area) {
+        areaHours.set(certificate.area, (areaHours.get(certificate.area) || 0) + (Number(certificate.hours) || 0));
+      }
+      if (certificate.modality) {
+        const key = certificate.modality.toLowerCase();
+        modalityHours.set(key, (modalityHours.get(key) || 0) + (Number(certificate.hours) || 0));
+      }
+    });
+
+    const areas = [...areaHours.entries()]
+      .map(([name, hours]) => ({name, hours}))
+      .sort((a, b) => b.hours - a.hours || a.name.localeCompare(b.name));
 
     document.getElementById('cert-count').textContent = certificates.length;
     document.getElementById('cert-hours').textContent = `${totalHours}h`;
     document.getElementById('cert-area-count').textContent = areas.length;
-    document.getElementById('visible-count').textContent = certificates.length;
-    document.getElementById('visible-hours').textContent = totalHours;
 
     if (areasBreakdown) {
       areasBreakdown.innerHTML = areas.map(area => {
@@ -80,42 +110,129 @@
       }).join('');
     }
 
-    const modalityMap = new Map(modalities.map(item => [item.name.toLowerCase(), item.hours]));
-    document.getElementById('modality-online').textContent = `${percentage(modalityMap.get('online') || 0, totalHours)}%`;
-    document.getElementById('modality-presencial').textContent = `${percentage(modalityMap.get('presencial') || 0, totalHours)}%`;
-    document.getElementById('modality-hibrido').textContent = `${percentage(modalityMap.get('híbrido') || modalityMap.get('hibrido') || 0, totalHours)}%`;
+    const modalityTotal = [...modalityHours.values()].reduce((sum, value) => sum + value, 0);
+    document.getElementById('modality-online').textContent = `${percentage(modalityHours.get('online') || 0, modalityTotal)}%`;
+    document.getElementById('modality-presencial').textContent = `${percentage(modalityHours.get('presencial') || 0, modalityTotal)}%`;
+    document.getElementById('modality-hibrido').textContent = `${percentage(modalityHours.get('híbrido') || modalityHours.get('hibrido') || 0, modalityTotal)}%`;
   };
 
   const openCertificate = certificate => {
     modalImage.src = certificate.image;
     modalImage.alt = `Certificado: ${certificate.title}`;
     modalTitle.textContent = certificate.title;
-    modalMeta.textContent = `${certificate.type} · ${formatDate(certificate.issued_at)} · ${certificate.hours}h`;
+    const meta = [certificate.type, formatDate(certificate.issued_at), certificate.hours ? `${certificate.hours}h` : null]
+      .filter(Boolean)
+      .join(' · ');
+    modalMeta.textContent = meta;
     modal.showModal();
   };
 
-  const render = () => {
-    grid.innerHTML = '';
-    sortCertificates(order.value).forEach(certificate => {
-      const issuerTag = collection.show_issuer === false ? '' : `<span>${certificate.issuer}</span>`;
-      const card = document.createElement('article');
-      card.className = 'cert-card';
-      card.innerHTML = `
-        <button class="cert-image-button" type="button" aria-label="Ampliar certificado ${certificate.title}">
-          <img src="${certificate.image}" alt="" loading="lazy" referrerpolicy="no-referrer" />
-        </button>
-        <div class="cert-card-body">
-          <div class="cert-meta"><span>${certificate.type}</span><span>${formatDate(certificate.issued_at)}</span></div>
-          <h3>${certificate.title}</h3>
-          <div class="cert-details"><span>${certificate.hours}h</span>${issuerTag}</div>
-          <a class="cert-view" href="${certificate.url}" target="_blank" rel="noreferrer" aria-label="Abrir certificado ${certificate.title} no Google Drive, abre em nova aba">Ver certificado <b>↗</b></a>
-        </div>`;
-      card.querySelector('.cert-image-button').addEventListener('click', () => openCertificate(certificate));
-      grid.appendChild(card);
+  const createCard = certificate => {
+    const collection = getCollection(certificate.collection_id);
+    const showIssuer = collection?.show_issuer !== false;
+    const card = document.createElement('article');
+    card.className = 'cert-card';
+
+    const hoursTag = certificate.hours ? `<span>${certificate.hours}h</span>` : '';
+    const issuerTag = showIssuer && certificate.issuer ? `<span>${certificate.issuer}</span>` : '';
+    const areaTag = showIssuer && certificate.area ? `<span>${certificate.area}</span>` : '';
+
+    card.innerHTML = `
+      <button class="cert-image-button" type="button" aria-label="Ampliar certificado ${certificate.title}">
+        <img src="${certificate.image}" alt="" loading="lazy" referrerpolicy="no-referrer" />
+      </button>
+      <div class="cert-card-body">
+        <div class="cert-meta"><span>${certificate.type || 'Certificado'}</span><span>${formatDate(certificate.issued_at)}</span></div>
+        <h3>${certificate.title}</h3>
+        <div class="cert-details">${hoursTag}${issuerTag}${areaTag}</div>
+        <a class="cert-view" href="${certificate.url}" target="_blank" rel="noreferrer" aria-label="Abrir certificado ${certificate.title} no Google Drive, abre em nova aba">Ver certificado <b>↗</b></a>
+      </div>`;
+
+    card.querySelector('.cert-image-button').addEventListener('click', () => openCertificate(certificate));
+    return card;
+  };
+
+  const createGroup = (title, kicker, items) => {
+    const group = document.createElement('section');
+    group.className = 'cert-catalog-group';
+
+    const header = document.createElement('div');
+    header.className = 'cert-section-head';
+    header.innerHTML = `
+      <div>
+        <p class="cert-kicker">${kicker}</p>
+        <h2>${title}</h2>
+      </div>`;
+
+    const grid = document.createElement('div');
+    grid.className = 'cert-grid';
+    sortCertificates(items).forEach(certificate => grid.appendChild(createCard(certificate)));
+
+    group.append(header, grid);
+    return group;
+  };
+
+  const renderCatalog = () => {
+    const filtered = getFilteredCertificates();
+    catalog.innerHTML = '';
+
+    document.getElementById('visible-count').textContent = filtered.length;
+    document.getElementById('visible-hours').textContent = sumHours(filtered);
+
+    if (!filtered.length) {
+      catalog.innerHTML = '<p class="cert-empty">Nenhuma certificação encontrada neste filtro.</p>';
+      return;
+    }
+
+    collections.forEach(collection => {
+      const items = filtered.filter(certificate => certificate.collection_id === collection.id);
+      if (items.length) catalog.appendChild(createGroup(collection.title, 'Coleção', items));
+    });
+
+    const standalone = filtered.filter(certificate => !certificate.collection_id);
+    if (standalone.length) catalog.appendChild(createGroup('Outras certificações', 'Certificações', standalone));
+  };
+
+  const populateCollectionFilter = () => {
+    collections.forEach(collection => {
+      const option = document.createElement('option');
+      option.value = collection.id;
+      option.textContent = collection.title;
+      collectionFilter.appendChild(option);
+    });
+
+    if (certificates.some(certificate => !certificate.collection_id)) {
+      const option = document.createElement('option');
+      option.value = 'standalone';
+      option.textContent = 'Sem coleção';
+      collectionFilter.appendChild(option);
+    }
+  };
+
+  const syncAreaFilters = () => {
+    const availableAreas = new Set(certificates.map(certificate => certificate.area).filter(Boolean));
+    areaFilters.forEach(button => {
+      if (button.dataset.area === 'all') return;
+      button.disabled = !availableAreas.has(button.dataset.area);
     });
   };
 
-  order.addEventListener('change', render);
+  order.addEventListener('change', renderCatalog);
+  collectionFilter.addEventListener('change', renderCatalog);
+
+  areaFilters.forEach(button => {
+    button.addEventListener('click', () => {
+      if (button.disabled) return;
+      activeArea = button.dataset.area;
+      areaFilters.forEach(item => {
+        const active = item === button;
+        item.classList.toggle('active', active);
+        item.setAttribute('aria-pressed', String(active));
+      });
+      renderCatalog();
+    });
+  });
+
   closeModal.addEventListener('click', () => modal.close());
   modal.addEventListener('click', event => {
     if (event.target === modal) modal.close();
@@ -154,13 +271,14 @@
       return response.json();
     })
     .then(data => {
-      summary = data.summary || {};
-      collection = data.collection || {};
-      certificates = data.certificates || [];
+      collections = Array.isArray(data.collections) ? data.collections : [];
+      certificates = Array.isArray(data.certificates) ? data.certificates : [];
+      populateCollectionFilter();
+      syncAreaFilters();
       renderSummary();
-      render();
+      renderCatalog();
     })
     .catch(() => {
-      grid.innerHTML = '<p style="color:#999">Não foi possível carregar os certificados agora.</p>';
+      catalog.innerHTML = '<p class="cert-empty">Não foi possível carregar os certificados agora.</p>';
     });
 })();
