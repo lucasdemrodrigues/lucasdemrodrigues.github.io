@@ -30,6 +30,7 @@
   });
 
   let certificates = [];
+  let collection = {};
 
   const formatDate = iso => {
     const [year, month, day] = iso.split('-');
@@ -54,6 +55,7 @@
   const render = () => {
     grid.innerHTML = '';
     sortCertificates(order.value).forEach(certificate => {
+      const issuerTag = collection.show_issuer === false ? '' : `<span>${certificate.issuer}</span>`;
       const card = document.createElement('article');
       card.className = 'cert-card';
       card.innerHTML = `
@@ -63,7 +65,7 @@
         <div class="cert-card-body">
           <div class="cert-meta"><span>${certificate.type}</span><span>${formatDate(certificate.issued_at)}</span></div>
           <h3>${certificate.title}</h3>
-          <div class="cert-details"><span>${certificate.hours}h</span><span>${certificate.issuer}</span></div>
+          <div class="cert-details"><span>${certificate.hours}h</span>${issuerTag}</div>
           <a class="cert-view" href="${certificate.url}" target="_blank" rel="noreferrer" aria-label="Abrir certificado ${certificate.title} no Google Drive, abre em nova aba">Ver certificado <b>↗</b></a>
         </div>`;
       card.querySelector('.cert-image-button').addEventListener('click', () => openCertificate(certificate));
@@ -83,6 +85,7 @@
       return response.json();
     })
     .then(data => {
+      collection = data.collection || {};
       certificates = data.certificates;
       const hours = certificates.reduce((sum, item) => sum + item.hours, 0);
       document.getElementById('cert-count').textContent = certificates.length;
