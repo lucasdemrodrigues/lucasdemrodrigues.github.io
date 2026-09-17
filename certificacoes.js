@@ -1,5 +1,14 @@
 (() => {
   const DATA_URL = 'certificacoes.json';
+  const INITIAL_VISIBLE_COUNT = 9;
+  const PROFESSIONAL_AREAS = new Set([
+    'Dados & BI',
+    'Marketing & CRM',
+    'IA & Tecnologia',
+    'Gestão & Negócios',
+    'Carreira & Desenvolvimento'
+  ]);
+
   const catalog = document.getElementById('cert-catalog');
   const order = document.getElementById('cert-order');
   const collectionFilter = document.getElementById('collection-filter');
@@ -40,14 +49,7 @@
   let collections = [];
   let activeArea = 'all';
   let areasPinned = false;
-
-  const PROFESSIONAL_AREAS = new Set([
-    'Dados & BI',
-    'Marketing & CRM',
-    'IA & Tecnologia',
-    'Gestão & Negócios',
-    'Carreira & Desenvolvimento'
-  ]);
+  let showAllDefault = false;
 
   const formatDate = iso => {
     if (!iso) return '';
@@ -55,17 +57,16 @@
     return `${day}/${month}/${year}`;
   };
 
-  const formatHours = value => {
-    const numeric = Number(value) || 0;
-    const wholeHours = Math.floor(numeric);
-    const minutes = Math.round((numeric - wholeHours) * 60);
-    if (!minutes) return `${wholeHours}h`;
-    return `${wholeHours}h${String(minutes).padStart(2, '0')}`;
-  };
-
   const sumHours = items => items
     .filter(item => item.count_hours !== false)
     .reduce((sum, item) => sum + (Number(item.hours) || 0), 0);
+
+  const formatHours = value => {
+    const totalMinutes = Math.round((Number(value) || 0) * 60);
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+    return minutes ? `${hours}h${String(minutes).padStart(2, '0')}` : `${hours}h`;
+  };
 
   const percentage = (value, total) => total > 0 ? Math.round((value / total) * 100) : 0;
 
@@ -73,7 +74,7 @@
     const direction = order.value === 'desc' ? -1 : 1;
     const dateCompare = (a.issued_at || '').localeCompare(b.issued_at || '');
     if (dateCompare !== 0) return dateCompare * direction;
-    return ((a.sequence || 0) - (b.sequence || 0)) * direction;
+    return (a.sequence || 0) - (b.sequence || 0);
   });
 
   const setActiveArea = area => {
@@ -97,6 +98,8 @@
     return activeArea === 'all' || certificate.area === activeArea;
   });
 
+  const isDefaultView = () => collectionFilter.value === 'all' && activeArea === 'all';
+
   const setAreasPopover = open => {
     if (!areasToggle || !areasPopover) return;
     areasPopover.hidden = !open;
@@ -106,15 +109,12 @@
   const renderSummary = () => {
     const counted = certificates.filter(item => item.count_hours !== false);
     const totalHours = sumHours(certificates);
-    const professionalAreaHours = new Map();
+    const areaHours = new Map();
     const modalityCounts = new Map();
 
     counted.forEach(certificate => {
       if (certificate.area && PROFESSIONAL_AREAS.has(certificate.area)) {
-        professionalAreaHours.set(
-          certificate.area,
-          (professionalAreaHours.get(certificate.area) || 0) + (Number(certificate.hours) || 0)
-        );
+        areaHours.set(certificate.area, (areaHours.get(certificate.area) || 0) + (Number(certificate.hours) || 0));
       }
     });
 
@@ -124,10 +124,10 @@
       modalityCounts.set(key, (modalityCounts.get(key) || 0) + 1);
     });
 
-    const areas = [...professionalAreaHours.entries()]
+    const areas = [...areaHours.entries()]
       .map(([name, hours]) => ({name, hours}))
       .sort((a, b) => b.hours - a.hours || a.name.localeCompare(b.name));
-    const professionalHoursTotal = [...professionalAreaHours.values()].reduce((sum, value) => sum + value, 0);
+    const professionalHours = areas.reduce((sum, area) => sum + area.hours, 0);
 
     document.getElementById('cert-count').textContent = certificates.length;
     document.getElementById('cert-hours').textContent = formatHours(totalHours);
@@ -135,7 +135,7 @@
 
     if (areasBreakdown) {
       areasBreakdown.innerHTML = areas.map(area => {
-        const value = percentage(area.hours, professionalHoursTotal);
+        const value = percentage(area.hours, professionalHours);
         return `
           <div class="cert-area-row">
             <div><span>${area.name}</span><strong>${value}%</strong></div>
@@ -187,6 +187,12 @@
 
   const renderCatalog = () => {
     const filtered = getFilteredCertificates();
+    const sorted = sortCertificates(filtered);
+    const defaultView = isDefaultView();
+    const visible = defaultView && !showAllDefault
+      ? sorted.slice(0, INITIAL_VISIBLE_COUNT)
+      : sorted;
+
     catalog.innerHTML = '';
 
     document.getElementById('visible-count').textContent = filtered.length;
@@ -199,8 +205,27 @@
 
     const grid = document.createElement('div');
     grid.className = 'cert-grid';
-    sortCertificates(filtered).forEach(certificate => grid.appendChild(createCard(certificate)));
+    visible.forEach(certificate => grid.appendChild(createCard(certificate)));
     catalog.appendChild(grid);
+
+    if (defaultView && filtered.length > INITIAL_VISIBLE_COUNT) {
+      const revealWrap = document.createElement('div');
+      revealWrap.className = 'cert-reveal-wrap';
+
+      const revealButton = document.createElement('button');
+      revealButton.className = 'cert-reveal';
+      revealButton.type = 'button';
+      revealButton.textContent = showAllDefault ? 'Mostrar menos ↑' : 'Mostrar todas as certificações ↓';
+      revealButton.setAttribute('aria-expanded', String(showAllDefault));
+      revealButton.addEventListener('click', () => {
+        showAllDefault = !showAllDefault;
+        renderCatalog();
+        if (!showAllDefault) catalog.scrollIntoView({behavior:'smooth', block:'start'});
+      });
+
+      revealWrap.appendChild(revealButton);
+      catalog.appendChild(revealWrap);
+    }
   };
 
   const populateCollectionFilter = () => {
@@ -231,6 +256,7 @@
 
   collectionFilter.addEventListener('change', () => {
     if (collectionFilter.value !== 'all') setActiveArea('all');
+    showAllDefault = false;
     renderCatalog();
   });
 
@@ -239,6 +265,7 @@
       if (button.disabled) return;
       setActiveArea(button.dataset.area);
       if (button.dataset.area !== 'all') collectionFilter.value = 'all';
+      showAllDefault = false;
       renderCatalog();
     });
   });
