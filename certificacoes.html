@@ -71,11 +71,26 @@
 
     <section class="cert-section">
       <div class="cert-shell">
-        <div class="cert-section-head">
-          <div>
-            <p class="cert-kicker">COLEÇÃO</p>
-            <h2>Bootcamp Power BI 2026 — Universia + DIO</h2>
+        <div class="cert-filter-panel" aria-label="Filtros de certificações">
+          <div class="cert-filter-group">
+            <span class="cert-filter-label">Filtrar por área</span>
+            <div class="cert-filter-list" id="area-filters">
+              <button type="button" class="cert-filter active" data-area="all" aria-pressed="true">Todos</button>
+              <button type="button" class="cert-filter" data-area="Dados & BI" aria-pressed="false">Dados & BI</button>
+              <button type="button" class="cert-filter" data-area="Marketing & CRM" aria-pressed="false">Marketing & CRM</button>
+              <button type="button" class="cert-filter" data-area="IA & Tecnologia" aria-pressed="false">IA & Tecnologia</button>
+              <button type="button" class="cert-filter" data-area="Gestão & Negócios" aria-pressed="false">Gestão & Negócios</button>
+              <button type="button" class="cert-filter" data-area="Carreira & Desenvolvimento" aria-pressed="false">Carreira & Desenvolvimento</button>
+              <button type="button" class="cert-filter" data-area="Outros interesses" aria-pressed="false">Outros interesses</button>
+            </div>
           </div>
+
+          <label class="cert-collection-filter" for="collection-filter">
+            Coleção
+            <select id="collection-filter">
+              <option value="all">Todas</option>
+            </select>
+          </label>
         </div>
 
         <div class="cert-toolbar">
@@ -88,7 +103,7 @@
           </label>
         </div>
 
-        <div class="cert-grid" id="cert-grid" aria-live="polite"></div>
+        <div id="cert-catalog" aria-live="polite"></div>
       </div>
     </section>
   </main>
