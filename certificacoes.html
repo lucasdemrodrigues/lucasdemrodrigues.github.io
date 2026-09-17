@@ -30,10 +30,38 @@
         <h1>Certificações</h1>
 
         <div class="cert-summary" aria-label="Resumo das certificações">
-          <article><strong id="cert-count">16</strong><span>certificados</span></article>
-          <article><strong id="cert-hours">49h</strong><span>carga horária</span></article>
-          <article><strong>2026</strong><span>ano atual</span></article>
-          <article><strong>Em andamento</strong><span>status do bootcamp</span></article>
+          <article class="cert-summary-card">
+            <strong id="cert-count">16</strong>
+            <span>Certificações</span>
+          </article>
+
+          <article class="cert-summary-card">
+            <strong id="cert-hours">49h</strong>
+            <span>Carga horária</span>
+          </article>
+
+          <div class="cert-summary-area-wrap">
+            <button class="cert-summary-card cert-summary-area" id="areas-toggle" type="button" aria-expanded="false" aria-controls="areas-popover">
+              <strong><span id="cert-area-count">2</span> <i>↗</i></strong>
+              <span>Áreas</span>
+            </button>
+            <div class="cert-area-popover" id="areas-popover" role="dialog" aria-label="Distribuição das áreas de formação" hidden>
+              <div class="cert-popover-head">
+                <strong>Áreas de formação</strong>
+                <small>Por carga horária</small>
+              </div>
+              <div id="areas-breakdown"></div>
+            </div>
+          </div>
+
+          <article class="cert-summary-card cert-modality-card">
+            <strong>Modalidade</strong>
+            <div class="cert-modality-breakdown" aria-label="Distribuição da modalidade por carga horária">
+              <span><b id="modality-online">100%</b> Online</span>
+              <span><b id="modality-presencial">0%</b> Presencial</span>
+              <span><b id="modality-hibrido">0%</b> Híbrido</span>
+            </div>
+          </article>
         </div>
       </div>
     </section>
