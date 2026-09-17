@@ -8,6 +8,10 @@
   const modalMeta = document.getElementById('cert-modal-meta');
   const closeModal = document.querySelector('.cert-modal-close');
   const themeButton = document.querySelector('.cert-theme');
+  const areasToggle = document.getElementById('areas-toggle');
+  const areasPopover = document.getElementById('areas-popover');
+  const areasBreakdown = document.getElementById('areas-breakdown');
+  const areasWrap = document.querySelector('.cert-summary-area-wrap');
 
   document.getElementById('year').textContent = new Date().getFullYear();
 
@@ -31,11 +35,15 @@
 
   let certificates = [];
   let collection = {};
+  let summary = {};
+  let areasPinned = false;
 
   const formatDate = iso => {
     const [year, month, day] = iso.split('-');
     return `${day}/${month}/${year}`;
   };
+
+  const percentage = (hours, total) => total > 0 ? Math.round((hours / total) * 100) : 0;
 
   const sortCertificates = direction => [...certificates].sort((a, b) => {
     if (a.issued_at === b.issued_at) return direction === 'desc' ? b.sequence - a.sequence : a.sequence - b.sequence;
@@ -43,6 +51,40 @@
       ? b.issued_at.localeCompare(a.issued_at)
       : a.issued_at.localeCompare(b.issued_at);
   });
+
+  const setAreasPopover = open => {
+    if (!areasToggle || !areasPopover) return;
+    areasPopover.hidden = !open;
+    areasToggle.setAttribute('aria-expanded', String(open));
+  };
+
+  const renderSummary = () => {
+    const totalHours = Number(summary.hours) || 0;
+    const areas = Array.isArray(summary.areas) ? summary.areas : [];
+    const modalities = Array.isArray(summary.modalities) ? summary.modalities : [];
+
+    document.getElementById('cert-count').textContent = certificates.length;
+    document.getElementById('cert-hours').textContent = `${totalHours}h`;
+    document.getElementById('cert-area-count').textContent = areas.length;
+    document.getElementById('visible-count').textContent = certificates.length;
+    document.getElementById('visible-hours').textContent = totalHours;
+
+    if (areasBreakdown) {
+      areasBreakdown.innerHTML = areas.map(area => {
+        const value = percentage(area.hours, totalHours);
+        return `
+          <div class="cert-area-row">
+            <div><span>${area.name}</span><strong>${value}%</strong></div>
+            <span class="cert-area-track" aria-hidden="true"><i style="width:${value}%"></i></span>
+          </div>`;
+      }).join('');
+    }
+
+    const modalityMap = new Map(modalities.map(item => [item.name.toLowerCase(), item.hours]));
+    document.getElementById('modality-online').textContent = `${percentage(modalityMap.get('online') || 0, totalHours)}%`;
+    document.getElementById('modality-presencial').textContent = `${percentage(modalityMap.get('presencial') || 0, totalHours)}%`;
+    document.getElementById('modality-hibrido').textContent = `${percentage(modalityMap.get('híbrido') || modalityMap.get('hibrido') || 0, totalHours)}%`;
+  };
 
   const openCertificate = certificate => {
     modalImage.src = certificate.image;
@@ -79,19 +121,43 @@
     if (event.target === modal) modal.close();
   });
 
+  if (areasToggle && areasPopover && areasWrap) {
+    areasToggle.addEventListener('click', () => {
+      areasPinned = !areasPinned;
+      setAreasPopover(areasPinned);
+    });
+
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      areasWrap.addEventListener('mouseenter', () => setAreasPopover(true));
+      areasWrap.addEventListener('mouseleave', () => {
+        if (!areasPinned) setAreasPopover(false);
+      });
+    }
+
+    document.addEventListener('click', event => {
+      if (!areasPinned || areasWrap.contains(event.target)) return;
+      areasPinned = false;
+      setAreasPopover(false);
+    });
+
+    document.addEventListener('keydown', event => {
+      if (event.key !== 'Escape' || areasPopover.hidden) return;
+      areasPinned = false;
+      setAreasPopover(false);
+      areasToggle.focus();
+    });
+  }
+
   fetch(DATA_URL)
     .then(response => {
       if (!response.ok) throw new Error('Falha ao carregar certificações.');
       return response.json();
     })
     .then(data => {
+      summary = data.summary || {};
       collection = data.collection || {};
-      certificates = data.certificates;
-      const hours = certificates.reduce((sum, item) => sum + item.hours, 0);
-      document.getElementById('cert-count').textContent = certificates.length;
-      document.getElementById('cert-hours').textContent = `${hours}h`;
-      document.getElementById('visible-count').textContent = certificates.length;
-      document.getElementById('visible-hours').textContent = hours;
+      certificates = data.certificates || [];
+      renderSummary();
       render();
     })
     .catch(() => {
