@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Certificações e formação complementar de Lucas Rodrigues em dados, BI, IA, CRM e marketing." />
+  <meta name="theme-color" content="#000000" />
+  <title>Certificações — Lucas Rodrigues</title>
+  <link rel="canonical" href="https://lucasdemrodrigues.github.io/certificacoes.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="certificacoes.css" />
+</head>
+<body>
+  <header class="cert-topbar">
+    <a class="cert-brand" href="index.html" aria-label="Voltar ao portfólio de Lucas Rodrigues">
+      <span>LR<span>.</span></span>
+      <strong>Lucas Rodrigues</strong>
+    </a>
+    <div class="cert-topbar-actions">
+      <a class="cert-back" href="index.html">← Portfólio</a>
+      <button class="cert-theme" type="button" aria-label="Ativar modo claro" title="Modo claro">☀</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="cert-hero">
+      <div class="cert-shell">
+        <p class="cert-kicker">CERTIFICAÇÕES</p>
+        <h1>Formação complementar<br><span>em evolução.</span></h1>
+        <p class="cert-lead">Cursos, projetos, mentorias e módulos concluídos ao longo da minha jornada de aprendizado, organizados por programa e data de emissão.</p>
+
+        <div class="cert-summary" aria-label="Resumo das certificações">
+          <article><strong id="cert-count">16</strong><span>certificados</span></article>
+          <article><strong id="cert-hours">49h</strong><span>carga horária</span></article>
+          <article><strong>2026</strong><span>ano atual</span></article>
+          <article><strong>Em andamento</strong><span>status do bootcamp</span></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="cert-section">
+      <div class="cert-shell">
+        <div class="cert-section-head">
+          <div>
+            <p class="cert-kicker">COLEÇÃO</p>
+            <h2>Bootcamp Universia 2026 — Primeiros Passos em Power BI</h2>
+            <p>Formação realizada na DIO em parceria com a Universia, reunindo conteúdos de inteligência artificial, SQL, ETL, Business Intelligence e Power BI.</p>
+          </div>
+          <span class="cert-status"><i></i> Em andamento</span>
+        </div>
+
+        <div class="cert-toolbar">
+          <p><span id="visible-count">16</span> certificados · <span id="visible-hours">49</span> horas concluídas</p>
+          <label for="cert-order">Ordenar
+            <select id="cert-order">
+              <option value="asc">Mais antigos primeiro</option>
+              <option value="desc">Mais recentes primeiro</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="cert-grid" id="cert-grid" aria-live="polite"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="cert-footer">
+    <span>© <span id="year"></span> Lucas Rodrigues</span>
+    <span>São Paulo, Brasil</span>
+  </footer>
+
+  <dialog class="cert-modal" id="cert-modal" aria-labelledby="cert-modal-title">
+    <div class="cert-modal-head">
+      <div>
+        <span id="cert-modal-meta"></span>
+        <h2 id="cert-modal-title"></h2>
+      </div>
+      <button type="button" class="cert-modal-close" aria-label="Fechar certificado">×</button>
+    </div>
+    <img id="cert-modal-image" alt="" />
+  </dialog>
+
+  <script src="analytics.js"></script>
+  <script src="certificacoes.js"></script>
+</body>
+</html>
