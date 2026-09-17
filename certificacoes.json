@@ -593,6 +593,62 @@
       "issuer": "Hashtag Treinamentos",
       "image": "https://drive.google.com/thumbnail?id=1LxCEquj3URRXEvDSAkJobM3GgQSx_b4r&sz=w1000",
       "url": "https://drive.google.com/file/d/1LxCEquj3URRXEvDSAkJobM3GgQSx_b4r/view"
+    },
+    {
+      "title": "Mapa da Comunicação no Trabalho",
+      "type": "Evento",
+      "area": "Carreira & Desenvolvimento",
+      "collection_id": null,
+      "issued_at": "2024-06-28",
+      "sequence": 1,
+      "hours": 4,
+      "count_hours": true,
+      "modality": "Online",
+      "issuer": "Focus Coaching / Ana Paula Scigliano",
+      "image": "https://drive.google.com/thumbnail?id=1eAQST7h4aWSNpnGz-sXWJOfhYaabfkLg&sz=w1000",
+      "url": "https://drive.google.com/file/d/1eAQST7h4aWSNpnGz-sXWJOfhYaabfkLg/view"
+    },
+    {
+      "title": "Vamos Subir Trilhas #2 — Escolha de Carreira",
+      "type": "Evento",
+      "area": "Carreira & Desenvolvimento",
+      "collection_id": null,
+      "issued_at": "2021-08-19",
+      "sequence": 1,
+      "hours": 2,
+      "count_hours": true,
+      "modality": "Online",
+      "issuer": "Vamos Subir",
+      "image": "https://drive.google.com/thumbnail?id=1hIX5wVg45kkBRYaD6ozbOW-rKL335oW-&sz=w1000",
+      "url": "https://drive.google.com/file/d/1hIX5wVg45kkBRYaD6ozbOW-rKL335oW-/view"
+    },
+    {
+      "title": "Vamos Subir Trilhas #3 — Construção de CV e Performance",
+      "type": "Evento",
+      "area": "Carreira & Desenvolvimento",
+      "collection_id": null,
+      "issued_at": "2021-09-02",
+      "sequence": 1,
+      "hours": 2,
+      "count_hours": true,
+      "modality": "Online",
+      "issuer": "Vamos Subir",
+      "image": "https://drive.google.com/thumbnail?id=1ypFx0-CM5-4VrBw1ZW4IbQEg98HAhlb_&sz=w1000",
+      "url": "https://drive.google.com/file/d/1ypFx0-CM5-4VrBw1ZW4IbQEg98HAhlb_/view"
+    },
+    {
+      "title": "Atendimento ao Público",
+      "type": "Curso",
+      "area": "Carreira & Desenvolvimento",
+      "collection_id": null,
+      "issued_at": "2019-07-08",
+      "sequence": 1,
+      "hours": 10,
+      "count_hours": true,
+      "modality": "Online",
+      "issuer": "Fundação Bradesco",
+      "image": "https://drive.google.com/thumbnail?id=1q1vgr6fUyT3xZFeR_7rocCXEF8xfCtMR&sz=w1000",
+      "url": "https://drive.google.com/file/d/1q1vgr6fUyT3xZFeR_7rocCXEF8xfCtMR/view"
     }
   ]
 }
