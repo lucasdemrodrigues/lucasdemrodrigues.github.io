@@ -719,6 +719,76 @@
       "issuer": "ASSETT",
       "image": "https://drive.google.com/thumbnail?id=1sKR4J2SRiuRieL_f2a3c5LkD14ibXZSa&sz=w1000",
       "url": "https://drive.google.com/file/d/1sKR4J2SRiuRieL_f2a3c5LkD14ibXZSa/view"
+    },
+    {
+      "title": "Mini Curso de Diversidade e Inclusão",
+      "type": "Curso",
+      "area": "Carreira & Desenvolvimento",
+      "collection_id": null,
+      "issued_at": "2021-07-22",
+      "sequence": 1,
+      "hours": 4,
+      "count_hours": true,
+      "modality": "Online",
+      "issuer": "WeWork + Associação Amigos da Vetusta + Faculdade de Direito da UFMG",
+      "image": "https://drive.google.com/thumbnail?id=1rc1imEd8eqYEI6PZmO-Rs2_qoJxwQxk9&sz=w1000",
+      "url": "https://drive.google.com/file/d/1rc1imEd8eqYEI6PZmO-Rs2_qoJxwQxk9/view"
+    },
+    {
+      "title": "Descomplique",
+      "type": "Curso",
+      "area": "Gestão & Negócios",
+      "collection_id": null,
+      "issued_at": "2021-05-07",
+      "sequence": 1,
+      "hours": 10,
+      "count_hours": true,
+      "modality": "Online",
+      "issuer": "Sebrae-SP",
+      "image": "https://drive.google.com/thumbnail?id=14ic1ylXWMtMjmo8JehGqIyefXhlkANkv&sz=w1000",
+      "url": "https://drive.google.com/file/d/14ic1ylXWMtMjmo8JehGqIyefXhlkANkv/view"
+    },
+    {
+      "title": "Lei Geral de Proteção de Dados",
+      "type": "Curso",
+      "area": "Gestão & Negócios",
+      "collection_id": null,
+      "issued_at": "2020-09-24",
+      "sequence": 1,
+      "hours": 2,
+      "count_hours": true,
+      "modality": "Online",
+      "issuer": "Mutant",
+      "image": "https://drive.google.com/thumbnail?id=1eM8stnh-vpDLugBFr_Zk8tZ2UITYq16C&sz=w1000",
+      "url": "https://drive.google.com/file/d/1eM8stnh-vpDLugBFr_Zk8tZ2UITYq16C/view"
+    },
+    {
+      "title": "Bartender",
+      "type": "Curso",
+      "area": "Outros interesses",
+      "collection_id": null,
+      "issued_at": "2024-05-17",
+      "sequence": 1,
+      "hours": 47,
+      "count_hours": true,
+      "modality": "Online",
+      "issuer": "Instituto Diageo",
+      "image": "https://drive.google.com/thumbnail?id=12fX1BxaNXICEGwhmvv7YzrKLWB3PYpwM&sz=w1000",
+      "url": "https://drive.google.com/file/d/12fX1BxaNXICEGwhmvv7YzrKLWB3PYpwM/view"
+    },
+    {
+      "title": "Suporte Básico de Vida e Uso do Desfibrilador Externo Automático",
+      "type": "Curso",
+      "area": "Outros interesses",
+      "collection_id": null,
+      "issued_at": "2023-07-12",
+      "sequence": 1,
+      "hours": 4,
+      "count_hours": true,
+      "modality": "Presencial",
+      "issuer": "Ortopratika",
+      "image": "https://drive.google.com/thumbnail?id=1Eu78ItTw6iae8u_HlzCeBvi1hxx3i19T&sz=w1000",
+      "url": "https://drive.google.com/file/d/1Eu78ItTw6iae8u_HlzCeBvi1hxx3i19T/view"
     }
   ]
 }
