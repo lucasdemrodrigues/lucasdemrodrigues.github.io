@@ -1,7 +1,8 @@
 {
   "collection": {
     "title": "Bootcamp Power BI 2026 — Universia + DIO",
-    "status": "Em andamento"
+    "status": "Em andamento",
+    "show_issuer": false
   },
   "certificates": [
     {"title":"Boas Vindas ao Bootcamp Universia - Primeiros Passos em PowerBI","type":"LIVE","issued_at":"2026-07-27","sequence":1,"hours":1,"issuer":"Universia + DIO","image":"https://drive.google.com/thumbnail?id=1kbRqiq1jGMkTpndS0rcoryYoH3jM-yT2&sz=w1000","url":"https://drive.google.com/file/d/1kbRqiq1jGMkTpndS0rcoryYoH3jM-yT2/view"},
