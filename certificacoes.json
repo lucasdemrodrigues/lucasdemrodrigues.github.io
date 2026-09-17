@@ -1,4 +1,16 @@
 {
+  "summary": {
+    "hours": 28,
+    "areas": [
+      {"name": "Dados & BI", "hours": 17},
+      {"name": "IA", "hours": 11}
+    ],
+    "modalities": [
+      {"name": "Online", "hours": 28},
+      {"name": "Presencial", "hours": 0},
+      {"name": "Híbrido", "hours": 0}
+    ]
+  },
   "collection": {
     "title": "Bootcamp Power BI 2026 — Universia + DIO",
     "status": "Em andamento",
