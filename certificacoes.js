@@ -59,8 +59,6 @@
     return ((a.sequence || 0) - (b.sequence || 0)) * direction;
   });
 
-  const getCollection = id => collections.find(item => item.id === id);
-
   const setActiveArea = area => {
     activeArea = area;
     areaFilters.forEach(button => {
@@ -141,14 +139,12 @@
   };
 
   const createCard = certificate => {
-    const collection = getCollection(certificate.collection_id);
-    const showIssuer = collection?.show_issuer !== false;
     const card = document.createElement('article');
     card.className = 'cert-card';
 
     const hoursTag = certificate.hours ? `<span>${certificate.hours}h</span>` : '';
-    const issuerTag = showIssuer && certificate.issuer ? `<span>${certificate.issuer}</span>` : '';
-    const areaTag = showIssuer && certificate.area ? `<span>${certificate.area}</span>` : '';
+    const issuerTag = certificate.issuer ? `<span>${certificate.issuer}</span>` : '';
+    const areaTag = certificate.area ? `<span>${certificate.area}</span>` : '';
 
     card.innerHTML = `
       <button class="cert-image-button" type="button" aria-label="Ampliar certificado ${certificate.title}">
@@ -165,26 +161,6 @@
     return card;
   };
 
-  const createGroup = (title, kicker, items) => {
-    const group = document.createElement('section');
-    group.className = 'cert-catalog-group';
-
-    const header = document.createElement('div');
-    header.className = 'cert-section-head';
-    header.innerHTML = `
-      <div>
-        <p class="cert-kicker">${kicker}</p>
-        <h2>${title}</h2>
-      </div>`;
-
-    const grid = document.createElement('div');
-    grid.className = 'cert-grid';
-    sortCertificates(items).forEach(certificate => grid.appendChild(createCard(certificate)));
-
-    group.append(header, grid);
-    return group;
-  };
-
   const renderCatalog = () => {
     const filtered = getFilteredCertificates();
     catalog.innerHTML = '';
@@ -197,13 +173,10 @@
       return;
     }
 
-    collections.forEach(collection => {
-      const items = filtered.filter(certificate => certificate.collection_id === collection.id);
-      if (items.length) catalog.appendChild(createGroup(collection.title, 'Coleção', items));
-    });
-
-    const standalone = filtered.filter(certificate => !certificate.collection_id);
-    if (standalone.length) catalog.appendChild(createGroup('Outras certificações', 'Certificações', standalone));
+    const grid = document.createElement('div');
+    grid.className = 'cert-grid';
+    sortCertificates(filtered).forEach(certificate => grid.appendChild(createCard(certificate)));
+    catalog.appendChild(grid);
   };
 
   const populateCollectionFilter = () => {
