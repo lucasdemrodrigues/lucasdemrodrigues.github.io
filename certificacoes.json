@@ -757,7 +757,7 @@
       "sequence": 1,
       "hours": 2,
       "count_hours": true,
-      "modality": "Online",
+      "modality": "Presencial",
       "issuer": "Mutant",
       "image": "https://drive.google.com/thumbnail?id=1eM8stnh-vpDLugBFr_Zk8tZ2UITYq16C&sz=w1000",
       "url": "https://drive.google.com/file/d/1eM8stnh-vpDLugBFr_Zk8tZ2UITYq16C/view"
@@ -789,6 +789,76 @@
       "issuer": "Ortopratika",
       "image": "https://drive.google.com/thumbnail?id=1Eu78ItTw6iae8u_HlzCeBvi1hxx3i19T&sz=w1000",
       "url": "https://drive.google.com/file/d/1Eu78ItTw6iae8u_HlzCeBvi1hxx3i19T/view"
+    },
+    {
+      "title": "Ative sua curiosidade",
+      "type": "Curso de extensão",
+      "area": "Carreira & Desenvolvimento",
+      "collection_id": null,
+      "issued_at": "2024-06-19",
+      "sequence": 1,
+      "hours": 62,
+      "count_hours": true,
+      "modality": "Online",
+      "issuer": "UNA",
+      "image": "https://drive.google.com/thumbnail?id=1sYxl_9CgXUSK24R4wnK88HKg7Vi4FDRr&sz=w1000",
+      "url": "https://drive.google.com/file/d/1sYxl_9CgXUSK24R4wnK88HKg7Vi4FDRr/view"
+    },
+    {
+      "title": "DJ Completo",
+      "type": "Curso",
+      "area": "Outros interesses",
+      "collection_id": null,
+      "issued_at": "2020-03-11",
+      "sequence": 1,
+      "hours": 111,
+      "count_hours": true,
+      "modality": "Presencial",
+      "issuer": "ELAB Instituto",
+      "image": "https://drive.google.com/thumbnail?id=1VB9MSaLVpxTqVcIA1OAfRZ4sjY6X_kj5&sz=w1000",
+      "url": "https://drive.google.com/file/d/1VB9MSaLVpxTqVcIA1OAfRZ4sjY6X_kj5/view"
+    },
+    {
+      "title": "Oficina: Iscas e Ninhos Provisórios para Captura de Abelhas Nativas",
+      "type": "Oficina",
+      "area": "Outros interesses",
+      "collection_id": null,
+      "issued_at": "2026-03-29",
+      "sequence": 1,
+      "hours": 4,
+      "count_hours": true,
+      "modality": "Presencial",
+      "issuer": "Meliponário Pai e Filhos",
+      "image": "https://drive.google.com/thumbnail?id=19jj4J3iY1qdlhsqC2utL6XcHNAdHIf__&sz=w1000",
+      "url": "https://drive.google.com/file/d/19jj4J3iY1qdlhsqC2utL6XcHNAdHIf__/view"
+    },
+    {
+      "title": "Oficina: Dinâmica Interna do Ninho de Abelhas Nativas",
+      "type": "Oficina",
+      "area": "Outros interesses",
+      "collection_id": null,
+      "issued_at": "2026-04-26",
+      "sequence": 1,
+      "hours": 4,
+      "count_hours": true,
+      "modality": "Presencial",
+      "issuer": "Meliponário Pai e Filhos",
+      "image": "https://drive.google.com/thumbnail?id=1emIm-Gkj74wCi2CSubC1AYrmSmvOQmM7&sz=w1000",
+      "url": "https://drive.google.com/file/d/1emIm-Gkj74wCi2CSubC1AYrmSmvOQmM7/view"
+    },
+    {
+      "title": "Oficina: Tipos e Especificidades de Caixas para Abelhas Sem Ferrão",
+      "type": "Oficina",
+      "area": "Outros interesses",
+      "collection_id": null,
+      "issued_at": "2026-05-31",
+      "sequence": 1,
+      "hours": 4,
+      "count_hours": true,
+      "modality": "Presencial",
+      "issuer": "Meliponário Pai e Filhos",
+      "image": "https://drive.google.com/thumbnail?id=1R6eiK_nijtTxOXfXfSyvC1BuyGVBS3MD&sz=w1000",
+      "url": "https://drive.google.com/file/d/1R6eiK_nijtTxOXfXfSyvC1BuyGVBS3MD/view"
     }
   ]
 }
