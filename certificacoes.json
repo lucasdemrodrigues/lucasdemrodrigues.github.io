@@ -509,6 +509,76 @@
       "issuer": "Hashtag Treinamentos",
       "image": "https://drive.google.com/thumbnail?id=1ggw-FQc8XRXxwfhWvaU08_e4NJQh8c69&sz=w1000",
       "url": "https://drive.google.com/file/d/1ggw-FQc8XRXxwfhWvaU08_e4NJQh8c69/view"
+    },
+    {
+      "title": "Jornada Python",
+      "type": "Jornada",
+      "area": "IA & Tecnologia",
+      "collection_id": null,
+      "issued_at": "2024-07-11",
+      "sequence": 1,
+      "hours": 8,
+      "count_hours": true,
+      "modality": "Online",
+      "issuer": "Hashtag Treinamentos",
+      "image": "https://drive.google.com/thumbnail?id=1EhieFf3XNgt4An0d0LBHnD5GIOjFW5dv&sz=w1000",
+      "url": "https://drive.google.com/file/d/1EhieFf3XNgt4An0d0LBHnD5GIOjFW5dv/view"
+    },
+    {
+      "title": "Jornada Inteligência Artificial",
+      "type": "Jornada",
+      "area": "IA & Tecnologia",
+      "collection_id": null,
+      "issued_at": "2024-07-18",
+      "sequence": 1,
+      "hours": 8,
+      "count_hours": true,
+      "modality": "Online",
+      "issuer": "Hashtag Treinamentos",
+      "image": "https://drive.google.com/thumbnail?id=1igx03kiLIKJ61jgfzNFdJK3sg7ghwx-S&sz=w1000",
+      "url": "https://drive.google.com/file/d/1igx03kiLIKJ61jgfzNFdJK3sg7ghwx-S/view"
+    },
+    {
+      "title": "Imersão em Marketing Inteligente: estratégias e táticas baseadas em Dados",
+      "type": "Imersão",
+      "area": "Marketing & CRM",
+      "collection_id": null,
+      "issued_at": "2024-07-14",
+      "sequence": 1,
+      "hours": 1.4166666666666667,
+      "count_hours": true,
+      "modality": "Online",
+      "issuer": "Digital Marketing Institute + ESPM",
+      "image": "https://drive.google.com/thumbnail?id=1pObjaYdSxFEQ_cgiCb_mHq0v9K_ahqEb&sz=w1000",
+      "url": "https://drive.google.com/file/d/1pObjaYdSxFEQ_cgiCb_mHq0v9K_ahqEb/view"
+    },
+    {
+      "title": "Turma Itaú Atacado 2024 — Jornada de Dados e IA dos negócios do Itaú",
+      "type": "Evento",
+      "area": "Dados & BI",
+      "collection_id": null,
+      "issued_at": "2024-06-22",
+      "sequence": 1,
+      "hours": 3,
+      "count_hours": true,
+      "modality": "Online",
+      "issuer": "Itaú Atacado + Ada Tech",
+      "image": "https://drive.google.com/thumbnail?id=1LBvBER3RWqIepmDn2oyJheEgLlpAecn3&sz=w1000",
+      "url": "https://drive.google.com/file/d/1LBvBER3RWqIepmDn2oyJheEgLlpAecn3/view"
+    },
+    {
+      "title": "Ânima TECH WEEK XI (2026/1)",
+      "type": "Evento",
+      "area": "Gestão & Negócios",
+      "collection_id": null,
+      "issued_at": "2026-03-17",
+      "sequence": 1,
+      "hours": 3,
+      "count_hours": true,
+      "modality": "Online",
+      "issuer": "Ecossistema Ânima de Educação",
+      "image": "https://drive.google.com/thumbnail?id=1sLyuyFFDxiEkglzIJNqWC5_W0VJaf4ZT&sz=w1000",
+      "url": "https://drive.google.com/file/d/1sLyuyFFDxiEkglzIJNqWC5_W0VJaf4ZT/view"
     }
   ]
 }
