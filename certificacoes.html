@@ -44,11 +44,11 @@
           <div class="cert-summary-area-wrap">
             <button class="cert-summary-card cert-summary-area" id="areas-toggle" type="button" aria-expanded="false" aria-controls="areas-popover">
               <strong><span id="cert-area-count">2</span> <i>↗</i></strong>
-              <span>Áreas</span>
+              <span>Áreas profissionais</span>
             </button>
-            <div class="cert-area-popover" id="areas-popover" role="dialog" aria-label="Distribuição das áreas de formação" hidden>
+            <div class="cert-area-popover" id="areas-popover" role="dialog" aria-label="Distribuição das áreas profissionais" hidden>
               <div class="cert-popover-head">
-                <strong>Áreas de formação</strong>
+                <strong>Áreas profissionais</strong>
                 <small>Por carga horária</small>
               </div>
               <div id="areas-breakdown"></div>
@@ -91,7 +91,7 @@
         </div>
 
         <div class="cert-toolbar">
-          <p><span id="visible-count">16</span> certificados · <span id="visible-hours">28</span> horas concluídas</p>
+          <p><span id="visible-count">16</span> certificados · <span id="visible-hours">28h</span> de carga horária</p>
           <label for="cert-order">Ordenar
             <select id="cert-order">
               <option value="desc">Mais recentes primeiro</option>
@@ -116,7 +116,10 @@
         <span id="cert-modal-meta"></span>
         <h2 id="cert-modal-title"></h2>
       </div>
-      <button type="button" class="cert-modal-close" aria-label="Fechar certificado">×</button>
+      <div class="cert-modal-actions">
+        <a id="cert-modal-original" class="cert-modal-original" href="#" target="_blank" rel="noreferrer">Abrir original <b>↗</b></a>
+        <button type="button" class="cert-modal-close" aria-label="Fechar certificado">×</button>
+      </div>
     </div>
     <img id="cert-modal-image" alt="" />
   </dialog>
