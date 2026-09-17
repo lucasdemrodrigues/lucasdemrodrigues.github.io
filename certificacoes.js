@@ -95,7 +95,7 @@
         : certificate.collection_id === selectedCollection;
     }
 
-    return activeArea === 'all' || certificate.area === activeArea;
+    return !activeArea || activeArea === 'all' || certificate.area === activeArea;
   });
 
   const isDefaultView = () => collectionFilter.value === 'all' && activeArea === 'all';
@@ -255,7 +255,7 @@
   order.addEventListener('change', renderCatalog);
 
   collectionFilter.addEventListener('change', () => {
-    if (collectionFilter.value !== 'all') setActiveArea('all');
+    setActiveArea(collectionFilter.value === 'all' ? 'all' : null);
     showAllDefault = false;
     renderCatalog();
   });
@@ -263,8 +263,8 @@
   areaFilters.forEach(button => {
     button.addEventListener('click', () => {
       if (button.disabled) return;
+      collectionFilter.value = 'all';
       setActiveArea(button.dataset.area);
-      if (button.dataset.area !== 'all') collectionFilter.value = 'all';
       showAllDefault = false;
       renderCatalog();
     });
