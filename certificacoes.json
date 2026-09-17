@@ -649,6 +649,76 @@
       "issuer": "Fundação Bradesco",
       "image": "https://drive.google.com/thumbnail?id=1q1vgr6fUyT3xZFeR_7rocCXEF8xfCtMR&sz=w1000",
       "url": "https://drive.google.com/file/d/1q1vgr6fUyT3xZFeR_7rocCXEF8xfCtMR/view"
+    },
+    {
+      "title": "Projeto de Iniciação Científica e Extensão 2º/2024 — Responsável (App Ameet)",
+      "type": "Projeto acadêmico",
+      "area": "Gestão & Negócios",
+      "collection_id": null,
+      "issued_at": "2024-12-31",
+      "sequence": 1,
+      "hours": 140,
+      "count_hours": true,
+      "modality": "Online",
+      "issuer": "Ânima Lab Hub",
+      "image": "https://drive.google.com/thumbnail?id=16Ov74wSCwjW15lN_jfjPqqhu4bD2lGVA&sz=w1000",
+      "url": "https://drive.google.com/file/d/16Ov74wSCwjW15lN_jfjPqqhu4bD2lGVA/view"
+    },
+    {
+      "title": "Projeto de Iniciação Científica e Extensão 1º/2024 — Pesquisador (Shopping Center 3)",
+      "type": "Projeto acadêmico",
+      "area": "Gestão & Negócios",
+      "collection_id": null,
+      "issued_at": "2024-07-01",
+      "sequence": 1,
+      "hours": 120,
+      "count_hours": true,
+      "modality": "Híbrido",
+      "issuer": "Ânima Lab Hub",
+      "image": "https://drive.google.com/thumbnail?id=1L8s8zctJihGNZN1BmonyNQbFNuvMm1rM&sz=w1000",
+      "url": "https://drive.google.com/file/d/1L8s8zctJihGNZN1BmonyNQbFNuvMm1rM/view"
+    },
+    {
+      "title": "Estratégias de IA — O Futuro da Competitividade Empresarial",
+      "type": "Curso",
+      "area": "IA & Tecnologia",
+      "collection_id": null,
+      "issued_at": "2024-03-25",
+      "sequence": 1,
+      "hours": 2,
+      "count_hours": true,
+      "modality": "Online",
+      "issuer": "Ânima + HSM University",
+      "image": "https://drive.google.com/thumbnail?id=1XFRG32mbQi7gtdcY6FuE7gdxJTpoS7sa&sz=w1000",
+      "url": "https://drive.google.com/file/d/1XFRG32mbQi7gtdcY6FuE7gdxJTpoS7sa/view"
+    },
+    {
+      "title": "ESG, Cultura Organizacional e o que Não Fazer",
+      "type": "Curso",
+      "area": "Gestão & Negócios",
+      "collection_id": null,
+      "issued_at": "2023-10-24",
+      "sequence": 1,
+      "hours": 2,
+      "count_hours": true,
+      "modality": "Online",
+      "issuer": "Ânima + HSM University",
+      "image": "https://drive.google.com/thumbnail?id=1lJF9EaxzU8SxleCWtcmT9aCUgeztHGXh&sz=w1000",
+      "url": "https://drive.google.com/file/d/1lJF9EaxzU8SxleCWtcmT9aCUgeztHGXh/view"
+    },
+    {
+      "title": "Brigada de Incêndio",
+      "type": "Treinamento",
+      "area": "Outros interesses",
+      "collection_id": null,
+      "issued_at": "2022-09-15",
+      "sequence": 1,
+      "hours": 8,
+      "count_hours": true,
+      "modality": "Presencial",
+      "issuer": "ASSETT",
+      "image": "https://drive.google.com/thumbnail?id=1sKR4J2SRiuRieL_f2a3c5LkD14ibXZSa&sz=w1000",
+      "url": "https://drive.google.com/file/d/1sKR4J2SRiuRieL_f2a3c5LkD14ibXZSa/view"
     }
   ]
 }
