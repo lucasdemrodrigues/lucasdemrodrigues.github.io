@@ -8,6 +8,7 @@
   const modalImage = document.getElementById('cert-modal-image');
   const modalTitle = document.getElementById('cert-modal-title');
   const modalMeta = document.getElementById('cert-modal-meta');
+  const modalOriginal = document.getElementById('cert-modal-original');
   const closeModal = document.querySelector('.cert-modal-close');
   const themeButton = document.querySelector('.cert-theme');
   const areasToggle = document.getElementById('areas-toggle');
@@ -40,10 +41,26 @@
   let activeArea = 'all';
   let areasPinned = false;
 
+  const PROFESSIONAL_AREAS = new Set([
+    'Dados & BI',
+    'Marketing & CRM',
+    'IA & Tecnologia',
+    'Gestão & Negócios',
+    'Carreira & Desenvolvimento'
+  ]);
+
   const formatDate = iso => {
     if (!iso) return '';
     const [year, month, day] = iso.split('-');
     return `${day}/${month}/${year}`;
+  };
+
+  const formatHours = value => {
+    const numeric = Number(value) || 0;
+    const wholeHours = Math.floor(numeric);
+    const minutes = Math.round((numeric - wholeHours) * 60);
+    if (!minutes) return `${wholeHours}h`;
+    return `${wholeHours}h${String(minutes).padStart(2, '0')}`;
   };
 
   const sumHours = items => items
@@ -89,12 +106,15 @@
   const renderSummary = () => {
     const counted = certificates.filter(item => item.count_hours !== false);
     const totalHours = sumHours(certificates);
-    const areaHours = new Map();
+    const professionalAreaHours = new Map();
     const modalityCounts = new Map();
 
     counted.forEach(certificate => {
-      if (certificate.area) {
-        areaHours.set(certificate.area, (areaHours.get(certificate.area) || 0) + (Number(certificate.hours) || 0));
+      if (certificate.area && PROFESSIONAL_AREAS.has(certificate.area)) {
+        professionalAreaHours.set(
+          certificate.area,
+          (professionalAreaHours.get(certificate.area) || 0) + (Number(certificate.hours) || 0)
+        );
       }
     });
 
@@ -104,17 +124,18 @@
       modalityCounts.set(key, (modalityCounts.get(key) || 0) + 1);
     });
 
-    const areas = [...areaHours.entries()]
+    const areas = [...professionalAreaHours.entries()]
       .map(([name, hours]) => ({name, hours}))
       .sort((a, b) => b.hours - a.hours || a.name.localeCompare(b.name));
+    const professionalHoursTotal = [...professionalAreaHours.values()].reduce((sum, value) => sum + value, 0);
 
     document.getElementById('cert-count').textContent = certificates.length;
-    document.getElementById('cert-hours').textContent = `${totalHours}h`;
+    document.getElementById('cert-hours').textContent = formatHours(totalHours);
     document.getElementById('cert-area-count').textContent = areas.length;
 
     if (areasBreakdown) {
       areasBreakdown.innerHTML = areas.map(area => {
-        const value = percentage(area.hours, totalHours);
+        const value = percentage(area.hours, professionalHoursTotal);
         return `
           <div class="cert-area-row">
             <div><span>${area.name}</span><strong>${value}%</strong></div>
@@ -133,7 +154,9 @@
     modalImage.src = certificate.image;
     modalImage.alt = `Certificado: ${certificate.title}`;
     modalTitle.textContent = certificate.title;
-    const meta = [certificate.type, formatDate(certificate.issued_at), certificate.hours ? `${certificate.hours}h` : null]
+    modalOriginal.href = certificate.url;
+    modalOriginal.setAttribute('aria-label', `Abrir certificado original ${certificate.title} no Google Drive, abre em nova aba`);
+    const meta = [certificate.type, formatDate(certificate.issued_at), certificate.hours ? formatHours(certificate.hours) : null]
       .filter(Boolean)
       .join(' · ');
     modalMeta.textContent = meta;
@@ -144,7 +167,7 @@
     const card = document.createElement('article');
     card.className = 'cert-card';
 
-    const hoursTag = certificate.hours ? `<span>${certificate.hours}h</span>` : '';
+    const hoursTag = certificate.hours ? `<span>${formatHours(certificate.hours)}</span>` : '';
     const issuerTag = certificate.issuer ? `<span>${certificate.issuer}</span>` : '';
     const areaTag = certificate.area ? `<span>${certificate.area}</span>` : '';
 
@@ -156,7 +179,6 @@
         <div class="cert-meta"><span>${certificate.type || 'Certificado'}</span><span>${formatDate(certificate.issued_at)}</span></div>
         <h3>${certificate.title}</h3>
         <div class="cert-details">${hoursTag}${issuerTag}${areaTag}</div>
-        <a class="cert-view" href="${certificate.url}" target="_blank" rel="noreferrer" aria-label="Abrir certificado ${certificate.title} no Google Drive, abre em nova aba">Ver certificado <b>↗</b></a>
       </div>`;
 
     card.querySelector('.cert-image-button').addEventListener('click', () => openCertificate(certificate));
@@ -168,7 +190,7 @@
     catalog.innerHTML = '';
 
     document.getElementById('visible-count').textContent = filtered.length;
-    document.getElementById('visible-hours').textContent = sumHours(filtered);
+    document.getElementById('visible-hours').textContent = formatHours(sumHours(filtered));
 
     if (!filtered.length) {
       catalog.innerHTML = '<p class="cert-empty">Nenhuma certificação encontrada neste filtro.</p>';
