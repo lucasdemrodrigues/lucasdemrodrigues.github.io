@@ -90,16 +90,18 @@
     const counted = certificates.filter(item => item.count_hours !== false);
     const totalHours = sumHours(certificates);
     const areaHours = new Map();
-    const modalityHours = new Map();
+    const modalityCounts = new Map();
 
     counted.forEach(certificate => {
       if (certificate.area) {
         areaHours.set(certificate.area, (areaHours.get(certificate.area) || 0) + (Number(certificate.hours) || 0));
       }
-      if (certificate.modality) {
-        const key = certificate.modality.toLowerCase();
-        modalityHours.set(key, (modalityHours.get(key) || 0) + (Number(certificate.hours) || 0));
-      }
+    });
+
+    certificates.forEach(certificate => {
+      if (!certificate.modality) return;
+      const key = certificate.modality.toLowerCase();
+      modalityCounts.set(key, (modalityCounts.get(key) || 0) + 1);
     });
 
     const areas = [...areaHours.entries()]
@@ -121,10 +123,10 @@
       }).join('');
     }
 
-    const modalityTotal = [...modalityHours.values()].reduce((sum, value) => sum + value, 0);
-    document.getElementById('modality-online').textContent = `${percentage(modalityHours.get('online') || 0, modalityTotal)}%`;
-    document.getElementById('modality-presencial').textContent = `${percentage(modalityHours.get('presencial') || 0, modalityTotal)}%`;
-    document.getElementById('modality-hibrido').textContent = `${percentage(modalityHours.get('híbrido') || modalityHours.get('hibrido') || 0, modalityTotal)}%`;
+    const modalityTotal = [...modalityCounts.values()].reduce((sum, value) => sum + value, 0);
+    document.getElementById('modality-online').textContent = `${percentage(modalityCounts.get('online') || 0, modalityTotal)}%`;
+    document.getElementById('modality-presencial').textContent = `${percentage(modalityCounts.get('presencial') || 0, modalityTotal)}%`;
+    document.getElementById('modality-hibrido').textContent = `${percentage(modalityCounts.get('híbrido') || modalityCounts.get('hibrido') || 0, modalityTotal)}%`;
   };
 
   const openCertificate = certificate => {
@@ -190,7 +192,7 @@
     if (certificates.some(certificate => !certificate.collection_id)) {
       const option = document.createElement('option');
       option.value = 'standalone';
-      option.textContent = 'Sem coleção';
+      option.textContent = 'Certificações avulsas';
       collectionFilter.appendChild(option);
     }
   };
