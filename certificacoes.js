@@ -61,12 +61,25 @@
 
   const getCollection = id => collections.find(item => item.id === id);
 
+  const setActiveArea = area => {
+    activeArea = area;
+    areaFilters.forEach(button => {
+      const active = button.dataset.area === area;
+      button.classList.toggle('active', active);
+      button.setAttribute('aria-pressed', String(active));
+    });
+  };
+
   const getFilteredCertificates = () => certificates.filter(certificate => {
-    const matchesArea = activeArea === 'all' || certificate.area === activeArea;
     const selectedCollection = collectionFilter.value;
-    const matchesCollection = selectedCollection === 'all'
-      || (selectedCollection === 'standalone' ? !certificate.collection_id : certificate.collection_id === selectedCollection);
-    return matchesArea && matchesCollection;
+
+    if (selectedCollection !== 'all') {
+      return selectedCollection === 'standalone'
+        ? !certificate.collection_id
+        : certificate.collection_id === selectedCollection;
+    }
+
+    return activeArea === 'all' || certificate.area === activeArea;
   });
 
   const setAreasPopover = open => {
@@ -218,17 +231,17 @@
   };
 
   order.addEventListener('change', renderCatalog);
-  collectionFilter.addEventListener('change', renderCatalog);
+
+  collectionFilter.addEventListener('change', () => {
+    if (collectionFilter.value !== 'all') setActiveArea('all');
+    renderCatalog();
+  });
 
   areaFilters.forEach(button => {
     button.addEventListener('click', () => {
       if (button.disabled) return;
-      activeArea = button.dataset.area;
-      areaFilters.forEach(item => {
-        const active = item === button;
-        item.classList.toggle('active', active);
-        item.setAttribute('aria-pressed', String(active));
-      });
+      setActiveArea(button.dataset.area);
+      if (button.dataset.area !== 'all') collectionFilter.value = 'all';
       renderCatalog();
     });
   });
