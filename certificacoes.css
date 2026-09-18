@@ -302,3 +302,11 @@ body.light-mode .cert-summary-area[aria-expanded="true"]{
 @media(prefers-reduced-motion:reduce){
   .cert-summary-area{transition:none!important}
 }
+
+
+/* Alinha verticalmente os dois primeiros indicadores ao card de Áreas profissionais. */
+.cert-summary > article.cert-summary-card:not(.cert-modality-card){
+  display:flex;
+  flex-direction:column;
+  justify-content:center
+}
