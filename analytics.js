@@ -28,6 +28,7 @@ const trackedSections = [
   ['impacto', 'impacto'],
   ['trajetoria', 'trajetoria'],
   ['projetos', 'projetos'],
+  ['certificacoes', 'certificacoes'],
   ['contato', 'contato']
 ];
 
@@ -109,6 +110,72 @@ document.addEventListener('click', event => {
     project_category: projectCategory,
     project_position: projectPosition
   });
+});
+
+// Interesse em certificações: mede a visualização ampliada pela imagem,
+// o acesso ao certificado original e o CTA que leva ao catálogo completo.
+// certificate_view é disparado ao abrir o modal, sem exigir saída para o Google Drive.
+let activeCertificateContext = null;
+
+const certificateContextFromHome = button => {
+  const card = button.closest('.featured-cert-card');
+  if (!card) return null;
+
+  const allCards = [...document.querySelectorAll('#certificacoes .featured-cert-card')];
+  return {
+    certificate_name: button.dataset.certTitle || card.querySelector('h3')?.textContent.trim() || 'unknown',
+    certificate_area: card.querySelector('.featured-cert-meta span:first-child')?.textContent.trim() || 'uncategorized',
+    certificate_issuer: card.querySelector('.featured-cert-body > p')?.textContent.trim() || 'unknown',
+    certificate_featured: 'true',
+    certificate_location: 'home_featured',
+    certificate_position: Math.max(1, allCards.indexOf(card) + 1)
+  };
+};
+
+const certificateContextFromCatalog = button => {
+  const card = button.closest('.cert-card');
+  if (!card) return null;
+
+  const allCards = [...document.querySelectorAll('#cert-catalog .cert-card')];
+  return {
+    certificate_name: card.dataset.certificateName || card.querySelector('h3')?.textContent.trim() || 'unknown',
+    certificate_area: card.dataset.certificateArea || 'uncategorized',
+    certificate_issuer: card.dataset.certificateIssuer || 'unknown',
+    certificate_featured: card.dataset.certificateFeatured || 'false',
+    certificate_location: 'catalog',
+    certificate_position: Math.max(1, allCards.indexOf(card) + 1)
+  };
+};
+
+document.addEventListener('click', event => {
+  const homeCertificate = event.target.closest('#certificacoes .featured-cert-visual');
+  if (homeCertificate) {
+    activeCertificateContext = certificateContextFromHome(homeCertificate);
+    if (activeCertificateContext) {
+      window.trackEvent('certificate_view', activeCertificateContext);
+    }
+    return;
+  }
+
+  const catalogCertificate = event.target.closest('#cert-catalog .cert-image-button');
+  if (catalogCertificate) {
+    activeCertificateContext = certificateContextFromCatalog(catalogCertificate);
+    if (activeCertificateContext) {
+      window.trackEvent('certificate_view', activeCertificateContext);
+    }
+    return;
+  }
+
+  const originalLink = event.target.closest('#home-cert-modal-original, #cert-modal-original');
+  if (originalLink && activeCertificateContext) {
+    window.trackEvent('certificate_original_click', activeCertificateContext);
+    return;
+  }
+
+  const catalogCta = event.target.closest('#certificacoes .featured-certs-all');
+  if (catalogCta) {
+    window.trackEvent('certifications_page_click', { cta_location: 'home_certifications' });
+  }
 });
 
 // Intenção de contato: separa a ação específica do KPI consolidado.
