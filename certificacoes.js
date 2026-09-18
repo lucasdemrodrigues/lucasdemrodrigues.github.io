@@ -323,6 +323,8 @@
     if (!areasToggle || !areasPopover) return;
     areasPopover.hidden = !open;
     areasToggle.setAttribute('aria-expanded', String(open));
+    const icon = areasToggle.querySelector('strong i');
+    if (icon) icon.textContent = open ? '↙' : '↗';
   };
 
   const renderSummary = () => {
