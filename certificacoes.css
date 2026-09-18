@@ -30,19 +30,19 @@
   position:absolute;
   z-index:3;
   inset:0 0 auto;
-  height:2px;
+  height:3px;
   background:var(--area-accent);
-  opacity:.52;
+  opacity:.72;
   transition:opacity .25s ease,box-shadow .25s ease
 }
 .cert-card:hover{
   transform:translateY(-3px);
-  border-color:rgba(var(--area-accent-rgb),.34);
+  border-color:rgba(var(--area-accent-rgb),.42);
   background:linear-gradient(145deg,rgba(var(--area-accent-rgb),.035),rgba(255,255,255,.018));
   box-shadow:0 14px 34px rgba(0,0,0,.16)
 }
 .cert-card:hover::before{
-  opacity:.9;
+  opacity:.98;
   box-shadow:0 0 16px rgba(var(--area-accent-rgb),.22)
 }
 .cert-area-data{--area-accent:#39ff14;--area-accent-rgb:57,255,20}
