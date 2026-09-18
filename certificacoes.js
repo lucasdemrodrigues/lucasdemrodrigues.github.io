@@ -162,7 +162,8 @@
       el.textContent = c.areas[el.dataset.i18nArea] || el.dataset.i18nArea;
     });
 
-    document.querySelector('[data-i18n="allCollections"]')?.textContent = c.allCollections;
+    const allCollectionsOption = document.querySelector('[data-i18n="allCollections"]');
+    if (allCollectionsOption) allCollectionsOption.textContent = c.allCollections;
     setText('[data-i18n="openOriginal"]', c.openOriginal);
     closeModal?.setAttribute('aria-label', c.close);
     document.querySelector('.cert-brand')?.setAttribute('aria-label', c.back.replace('← ', '') + ' — Lucas Rodrigues');
