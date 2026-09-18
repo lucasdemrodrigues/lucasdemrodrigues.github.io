@@ -229,7 +229,9 @@
   };
 
   const populateCollectionFilter = () => {
-    collections.forEach(collection => {
+    [...collections]
+      .sort((a, b) => a.title.localeCompare(b.title, 'pt-BR'))
+      .forEach(collection => {
       const option = document.createElement('option');
       option.value = collection.id;
       option.textContent = collection.title;
