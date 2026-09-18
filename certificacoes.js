@@ -13,7 +13,7 @@
       html:'pt-BR',
       pageTitle:'Certificações — Lucas Rodrigues',
       description:'Certificações de Lucas Rodrigues em dados, BI, IA, CRM e marketing.',
-      back:'← Portfólio', title:'Certificações', status:'Em evolução',
+      back:'← Portfólio', title:'Certificações', status:'Em evolução', catalogTitle:'Certificados', languageGroup:'Selecionar idioma',
       summaryCertifications:'Certificações', summaryHours:'Carga horária', summaryAreas:'Áreas profissionais',
       areasTitle:'Áreas profissionais', areasByHours:'Por carga horária', modality:'Modalidade',
       online:'Online', onsite:'Presencial', hybrid:'Híbrido',
@@ -43,7 +43,7 @@
       html:'en',
       pageTitle:'Certifications — Lucas Rodrigues',
       description:'Lucas Rodrigues certifications in data, BI, AI, CRM and marketing.',
-      back:'← Portfolio', title:'Certifications', status:'In progress',
+      back:'← Portfolio', title:'Certifications', status:'In progress', catalogTitle:'Certificates', languageGroup:'Select language',
       summaryCertifications:'Certifications', summaryHours:'Training hours', summaryAreas:'Professional areas',
       areasTitle:'Professional areas', areasByHours:'By training hours', modality:'Format',
       online:'Online', onsite:'In person', hybrid:'Hybrid',
@@ -72,7 +72,7 @@
       html:'es',
       pageTitle:'Certificaciones — Lucas Rodrigues',
       description:'Certificaciones de Lucas Rodrigues en datos, BI, IA, CRM y marketing.',
-      back:'← Portafolio', title:'Certificaciones', status:'En evolución',
+      back:'← Portafolio', title:'Certificaciones', status:'En evolución', catalogTitle:'Certificados', languageGroup:'Seleccionar idioma',
       summaryCertifications:'Certificaciones', summaryHours:'Carga horaria', summaryAreas:'Áreas profesionales',
       areasTitle:'Áreas profesionales', areasByHours:'Por carga horaria', modality:'Modalidad',
       online:'Online', onsite:'Presencial', hybrid:'Híbrido',
@@ -173,8 +173,8 @@
     document.querySelector('.cert-summary')?.setAttribute('aria-label', c.summaryAria);
     document.querySelector('.cert-filter-panel')?.setAttribute('aria-label', c.filterAria);
     document.querySelector('.cert-summary-area')?.setAttribute('aria-label', c.summaryAreas);
-    document.querySelector('.cert-area-popover')?.setAttribute('aria-label', c.areasTitle);
     document.querySelector('.cert-modality-breakdown')?.setAttribute('aria-label', c.modalityAria);
+    document.querySelector('.cert-language-switch')?.setAttribute('aria-label', c.languageGroup);
 
     languageButtons.forEach(button => {
       button.setAttribute('aria-pressed', String(button.dataset.lang === language));
@@ -351,6 +351,10 @@
     document.getElementById('cert-count').textContent = certificates.length;
     document.getElementById('cert-hours').textContent = formatHours(totalHours);
     document.getElementById('cert-area-count').textContent = areas.length;
+    if (areasToggle) {
+      const areaLabel = UI[language].summaryAreas;
+      areasToggle.setAttribute('aria-label', `${areas.length} ${areaLabel}. ${UI[language].areasByHours}.`);
+    }
 
     if (areasBreakdown) {
       areasBreakdown.innerHTML = areas.map(area => {
