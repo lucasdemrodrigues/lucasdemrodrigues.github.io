@@ -25,8 +25,7 @@
       empty:'Nenhuma certificação encontrada neste filtro.', loadError:'Não foi possível carregar os certificados agora.',
       openOriginal:'Abrir original', close:'Fechar certificado', footer:'São Paulo, Brasil',
       themeDark:'Ativar modo escuro', themeLight:'Ativar modo claro', darkTitle:'Modo escuro', lightTitle:'Modo claro',
-      enlarge:'Ampliar certificado', originalAria:'Abrir certificado original', newTab:'se abre en una pestaña nueva',
-      summaryAria:'Resumen de certificaciones', filterAria:'Filtros de certificaciones', modalityAria:'Distribución de modalidad por número de certificaciones', newTab:'abre em nova aba',
+      enlarge:'Ampliar certificado', originalAria:'Abrir certificado original', newTab:'abre em nova aba',
       summaryAria:'Resumo das certificações', filterAria:'Filtros de certificações', modalityAria:'Distribuição da modalidade por número de certificações',
       areas:{
         all:'Todos',
@@ -84,7 +83,8 @@
       empty:'No se encontraron certificaciones con este filtro.', loadError:'No fue posible cargar las certificaciones ahora.',
       openOriginal:'Abrir original', close:'Cerrar certificado', footer:'São Paulo, Brasil',
       themeDark:'Activar modo oscuro', themeLight:'Activar modo claro', darkTitle:'Modo oscuro', lightTitle:'Modo claro',
-      enlarge:'Ampliar certificado', originalAria:'Abrir certificado original',
+      enlarge:'Ampliar certificado', originalAria:'Abrir certificado original', newTab:'se abre en una pestaña nueva',
+      summaryAria:'Resumen de certificaciones', filterAria:'Filtros de certificaciones', modalityAria:'Distribución de la modalidad por número de certificaciones',
       areas:{
         all:'Todos',
         'Dados & BI':'Datos & BI',
