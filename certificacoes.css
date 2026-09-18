@@ -6,3 +6,21 @@ body.light-mode{--bg:#f2f0eb;--panel:#fff;--panel2:#f6f4ef;--text:#171717;--mute
 @media(max-width:900px){.cert-summary{grid-template-columns:repeat(2,1fr)}.cert-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:620px){.cert-shell,.cert-footer{width:min(100% - 32px,var(--max))}.cert-topbar{height:64px;padding:0 16px}.cert-brand strong{display:none}.cert-back{display:none}.cert-hero{padding:72px 0 52px}.cert-title-row{align-items:flex-start;flex-direction:column;gap:14px;margin-bottom:22px}.cert-summary{grid-template-columns:1fr 1fr;gap:8px}.cert-summary-card{min-height:94px;padding:16px}.cert-summary-card>strong{font-size:22px}.cert-modality-card{grid-column:1/-1}.cert-area-popover{position:fixed;left:16px;right:16px;top:auto;bottom:20px;width:auto}.cert-section{padding-bottom:72px}.cert-filter-panel{padding-top:18px}.cert-filter{font-size:11px;padding:8px 11px}.cert-collection-filter{width:100%}.cert-toolbar{align-items:flex-start;flex-direction:column}.cert-toolbar p{font-size:14px}.cert-toolbar label{width:100%;justify-content:space-between}.cert-toolbar select{max-width:220px}.cert-grid{grid-template-columns:1fr}.cert-card h3{font-size:17px}.cert-reveal{width:100%}.cert-footer{gap:14px;flex-direction:column}.cert-modal{width:calc(100% - 16px);max-height:calc(100vh - 16px)}.cert-modal-head{gap:12px}.cert-modal-actions{gap:7px}.cert-modal-original{padding:0 9px;font-size:11px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.cert-card,.cert-image-button img,.cert-back,.cert-summary-area strong i,.cert-filter,.cert-modal-original,.cert-reveal{transition:none}.cert-card:hover,.cert-reveal:hover{transform:none}.cert-card:hover .cert-image-button img{transform:none}}
+
+
+/* Mesmo cursor personalizado usado na home. */
+html.custom-cursor,html.custom-cursor body,html.custom-cursor a,html.custom-cursor button,html.custom-cursor [role="button"],html.custom-cursor input,html.custom-cursor textarea,html.custom-cursor select{cursor:none!important}
+.custom-cursor-dot,.custom-cursor-ring{position:fixed;left:0;top:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);opacity:0}
+.custom-cursor-dot{width:6px;height:6px;border-radius:50%;background:#f4f4f4;transition:width .16s,height .16s,opacity .16s,background .25s}
+.custom-cursor-ring{width:30px;height:30px;border:1px solid rgba(244,244,244,.72);border-radius:50%;transition:width .2s,height .2s,border-color .2s,background .2s,opacity .16s}
+.custom-cursor-ring.is-interactive{width:46px;height:46px;border-color:rgba(244,244,244,.95);background:rgba(255,255,255,.035)}
+.custom-cursor-ring.is-clicking{width:54px;height:54px;background:rgba(255,255,255,.055)}
+body.light-mode .custom-cursor-dot{background:#202020}
+body.light-mode .custom-cursor-ring{border-color:rgba(32,32,32,.7)}
+body.light-mode .custom-cursor-ring.is-interactive{border-color:rgba(32,32,32,.92);background:rgba(0,0,0,.035)}
+body.light-mode .custom-cursor-ring.is-clicking{background:rgba(0,0,0,.055)}
+/* O dialog fica no top layer; nele o cursor nativo evita sumir atrás da janela. */
+html.custom-cursor .cert-modal,
+html.custom-cursor .cert-modal *{cursor:auto!important}
+html.custom-cursor .cert-modal a,
+html.custom-cursor .cert-modal button{cursor:pointer!important}
