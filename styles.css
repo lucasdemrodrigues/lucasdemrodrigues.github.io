@@ -54,3 +54,29 @@ body.light-mode .custom-cursor-ring.is-clicking{background:rgba(0,0,0,.055)}
 #main-nav a.is-active::after{transform:scaleX(1)}
 body.light-mode #main-nav a.is-active{color:#111}
 @media(max-width:900px){#main-nav a::after{display:none}#main-nav a.is-active{background:rgba(255,255,255,.055)}body.light-mode #main-nav a.is-active{background:rgba(0,0,0,.05)}}
+
+/* Certificações em destaque na home. */
+.featured-certs-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.featured-cert-card{display:flex;flex-direction:column;min-width:0;border:1px solid var(--line);border-radius:14px;background:linear-gradient(145deg,rgba(255,255,255,.04),rgba(255,255,255,.018));overflow:hidden;transition:transform .25s,border-color .25s,background .25s}
+.featured-cert-card:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.22);background:rgba(255,255,255,.04)}
+.featured-cert-visual{aspect-ratio:16/9;padding:14px;background:#0c0c0c;border-bottom:1px solid var(--line);display:grid;place-items:center;overflow:hidden}
+.featured-cert-visual img{display:block;width:100%;height:100%;object-fit:contain}
+.featured-cert-body{display:flex;flex:1;flex-direction:column;padding:20px}
+.featured-cert-meta{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:13px;color:#777;font:600 10px "IBM Plex Mono",monospace;letter-spacing:.08em}
+.featured-cert-card h3{font-size:18px;line-height:1.35;letter-spacing:-.025em}
+.featured-cert-card p{margin:10px 0 18px;color:#929292;font-size:13px;line-height:1.45}
+.featured-cert-link{margin-top:auto;color:#bdbdbd;font-size:13px;font-weight:700}
+.featured-cert-link b{color:#39ff14;font-weight:600}
+.featured-certs-footer{display:flex;justify-content:flex-end;margin-top:24px}
+.featured-certs-all{font-size:14px}
+body.light-mode .featured-cert-card{background:rgba(255,255,255,.48);border-color:rgba(0,0,0,.11)}
+body.light-mode .featured-cert-card:hover{background:rgba(255,255,255,.75);border-color:rgba(0,0,0,.2)}
+body.light-mode .featured-cert-visual{background:#e9e7e2;border-bottom-color:rgba(0,0,0,.1)}
+body.light-mode .featured-cert-meta{color:#777}
+body.light-mode .featured-cert-card h3{color:#202020}
+body.light-mode .featured-cert-card p{color:#666}
+body.light-mode .featured-cert-link{color:#555}
+body.light-mode .featured-cert-link b{color:#27c70b}
+@media(max-width:900px){.featured-certs-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.featured-cert-card:last-child{grid-column:1/-1}}
+@media(max-width:620px){.featured-certs-grid{grid-template-columns:1fr}.featured-cert-card:last-child{grid-column:auto}.featured-certs-footer{justify-content:flex-start}.featured-cert-body{padding:18px}}
+@media(prefers-reduced-motion:reduce){.featured-cert-card{transition:none}.featured-cert-card:hover{transform:none}}
