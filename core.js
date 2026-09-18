@@ -300,3 +300,31 @@ if (emailCard && copyEmailButton) {
     }
   });
 }
+
+
+// Certificações em destaque: somente a imagem abre a visualização ampliada.
+const homeCertModal = document.getElementById('home-cert-modal');
+if (homeCertModal) {
+  const homeCertModalImage = document.getElementById('home-cert-modal-image');
+  const homeCertModalTitle = document.getElementById('home-cert-modal-title');
+  const homeCertModalMeta = document.getElementById('home-cert-modal-meta');
+  const homeCertModalOriginal = document.getElementById('home-cert-modal-original');
+  const homeCertModalClose = homeCertModal.querySelector('.home-cert-modal-close');
+
+  document.querySelectorAll('.featured-cert-visual').forEach(button => {
+    button.addEventListener('click', () => {
+      homeCertModalImage.src = button.dataset.certImage;
+      homeCertModalImage.alt = `Certificado: ${button.dataset.certTitle}`;
+      homeCertModalTitle.textContent = button.dataset.certTitle;
+      homeCertModalMeta.textContent = button.dataset.certMeta;
+      homeCertModalOriginal.href = button.dataset.certUrl;
+      homeCertModalOriginal.setAttribute('aria-label', `Abrir certificado original ${button.dataset.certTitle}, abre em nova aba`);
+      homeCertModal.showModal();
+    });
+  });
+
+  homeCertModalClose?.addEventListener('click', () => homeCertModal.close());
+  homeCertModal.addEventListener('click', event => {
+    if (event.target === homeCertModal) homeCertModal.close();
+  });
+}
