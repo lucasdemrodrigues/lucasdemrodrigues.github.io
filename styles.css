@@ -58,7 +58,7 @@ body.light-mode #main-nav a.is-active{color:#111}
 /* Certificações em destaque na home. */
 .featured-certs-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
 .featured-cert-card{display:flex;flex-direction:column;min-width:0;border:1px solid var(--line);border-radius:14px;background:linear-gradient(145deg,rgba(255,255,255,.04),rgba(255,255,255,.018));overflow:hidden;transition:transform .25s,border-color .25s,background .25s}
-.featured-cert-card:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.22);background:rgba(255,255,255,.04)}
+.featured-cert-card:hover{transform:none;border-color:rgba(255,255,255,.22);background:rgba(255,255,255,.04)}
 .featured-cert-visual{aspect-ratio:16/9;padding:14px;background:#0c0c0c;border-bottom:1px solid var(--line);display:grid;place-items:center;overflow:hidden}
 .featured-cert-visual img{display:block;width:100%;height:100%;object-fit:contain}
 .featured-cert-body{display:flex;flex:1;flex-direction:column;padding:20px}
@@ -84,7 +84,6 @@ body.light-mode .featured-cert-link b{color:#27c70b}
 
 /* Certificações em destaque: a imagem abre o certificado em modal, como na página completa. */
 .featured-cert-card{cursor:default}
-.featured-cert-card:hover{transform:none}
 .featured-cert-visual{width:100%;border:0;border-bottom:1px solid var(--line);cursor:pointer;font:inherit;color:inherit}
 .featured-cert-visual img{transition:transform .25s ease}
 .featured-cert-visual:hover img{transform:scale(1.015)}
@@ -110,14 +109,7 @@ body.light-mode .home-cert-modal-close{background:#eee;color:#222}
 @media(prefers-reduced-motion:reduce){.featured-cert-visual img{transition:none}.featured-cert-visual:hover img{transform:none}}
 
 
-/* Em dialogs no top layer, usa o cursor nativo para não desaparecer atrás do modal. */
-html.custom-cursor .home-cert-modal,
-html.custom-cursor .home-cert-modal *{cursor:auto!important}
-html.custom-cursor .home-cert-modal a,
-html.custom-cursor .home-cert-modal button{cursor:pointer!important}
-
-
-/* O modal mantém exatamente o mesmo cursor personalizado da home. */
+/* Mantém o cursor personalizado também dentro do modal de certificados. */
 html.custom-cursor .home-cert-modal,
 html.custom-cursor .home-cert-modal *{cursor:none!important}
 
