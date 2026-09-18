@@ -29,3 +29,15 @@ html.custom-cursor .cert-modal button{cursor:pointer!important}
 /* O modal usa o mesmo cursor personalizado da página e da home. */
 html.custom-cursor .cert-modal,
 html.custom-cursor .cert-modal *{cursor:none!important}
+
+
+/* Seletor de idioma alinhado ao padrão visual da home. */
+.cert-language-switch{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 10px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.025)}
+.cert-language-switch button{border:0;padding:0;background:transparent;color:#777;font:700 10px "DM Sans",sans-serif;letter-spacing:.08em;cursor:pointer;transition:color .2s}
+.cert-language-switch button:hover,.cert-language-switch button[aria-pressed="true"]{color:#fff}
+.cert-language-switch i{color:#555;font-style:normal;font-size:10px}
+.light-mode .cert-language-switch{background:rgba(255,255,255,.45)}
+.light-mode .cert-language-switch button{color:#777}
+.light-mode .cert-language-switch button:hover,.light-mode .cert-language-switch button[aria-pressed="true"]{color:#111}
+.light-mode .cert-language-switch i{color:#aaa}
+@media(max-width:620px){.cert-topbar-actions{gap:7px}.cert-language-switch{padding:0 8px;gap:5px}.cert-language-switch button{font-size:9px}}
