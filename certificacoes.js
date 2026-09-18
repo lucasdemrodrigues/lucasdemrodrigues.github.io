@@ -25,7 +25,7 @@
       empty:'Nenhuma certificação encontrada neste filtro.', loadError:'Não foi possível carregar os certificados agora.',
       openOriginal:'Abrir original', close:'Fechar certificado', footer:'São Paulo, Brasil',
       themeDark:'Ativar modo escuro', themeLight:'Ativar modo claro', darkTitle:'Modo escuro', lightTitle:'Modo claro',
-      enlarge:'Ampliar certificado', originalAria:'Abrir certificado original', newTab:'abre em nova aba',
+      enlarge:'Ampliar certificado', originalAria:'Abrir certificado original', newTab:'abre em nova aba', featured:'Destaque',
       summaryAria:'Resumo das certificações', filterAria:'Filtros de certificações', modalityAria:'Distribuição da modalidade por número de certificações',
       areas:{
         all:'Todos',
@@ -54,7 +54,7 @@
       empty:'No certifications found for this filter.', loadError:'Certifications could not be loaded right now.',
       openOriginal:'Open original', close:'Close certificate', footer:'São Paulo, Brazil',
       themeDark:'Switch to dark mode', themeLight:'Switch to light mode', darkTitle:'Dark mode', lightTitle:'Light mode',
-      enlarge:'Enlarge certificate', originalAria:'Open original certificate', newTab:'opens in a new tab',
+      enlarge:'Enlarge certificate', originalAria:'Open original certificate', newTab:'opens in a new tab', featured:'Featured',
       summaryAria:'Certifications summary', filterAria:'Certification filters', modalityAria:'Certification format distribution by number of certificates',
       areas:{
         all:'All',
@@ -83,7 +83,7 @@
       empty:'No se encontraron certificaciones con este filtro.', loadError:'No fue posible cargar las certificaciones ahora.',
       openOriginal:'Abrir original', close:'Cerrar certificado', footer:'São Paulo, Brasil',
       themeDark:'Activar modo oscuro', themeLight:'Activar modo claro', darkTitle:'Modo oscuro', lightTitle:'Modo claro',
-      enlarge:'Ampliar certificado', originalAria:'Abrir certificado original', newTab:'se abre en una pestaña nueva',
+      enlarge:'Ampliar certificado', originalAria:'Abrir certificado original', newTab:'se abre en una pestaña nueva', featured:'Destacado',
       summaryAria:'Resumen de certificaciones', filterAria:'Filtros de certificaciones', modalityAria:'Distribución de la modalidad por número de certificaciones',
       areas:{
         all:'Todos',
@@ -105,6 +105,15 @@
     'Gestão & Negócios',
     'Carreira & Desenvolvimento'
   ]);
+
+  const AREA_CLASSES = {
+    'Dados & BI':'cert-area-data',
+    'Marketing & CRM':'cert-area-marketing',
+    'IA & Tecnologia':'cert-area-ai',
+    'Gestão & Negócios':'cert-area-business',
+    'Carreira & Desenvolvimento':'cert-area-career',
+    'Outros interesses':'cert-area-other'
+  };
 
   const catalog = document.getElementById('cert-catalog');
   const order = document.getElementById('cert-order');
@@ -394,18 +403,27 @@
 
   const createCard = certificate => {
     const card = document.createElement('article');
-    card.className = 'cert-card';
+    const areaClass = AREA_CLASSES[certificate.area] || 'cert-area-other';
+    card.className = `cert-card ${areaClass}${certificate.featured ? ' is-featured' : ''}`;
 
     const hoursTag = certificate.hours ? `<span>${formatHours(certificate.hours)}</span>` : '';
     const issuerTag = certificate.issuer ? `<span>${certificate.issuer}</span>` : '';
     const areaTag = certificate.area ? `<span>${UI[language].areas[certificate.area] || certificate.area}</span>` : '';
+    const typeLabel = UI[language].types[certificate.type || 'Certificado'] || certificate.type || UI[language].types.Certificado;
+    const featuredBadge = certificate.featured
+      ? `<span class="cert-featured-badge"><i aria-hidden="true"></i>${UI[language].featured}</span>`
+      : '';
 
     card.innerHTML = `
       <button class="cert-image-button" type="button" aria-label="${UI[language].enlarge}: ${certificate.title}">
         <img src="${certificate.image}" alt="" loading="lazy" referrerpolicy="no-referrer" />
+        <span class="cert-open-hint" aria-hidden="true">↗</span>
       </button>
       <div class="cert-card-body">
-        <div class="cert-meta"><span>${UI[language].types[certificate.type || 'Certificado'] || certificate.type || UI[language].types.Certificado}</span><span>${formatDate(certificate.issued_at)}</span></div>
+        <div class="cert-meta">
+          <span class="cert-meta-primary"><span>${typeLabel}</span>${featuredBadge}</span>
+          <span>${formatDate(certificate.issued_at)}</span>
+        </div>
         <h3>${certificate.title}</h3>
         <div class="cert-details">${hoursTag}${issuerTag}${areaTag}</div>
       </div>`;
