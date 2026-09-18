@@ -115,3 +115,8 @@ html.custom-cursor .home-cert-modal,
 html.custom-cursor .home-cert-modal *{cursor:auto!important}
 html.custom-cursor .home-cert-modal a,
 html.custom-cursor .home-cert-modal button{cursor:pointer!important}
+
+
+/* O modal mantém exatamente o mesmo cursor personalizado da home. */
+html.custom-cursor .home-cert-modal,
+html.custom-cursor .home-cert-modal *{cursor:none!important}
