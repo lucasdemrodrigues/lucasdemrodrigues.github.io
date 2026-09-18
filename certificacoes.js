@@ -224,6 +224,9 @@
       .filter(Boolean)
       .join(' · ');
     modalMeta.textContent = meta;
+    const cursorRing = document.querySelector('.custom-cursor-ring');
+    const cursorDot = document.querySelector('.custom-cursor-dot');
+    if (cursorRing && cursorDot) modal.append(cursorRing, cursorDot);
     modal.showModal();
   };
 
@@ -336,10 +339,17 @@
     });
   });
 
+  const restoreCertCursor = () => {
+    const cursorRing = modal.querySelector('.custom-cursor-ring');
+    const cursorDot = modal.querySelector('.custom-cursor-dot');
+    if (cursorRing && cursorDot) document.body.append(cursorRing, cursorDot);
+  };
+
   closeModal.addEventListener('click', () => modal.close());
   modal.addEventListener('click', event => {
     if (event.target === modal) modal.close();
   });
+  modal.addEventListener('close', restoreCertCursor);
 
   if (areasToggle && areasPopover && areasWrap) {
     areasToggle.addEventListener('click', () => {
