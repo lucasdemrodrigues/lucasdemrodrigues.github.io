@@ -41,3 +41,54 @@ html.custom-cursor .cert-modal *{cursor:none!important}
 .light-mode .cert-language-switch button:hover,.light-mode .cert-language-switch button[aria-pressed="true"]{color:#111}
 .light-mode .cert-language-switch i{color:#aaa}
 @media(max-width:620px){.cert-topbar-actions{gap:7px}.cert-language-switch{padding:0 8px;gap:5px}.cert-language-switch button{font-size:9px}}
+
+
+/* Animação ambiente do hero de certificações: mesma linguagem visual da home, com menos protagonismo. */
+.cert-hero{position:relative;overflow:hidden;isolation:isolate}
+.cert-hero>.cert-shell{position:relative;z-index:2}
+.cert-hero::before,.cert-hero::after{content:"";position:absolute;pointer-events:none}
+.cert-hero::before{
+  z-index:0;
+  inset:-18% -8% -12%;
+  background-image:
+    linear-gradient(rgba(255,255,255,.026) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.026) 1px,transparent 1px);
+  background-size:46px 46px;
+  mask-image:linear-gradient(to bottom,rgba(0,0,0,.9),rgba(0,0,0,.45) 62%,transparent 100%);
+  -webkit-mask-image:linear-gradient(to bottom,rgba(0,0,0,.9),rgba(0,0,0,.45) 62%,transparent 100%);
+  transform:perspective(700px) rotateX(62deg) translateY(-4%);
+  transform-origin:50% 0;
+  animation:cert-grid-drift 18s linear infinite;
+  opacity:.7
+}
+.cert-hero::after{
+  z-index:1;
+  width:520px;
+  height:520px;
+  left:58%;
+  top:-220px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(57,255,20,.07) 0,rgba(255,255,255,.025) 30%,transparent 68%);
+  filter:blur(28px);
+  animation:cert-glow-drift 12s ease-in-out infinite alternate
+}
+body.light-mode .cert-hero::before{
+  background-image:
+    linear-gradient(rgba(0,0,0,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,0,0,.035) 1px,transparent 1px);
+  opacity:.55
+}
+body.light-mode .cert-hero::after{
+  background:radial-gradient(circle,rgba(18,155,0,.065) 0,rgba(0,0,0,.018) 30%,transparent 68%)
+}
+@keyframes cert-grid-drift{
+  from{background-position:0 0,0 0}
+  to{background-position:0 46px,46px 0}
+}
+@keyframes cert-glow-drift{
+  from{transform:translate3d(-6%,0,0) scale(.96);opacity:.62}
+  to{transform:translate3d(8%,34px,0) scale(1.08);opacity:1}
+}
+@media(prefers-reduced-motion:reduce){
+  .cert-hero::before,.cert-hero::after{animation:none!important}
+}
