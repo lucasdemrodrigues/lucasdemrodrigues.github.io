@@ -120,3 +120,48 @@ html.custom-cursor .home-cert-modal button{cursor:pointer!important}
 /* O modal mantém exatamente o mesmo cursor personalizado da home. */
 html.custom-cursor .home-cert-modal,
 html.custom-cursor .home-cert-modal *{cursor:none!important}
+
+
+/* CTA das certificações em destaque: mais claramente clicável, sem a linha do .text-link genérico. */
+.featured-certs-all{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:7px;
+  width:auto;
+  margin-top:0;
+  padding:8px 0 6px;
+  border-top:0;
+  color:#e2e2e2;
+  font-size:14px;
+  font-weight:700;
+  transition:color .2s ease
+}
+.featured-certs-all::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:2px;
+  height:1px;
+  background:currentColor;
+  opacity:.55;
+  transform:scaleX(0);
+  transform-origin:right center;
+  transition:transform .24s cubic-bezier(.22,1,.36,1)
+}
+.featured-certs-all b{
+  color:#39ff14;
+  font-weight:600;
+  transition:transform .22s cubic-bezier(.22,1,.36,1)
+}
+.featured-certs-all:hover{color:#fff}
+.featured-certs-all:hover::after,.featured-certs-all:focus-visible::after{transform:scaleX(1);transform-origin:left center}
+.featured-certs-all:hover b,.featured-certs-all:focus-visible b{transform:translateX(3px)}
+body.light-mode .featured-certs-all{color:#333}
+body.light-mode .featured-certs-all:hover{color:#111}
+body.light-mode .featured-certs-all b{color:#27c70b}
+@media(prefers-reduced-motion:reduce){
+  .featured-certs-all,.featured-certs-all::after,.featured-certs-all b{transition:none!important}
+}
