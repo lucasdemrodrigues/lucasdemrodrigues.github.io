@@ -19,7 +19,12 @@
       <strong>Lucas Rodrigues</strong>
     </a>
     <div class="cert-topbar-actions">
-      <a class="cert-back" href="index.html">← Portfólio</a>
+      <a class="cert-back" href="index.html" data-i18n="back">← Portfólio</a>
+      <div class="cert-language-switch" role="group" aria-label="Language / Idioma">
+        <button type="button" data-lang="pt" aria-label="Português" title="Português">PT</button><i aria-hidden="true">·</i>
+        <button type="button" data-lang="en" aria-label="English" title="English">EN</button><i aria-hidden="true">·</i>
+        <button type="button" data-lang="es" aria-label="Español" title="Español">ES</button>
+      </div>
       <button class="cert-theme" type="button" aria-label="Ativar modo claro" title="Modo claro">☀</button>
     </div>
   </header>
@@ -28,40 +33,40 @@
     <section class="cert-hero">
       <div class="cert-shell">
         <div class="cert-title-row">
-          <h1>Certificações</h1>
-          <span class="cert-page-status"><i></i> Em evolução</span>
+          <h1 data-i18n="title">Certificações</h1>
+          <span class="cert-page-status"><i></i> <span data-i18n="status">Em evolução</span></span>
         </div>
 
         <div class="cert-summary" aria-label="Resumo das certificações">
           <article class="cert-summary-card">
             <strong id="cert-count">16</strong>
-            <span>Certificações</span>
+            <span data-i18n="summaryCertifications">Certificações</span>
           </article>
           <article class="cert-summary-card">
             <strong id="cert-hours">28h</strong>
-            <span>Carga horária</span>
+            <span data-i18n="summaryHours">Carga horária</span>
           </article>
           <div class="cert-summary-area-wrap">
             <button class="cert-summary-card cert-summary-area" id="areas-toggle" type="button" aria-expanded="false" aria-controls="areas-popover">
               <strong><span id="cert-area-count">2</span> <i>↗</i></strong>
-              <span>Áreas profissionais</span>
+              <span data-i18n="summaryAreas">Áreas profissionais</span>
             </button>
             <div class="cert-area-popover" id="areas-popover" role="dialog" aria-label="Distribuição das áreas profissionais" hidden>
               <div class="cert-popover-head">
-                <strong>Áreas profissionais</strong>
-                <small>Por carga horária</small>
+                <strong data-i18n="areasTitle">Áreas profissionais</strong>
+                <small data-i18n="areasByHours">Por carga horária</small>
               </div>
               <div id="areas-breakdown"></div>
             </div>
           </div>
           <article class="cert-summary-card cert-modality-card">
-            <strong>Modalidade</strong>
+            <strong data-i18n="modality">Modalidade</strong>
             <div class="cert-modality-breakdown" aria-label="Distribuição da modalidade por número de certificações">
-              <span><b id="modality-online">100%</b> Online</span>
-              <span><b id="modality-presencial">0%</b> Presencial</span>
-              <span><b id="modality-hibrido">0%</b> Híbrido</span>
+              <span><b id="modality-online">100%</b> <span data-i18n="online">Online</span></span>
+              <span><b id="modality-presencial">0%</b> <span data-i18n="onsite">Presencial</span></span>
+              <span><b id="modality-hibrido">0%</b> <span data-i18n="hybrid">Híbrido</span></span>
             </div>
-            <span class="cert-modality-note">Por número de certificações.<br>Inclui todos os certificados.</span>
+            <span class="cert-modality-note"><span data-i18n="modalityNote1">Por número de certificações.</span><br><span data-i18n="modalityNote2">Inclui todos os certificados.</span></span>
           </article>
         </div>
       </div>
@@ -71,31 +76,31 @@
       <div class="cert-shell">
         <div class="cert-filter-panel" aria-label="Filtros de certificações">
           <div class="cert-filter-group">
-            <span class="cert-filter-label">Filtrar por área</span>
+            <span class="cert-filter-label" data-i18n="filterArea">Filtrar por área</span>
             <div class="cert-filter-list" id="area-filters">
-              <button type="button" class="cert-filter active" data-area="all" aria-pressed="true">Todos</button>
-              <button type="button" class="cert-filter" data-area="Dados & BI" aria-pressed="false">Dados & BI</button>
-              <button type="button" class="cert-filter" data-area="Marketing & CRM" aria-pressed="false">Marketing & CRM</button>
-              <button type="button" class="cert-filter" data-area="IA & Tecnologia" aria-pressed="false">IA & Tecnologia</button>
-              <button type="button" class="cert-filter" data-area="Gestão & Negócios" aria-pressed="false">Gestão & Negócios</button>
-              <button type="button" class="cert-filter" data-area="Carreira & Desenvolvimento" aria-pressed="false">Carreira & Desenvolvimento</button>
-              <button type="button" class="cert-filter" data-area="Outros interesses" aria-pressed="false">Outros interesses</button>
+              <button type="button" class="cert-filter active" data-area="all" aria-pressed="true" data-i18n-area="all">Todos</button>
+              <button type="button" class="cert-filter" data-area="Dados & BI" aria-pressed="false" data-i18n-area="Dados & BI">Dados & BI</button>
+              <button type="button" class="cert-filter" data-area="Marketing & CRM" aria-pressed="false" data-i18n-area="Marketing & CRM">Marketing & CRM</button>
+              <button type="button" class="cert-filter" data-area="IA & Tecnologia" aria-pressed="false" data-i18n-area="IA & Tecnologia">IA & Tecnologia</button>
+              <button type="button" class="cert-filter" data-area="Gestão & Negócios" aria-pressed="false" data-i18n-area="Gestão & Negócios">Gestão & Negócios</button>
+              <button type="button" class="cert-filter" data-area="Carreira & Desenvolvimento" aria-pressed="false" data-i18n-area="Carreira & Desenvolvimento">Carreira & Desenvolvimento</button>
+              <button type="button" class="cert-filter" data-area="Outros interesses" aria-pressed="false" data-i18n-area="Outros interesses">Outros interesses</button>
             </div>
           </div>
           <label class="cert-collection-filter" for="collection-filter">
-            Filtrar por coleção
+            <span data-i18n="filterCollection">Filtrar por coleção</span>
             <select id="collection-filter">
-              <option value="all">Todas as coleções</option>
+              <option value="all" data-i18n="allCollections">Todas as coleções</option>
             </select>
           </label>
         </div>
 
         <div class="cert-toolbar">
           <p><span id="visible-count">16</span> certificados · <span id="visible-hours">28h</span> de carga horária</p>
-          <label for="cert-order">Ordenar
+          <label for="cert-order"><span data-i18n="sort">Ordenar</span>
             <select id="cert-order">
-              <option value="desc">Mais recentes primeiro</option>
-              <option value="asc">Mais antigos primeiro</option>
+              <option value="desc" data-i18n="newest">Mais recentes primeiro</option>
+              <option value="asc" data-i18n="oldest">Mais antigos primeiro</option>
             </select>
           </label>
         </div>
@@ -107,7 +112,7 @@
 
   <footer class="cert-footer">
     <span>© <span id="year"></span> Lucas Rodrigues</span>
-    <span>São Paulo, Brasil</span>
+    <span data-i18n="footer">São Paulo, Brasil</span>
   </footer>
 
   <dialog class="cert-modal" id="cert-modal" aria-labelledby="cert-modal-title">
@@ -117,7 +122,7 @@
         <h2 id="cert-modal-title"></h2>
       </div>
       <div class="cert-modal-actions">
-        <a id="cert-modal-original" class="cert-modal-original" href="#" target="_blank" rel="noreferrer">Abrir original <b>↗</b></a>
+        <a id="cert-modal-original" class="cert-modal-original" href="#" target="_blank" rel="noreferrer"><span data-i18n="openOriginal">Abrir original</span> <b>↗</b></a>
         <button type="button" class="cert-modal-close" aria-label="Fechar certificado">×</button>
       </div>
     </div>
