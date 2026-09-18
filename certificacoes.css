@@ -125,3 +125,73 @@ body.light-mode .cert-hero::before{
     linear-gradient(90deg,rgba(0,0,0,.055) 1px,transparent 1px);
   opacity:.62
 }
+
+
+/* Acessibilidade: foco visível consistente, alvos maiores e contraste reforçado. */
+.cert-brand:focus-visible,
+.cert-back:focus-visible,
+.cert-theme:focus-visible,
+.cert-language-switch button:focus-visible,
+.cert-summary-area:focus-visible,
+.cert-filter:focus-visible,
+.cert-collection-filter select:focus-visible,
+.cert-toolbar select:focus-visible,
+.cert-reveal:focus-visible,
+.cert-image-button:focus-visible,
+.cert-modal-original:focus-visible,
+.cert-modal-close:focus-visible{
+  outline:2px solid var(--green);
+  outline-offset:3px
+}
+.cert-language-switch{min-height:40px;padding:0 6px}
+.cert-language-switch button{
+  min-width:34px;
+  min-height:34px;
+  display:inline-grid;
+  place-items:center;
+  border-radius:999px
+}
+.cert-meta,
+.cert-summary-card>span,
+.cert-modality-breakdown span,
+.cert-filter-label,
+.cert-collection-filter,
+.cert-toolbar label,
+.cert-popover-head small{color:#aaa}
+.cert-area-row span{color:#b0b0b0}
+.cert-page-status{color:#c0c0c0}
+.light-mode .cert-meta,
+.light-mode .cert-summary-card>span,
+.light-mode .cert-modality-breakdown span,
+.light-mode .cert-filter-label,
+.light-mode .cert-collection-filter,
+.light-mode .cert-toolbar label,
+.light-mode .cert-popover-head small,
+.light-mode .cert-area-row span{color:#555}
+
+/* Movimento ambiente perceptível sem disputar atenção com o conteúdo. */
+.cert-hero::before{animation-duration:11s}
+.cert-hero::after{animation-duration:7s}
+.cert-hero .cert-shell::before{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  width:260px;
+  height:1px;
+  top:18%;
+  right:5%;
+  pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(57,255,20,.34),transparent);
+  opacity:.45;
+  animation:cert-scan-drift 6s ease-in-out infinite alternate
+}
+@keyframes cert-scan-drift{
+  from{transform:translate3d(-36px,0,0);opacity:.2}
+  to{transform:translate3d(36px,54px,0);opacity:.58}
+}
+body.light-mode .cert-hero .cert-shell::before{
+  background:linear-gradient(90deg,transparent,rgba(18,155,0,.28),transparent)
+}
+@media(prefers-reduced-motion:reduce){
+  .cert-hero .cert-shell::before{animation:none!important}
+}
