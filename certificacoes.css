@@ -92,3 +92,36 @@ body.light-mode .cert-hero::after{
 @media(prefers-reduced-motion:reduce){
   .cert-hero::before,.cert-hero::after{animation:none!important}
 }
+
+
+/* Reforço visual da animação do hero para permanecer perceptível sem competir com o conteúdo. */
+.cert-hero{
+  background:
+    radial-gradient(circle at 72% 12%,rgba(57,255,20,.035),transparent 30%),
+    linear-gradient(180deg,rgba(255,255,255,.012),transparent 78%)
+}
+.cert-hero::before{
+  background-image:
+    linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
+  opacity:.78
+}
+.cert-hero::after{
+  width:620px;
+  height:620px;
+  left:52%;
+  top:-275px;
+  background:radial-gradient(circle,rgba(57,255,20,.11) 0,rgba(255,255,255,.035) 30%,transparent 67%);
+  filter:blur(20px)
+}
+body.light-mode .cert-hero{
+  background:
+    radial-gradient(circle at 72% 12%,rgba(18,155,0,.04),transparent 30%),
+    linear-gradient(180deg,rgba(0,0,0,.012),transparent 78%)
+}
+body.light-mode .cert-hero::before{
+  background-image:
+    linear-gradient(rgba(0,0,0,.055) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,0,0,.055) 1px,transparent 1px);
+  opacity:.62
+}
