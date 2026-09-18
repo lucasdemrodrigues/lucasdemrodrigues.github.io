@@ -44,7 +44,7 @@ html.custom-cursor .cert-modal *{cursor:none!important}
 
 
 /* Animação ambiente do hero de certificações: mesma linguagem visual da home, com menos protagonismo. */
-.cert-hero{position:relative;overflow:hidden;isolation:isolate}
+.cert-hero{position:relative;overflow:visible;isolation:isolate}
 .cert-hero>.cert-shell{position:relative;z-index:2}
 .cert-hero::before,.cert-hero::after{content:"";position:absolute;pointer-events:none}
 .cert-hero::before{
@@ -250,3 +250,9 @@ body.light-mode .cert-hero .cert-shell::before{
 .light-mode .cert-modal-close:focus-visible{
   outline-color:#0d7600
 }
+
+
+/* Evita corte do popover de áreas sem criar rolagem horizontal pelo fundo decorativo. */
+body{overflow-x:hidden}
+.cert-summary-area-wrap{z-index:5}
+.cert-area-popover{z-index:30}
