@@ -80,3 +80,31 @@ body.light-mode .featured-cert-link b{color:#27c70b}
 @media(max-width:900px){.featured-certs-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.featured-cert-card:last-child{grid-column:1/-1}}
 @media(max-width:620px){.featured-certs-grid{grid-template-columns:1fr}.featured-cert-card:last-child{grid-column:auto}.featured-certs-footer{justify-content:flex-start}.featured-cert-body{padding:18px}}
 @media(prefers-reduced-motion:reduce){.featured-cert-card{transition:none}.featured-cert-card:hover{transform:none}}
+
+
+/* Certificações em destaque: a imagem abre o certificado em modal, como na página completa. */
+.featured-cert-card{cursor:default}
+.featured-cert-card:hover{transform:none}
+.featured-cert-visual{width:100%;border:0;border-bottom:1px solid var(--line);cursor:pointer;font:inherit;color:inherit}
+.featured-cert-visual img{transition:transform .25s ease}
+.featured-cert-visual:hover img{transform:scale(1.015)}
+.featured-cert-body{padding-bottom:22px}
+.home-cert-modal{width:min(1120px,calc(100% - 32px));max-height:calc(100vh - 32px);padding:0;border:1px solid rgba(255,255,255,.16);border-radius:18px;background:#090909;color:#fff;box-shadow:0 30px 100px rgba(0,0,0,.65)}
+.home-cert-modal::backdrop{background:rgba(0,0,0,.78);backdrop-filter:blur(7px)}
+.home-cert-modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:18px 20px;border-bottom:1px solid var(--line)}
+.home-cert-modal-head span{font:600 10px "IBM Plex Mono",monospace;color:#777;letter-spacing:.07em;text-transform:uppercase}
+.home-cert-modal-head h2{margin:5px 0 0;font:600 18px/1.3 "Space Grotesk",sans-serif;text-transform:uppercase}
+.home-cert-modal-actions{display:flex;align-items:center;gap:10px;flex:0 0 auto}
+.home-cert-modal-original{display:inline-flex;align-items:center;gap:5px;min-height:36px;padding:0 12px;border:1px solid var(--line);border-radius:9px;background:rgba(255,255,255,.025);color:#e8e8e8;text-decoration:none;font:600 12px "DM Sans",sans-serif;white-space:nowrap;transition:border-color .2s,background .2s,color .2s}
+.home-cert-modal-original:hover{border-color:rgba(57,255,20,.34);background:rgba(57,255,20,.05);color:#fff}
+.home-cert-modal-original b{color:#39ff14;font-weight:500}
+.home-cert-modal-close{width:36px;height:36px;border:1px solid var(--line);border-radius:50%;background:#111;color:#ddd;font-size:24px;line-height:1;cursor:pointer}
+.home-cert-modal>img{display:block;width:100%;height:auto;max-height:calc(100vh - 110px);object-fit:contain;background:#111}
+body.light-mode .home-cert-modal{background:#f6f4ef;color:#171717;border-color:rgba(0,0,0,.15)}
+body.light-mode .home-cert-modal>img{background:#ddd}
+body.light-mode .home-cert-modal-original{background:rgba(255,255,255,.48);color:#222}
+body.light-mode .home-cert-modal-original:hover{border-color:rgba(39,199,11,.32);background:rgba(39,199,11,.05)}
+body.light-mode .home-cert-modal-original b{color:#27c70b}
+body.light-mode .home-cert-modal-close{background:#eee;color:#222}
+@media(max-width:620px){.home-cert-modal{width:calc(100% - 16px);max-height:calc(100vh - 16px)}.home-cert-modal-head{gap:12px}.home-cert-modal-actions{gap:7px}.home-cert-modal-original{padding:0 9px;font-size:11px}}
+@media(prefers-reduced-motion:reduce){.featured-cert-visual img{transition:none}.featured-cert-visual:hover img{transform:none}}
