@@ -182,14 +182,17 @@
     language = SUPPORTED_LANGUAGES.includes(nextLanguage) ? nextLanguage : 'pt';
     localStorage.setItem(LANGUAGE_KEY, language);
     translateStaticInterface();
-    populateCollectionFilter(true);
-    renderSummary();
-    renderCatalog();
+
+    // Se os dados já carregaram, atualiza também os textos gerados dinamicamente.
+    if (certificates.length || collections.length) {
+      populateCollectionFilter(true);
+      renderSummary();
+      renderCatalog();
+    }
+
+    document.dispatchEvent(new CustomEvent('portfolio:languagechange',{detail:{lang:language}}));
   };
 
-  languageButtons.forEach(button => {
-    button.addEventListener('click', () => applyLanguage(button.dataset.lang));
-  });
 
 
   // Mantém a página de certificações com o mesmo cursor personalizado da home.
@@ -539,6 +542,14 @@
       areasToggle.focus();
     });
   }
+
+  const languageSwitch = document.querySelector('.cert-language-switch');
+  languageSwitch?.addEventListener('click', event => {
+    const button = event.target.closest('button[data-lang]');
+    if (!button) return;
+    event.preventDefault();
+    applyLanguage(button.dataset.lang);
+  });
 
   translateStaticInterface();
 
