@@ -33,7 +33,7 @@
 
 ## 🔎 Visão geral
 
-Este portfólio foi criado para complementar meu currículo e LinkedIn em um formato mais visual e integrado. Ele reúne perfil, projetos e principais resultados profissionais para que recrutadores e gestores compreendam rapidamente minhas competências e os tipos de problema que já ajudei a resolver.
+Este portfólio foi criado para complementar meu currículo e LinkedIn em um formato mais visual e integrado. Ele reúne perfil, projetos, certificações e principais resultados profissionais para que recrutadores e gestores compreendam rapidamente minhas competências e os tipos de problema que já ajudei a resolver.
 
 Ao mesmo tempo, o projeto foi pensado como uma experiência prática de aprendizado, sendo estruturado do zero com apoio de IA generativa e aprimorado continuamente.
 
@@ -73,12 +73,16 @@ O portfólio foi desenvolvido com uma stack simples, leve e sem frameworks, busc
 
 ### Estrutura do repositório
 
-- `index.html` — estrutura e conteúdo-base da página, sem estilos ou comportamentos inline.
+- `index.html` — estrutura e conteúdo-base da home, incluindo a seção de certificações em destaque.
+- `certificacoes.html` — página dedicada ao catálogo completo de certificações.
+- `certificacoes.css` — estilos, responsividade, filtros, cards e modal da página de certificações.
+- `certificacoes.js` — carregamento do catálogo, filtros, ordenação, resumo, tema, cursor e visualização ampliada dos certificados.
+- `certificacoes.json` — base estruturada das certificações, com metadados como área, coleção, carga horária, modalidade, emissor e links.
 - `styles.css` — estrutura visual geral, layout, responsividade e componentes estáticos principais.
 - `theme.css` — tema claro, tipografia de detalhe e complementos visuais do Hero, Foco e faixa de competências.
 - `components.css` — seletor de idiomas, componentes visuais complementares, Easter egg do terminal SQL e toda a camada visual dos projetos, incluindo fallback estático, filtros e galeria dinâmica.
 - `analytics.js` — configuração do Google Analytics 4 e camada central de instrumentação dos eventos personalizados do portfólio.
-- `core.js` — interações gerais do site: animações de entrada, tema, cursor, menu, expansão da marca no header, scroll spy, números animados e cópia de e-mail.
+- `core.js` — interações gerais do site: animações de entrada, tema, cursor, menu, expansão da marca no header, scroll spy, números animados, cópia de e-mail e modal das certificações em destaque.
 - `hero-sql.js` — digitação da consulta SQL do Hero, acessibilidade do terminal e Easter egg com glitch/Matrix.
 - `hero-flow.js` — fundo animado de partículas e conexões do Hero, incluindo adaptação aos temas e preferência por movimento reduzido.
 - `project-gallery.js` — descoberta, validação, cache, sincronização e renderização dos projetos a partir do GitHub e dos arquivos `portfolio.json`.
@@ -104,6 +108,8 @@ Assim, quando a consulta à API não está disponível, o site tenta utilizar um
 - Cache local e fallback estático para maior resiliência;
 - Filtros por categoria de projeto;
 - Indicadores e resultados profissionais em destaque;
+- Seção de certificações em destaque integrada à home;
+- Página dedicada de certificações, com filtros por área e coleção, ordenação, resumo por indicadores e visualização ampliada em modal;
 - Layout responsivo para desktop e mobile;
 - Metadados para SEO, Open Graph e compartilhamento social;
 - Navegação por teclado e melhorias de acessibilidade;
