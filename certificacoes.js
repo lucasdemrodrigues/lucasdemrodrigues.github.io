@@ -45,6 +45,70 @@
     syncTheme();
   });
 
+
+  // Mantém a página de certificações com o mesmo cursor personalizado da home.
+  const certFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const certReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (certFinePointer) {
+    document.documentElement.classList.add('custom-cursor');
+
+    const customCursorDot = document.createElement('div');
+    customCursorDot.className = 'custom-cursor-dot';
+    const customCursorRing = document.createElement('div');
+    customCursorRing.className = 'custom-cursor-ring';
+    document.body.append(customCursorRing, customCursorDot);
+
+    let mouseX = innerWidth / 2;
+    let mouseY = innerHeight / 2;
+    let ringX = mouseX;
+    let ringY = mouseY;
+    let hasMoved = false;
+
+    const setCursorVisible = visible => {
+      const opacity = visible ? '1' : '0';
+      customCursorDot.style.opacity = opacity;
+      customCursorRing.style.opacity = opacity;
+    };
+
+    window.addEventListener('pointermove', event => {
+      if (event.pointerType && event.pointerType !== 'mouse') return;
+      mouseX = event.clientX;
+      mouseY = event.clientY;
+      customCursorDot.style.left = `${mouseX}px`;
+      customCursorDot.style.top = `${mouseY}px`;
+      if (!hasMoved) {
+        ringX = mouseX;
+        ringY = mouseY;
+        hasMoved = true;
+      }
+      setCursorVisible(true);
+    });
+
+    document.addEventListener('pointerover', event => {
+      const interactive = event.target.closest('a,button,[role="button"],select,input,textarea');
+      customCursorRing.classList.toggle('is-interactive', Boolean(interactive));
+    });
+
+    document.addEventListener('pointerout', event => {
+      if (!event.relatedTarget) setCursorVisible(false);
+    });
+
+    document.addEventListener('pointerdown', () => customCursorRing.classList.add('is-clicking'));
+    document.addEventListener('pointerup', () => customCursorRing.classList.remove('is-clicking'));
+
+    const animateCursor = () => {
+      const follow = certReducedMotion ? 1 : 0.16;
+      ringX += (mouseX - ringX) * follow;
+      ringY += (mouseY - ringY) * follow;
+      customCursorRing.style.left = `${ringX}px`;
+      customCursorRing.style.top = `${ringY}px`;
+      requestAnimationFrame(animateCursor);
+    };
+
+    animateCursor();
+  }
+
   let certificates = [];
   let collections = [];
   let activeArea = 'all';
