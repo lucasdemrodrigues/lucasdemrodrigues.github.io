@@ -24,3 +24,8 @@ html.custom-cursor .cert-modal,
 html.custom-cursor .cert-modal *{cursor:auto!important}
 html.custom-cursor .cert-modal a,
 html.custom-cursor .cert-modal button{cursor:pointer!important}
+
+
+/* O modal usa o mesmo cursor personalizado da página e da home. */
+html.custom-cursor .cert-modal,
+html.custom-cursor .cert-modal *{cursor:none!important}
