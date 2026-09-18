@@ -19,14 +19,7 @@ body.light-mode .custom-cursor-dot{background:#202020}
 body.light-mode .custom-cursor-ring{border-color:rgba(32,32,32,.7)}
 body.light-mode .custom-cursor-ring.is-interactive{border-color:rgba(32,32,32,.92);background:rgba(0,0,0,.035)}
 body.light-mode .custom-cursor-ring.is-clicking{background:rgba(0,0,0,.055)}
-/* O dialog fica no top layer; nele o cursor nativo evita sumir atrás da janela. */
-html.custom-cursor .cert-modal,
-html.custom-cursor .cert-modal *{cursor:auto!important}
-html.custom-cursor .cert-modal a,
-html.custom-cursor .cert-modal button{cursor:pointer!important}
-
-
-/* O modal usa o mesmo cursor personalizado da página e da home. */
+/* Mantém o cursor personalizado também dentro do modal. */
 html.custom-cursor .cert-modal,
 html.custom-cursor .cert-modal *{cursor:none!important}
 
@@ -43,74 +36,41 @@ html.custom-cursor .cert-modal *{cursor:none!important}
 @media(max-width:620px){.cert-topbar-actions{gap:7px}.cert-language-switch{padding:0 8px;gap:5px}.cert-language-switch button{font-size:9px}}
 
 
-/* Animação ambiente do hero de certificações: mesma linguagem visual da home, com menos protagonismo. */
-.cert-hero{position:relative;overflow:visible;isolation:isolate}
+/* Hero de certificações: fundo decorativo estático, alinhado à linguagem visual da home. */
+.cert-hero{
+  position:relative;
+  overflow:visible;
+  isolation:isolate;
+  background:
+    radial-gradient(circle at 72% 12%,rgba(57,255,20,.035),transparent 30%),
+    linear-gradient(180deg,rgba(255,255,255,.012),transparent 78%)
+}
 .cert-hero>.cert-shell{position:relative;z-index:2}
-.cert-hero::before,.cert-hero::after{content:"";position:absolute;pointer-events:none}
+.cert-hero::before,.cert-hero::after{
+  content:"";
+  position:absolute;
+  pointer-events:none
+}
 .cert-hero::before{
   z-index:0;
   inset:-18% -8% -12%;
   background-image:
-    linear-gradient(rgba(255,255,255,.026) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.026) 1px,transparent 1px);
+    linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
   background-size:46px 46px;
   mask-image:linear-gradient(to bottom,rgba(0,0,0,.9),rgba(0,0,0,.45) 62%,transparent 100%);
   -webkit-mask-image:linear-gradient(to bottom,rgba(0,0,0,.9),rgba(0,0,0,.45) 62%,transparent 100%);
   transform:perspective(700px) rotateX(62deg) translateY(-4%);
   transform-origin:50% 0;
-  animation:cert-grid-drift 18s linear infinite;
-  opacity:.7
-}
-.cert-hero::after{
-  z-index:1;
-  width:520px;
-  height:520px;
-  left:58%;
-  top:-220px;
-  border-radius:50%;
-  background:radial-gradient(circle,rgba(57,255,20,.07) 0,rgba(255,255,255,.025) 30%,transparent 68%);
-  filter:blur(28px);
-  animation:cert-glow-drift 12s ease-in-out infinite alternate
-}
-body.light-mode .cert-hero::before{
-  background-image:
-    linear-gradient(rgba(0,0,0,.035) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(0,0,0,.035) 1px,transparent 1px);
-  opacity:.55
-}
-body.light-mode .cert-hero::after{
-  background:radial-gradient(circle,rgba(18,155,0,.065) 0,rgba(0,0,0,.018) 30%,transparent 68%)
-}
-@keyframes cert-grid-drift{
-  from{background-position:0 0,0 0}
-  to{background-position:0 46px,46px 0}
-}
-@keyframes cert-glow-drift{
-  from{transform:translate3d(-6%,0,0) scale(.96);opacity:.62}
-  to{transform:translate3d(8%,34px,0) scale(1.08);opacity:1}
-}
-@media(prefers-reduced-motion:reduce){
-  .cert-hero::before,.cert-hero::after{animation:none!important}
-}
-
-
-/* Reforço visual da animação do hero para permanecer perceptível sem competir com o conteúdo. */
-.cert-hero{
-  background:
-    radial-gradient(circle at 72% 12%,rgba(57,255,20,.035),transparent 30%),
-    linear-gradient(180deg,rgba(255,255,255,.012),transparent 78%)
-}
-.cert-hero::before{
-  background-image:
-    linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
   opacity:.78
 }
 .cert-hero::after{
+  z-index:1;
   width:620px;
   height:620px;
   left:52%;
   top:-275px;
+  border-radius:50%;
   background:radial-gradient(circle,rgba(57,255,20,.11) 0,rgba(255,255,255,.035) 30%,transparent 67%);
   filter:blur(20px)
 }
@@ -124,6 +84,9 @@ body.light-mode .cert-hero::before{
     linear-gradient(rgba(0,0,0,.055) 1px,transparent 1px),
     linear-gradient(90deg,rgba(0,0,0,.055) 1px,transparent 1px);
   opacity:.62
+}
+body.light-mode .cert-hero::after{
+  background:radial-gradient(circle,rgba(18,155,0,.065) 0,rgba(0,0,0,.018) 30%,transparent 68%)
 }
 
 
@@ -169,34 +132,6 @@ body.light-mode .cert-hero::before{
 .light-mode .cert-popover-head small,
 .light-mode .cert-area-row span{color:#555}
 
-/* Movimento ambiente perceptível sem disputar atenção com o conteúdo. */
-.cert-hero::before{animation-duration:11s}
-.cert-hero::after{animation-duration:7s}
-.cert-hero .cert-shell::before{
-  content:"";
-  position:absolute;
-  z-index:-1;
-  width:260px;
-  height:1px;
-  top:18%;
-  right:5%;
-  pointer-events:none;
-  background:linear-gradient(90deg,transparent,rgba(57,255,20,.34),transparent);
-  opacity:.45;
-  animation:cert-scan-drift 6s ease-in-out infinite alternate
-}
-@keyframes cert-scan-drift{
-  from{transform:translate3d(-36px,0,0);opacity:.2}
-  to{transform:translate3d(36px,54px,0);opacity:.58}
-}
-body.light-mode .cert-hero .cert-shell::before{
-  background:linear-gradient(90deg,transparent,rgba(18,155,0,.28),transparent)
-}
-@media(prefers-reduced-motion:reduce){
-  .cert-hero .cert-shell::before{animation:none!important}
-}
-
-
 /* Ajustes finais de legibilidade e acessibilidade. */
 .cert-page-status{font-size:11px}
 .cert-meta{font-size:11px}
@@ -206,14 +141,6 @@ body.light-mode .cert-hero .cert-shell::before{
 .cert-filter{font-size:12px}
 .cert-language-switch button{font-size:11px}
 .cert-area-row span{font-size:12px}
-
-/* Mantém o hero visualmente rico, mas estático como na versão preferida. */
-.cert-hero::before,
-.cert-hero::after,
-.cert-hero .cert-shell::before{
-  animation:none!important
-}
-.cert-hero .cert-shell::before{display:none}
 
 
 /* Auditoria de acessibilidade: semântica, legibilidade, foco e alvos interativos. */
