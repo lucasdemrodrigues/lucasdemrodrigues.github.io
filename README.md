@@ -128,8 +128,11 @@ O portfólio utiliza Google Analytics 4 para acompanhar aquisição (origem dos 
 
 ### Eventos personalizados
 
-- `section_view` — visualização qualificada das seções do site, com `section_name`;
+- `section_view` — visualização qualificada das seções do site, com `section_name`, incluindo a nova seção de certificações da home;
 - `project_click` — clique em projeto, com `project_name`, `project_category` e `project_position`;
+- `certificate_view` — abertura da visualização ampliada de um certificado ao clicar em sua imagem, com `certificate_name`, `certificate_area`, `certificate_issuer`, `certificate_featured`, `certificate_location` e `certificate_position`;
+- `certificate_original_click` — clique em **Abrir original** após visualizar um certificado, reutilizando os mesmos parâmetros de identificação;
+- `certifications_page_click` — clique no CTA da home que leva ao catálogo completo de certificações;
 - `linkedin_click` — clique no LinkedIn na área de contato;
 - `email_copy` — cópia concluída do endereço de e-mail;
 - `contact_intent` — consolida sinais de intenção de contato, com `contact_method` (`linkedin` ou `email`);
@@ -137,9 +140,11 @@ O portfólio utiliza Google Analytics 4 para acompanhar aquisição (origem dos 
 - `theme_change` — mudança ativa de tema, com `theme` (`light` ou `dark`);
 - `easter_egg_trigger` — acionamento dos Easter eggs, com `easter_egg_name` (`matrix` ou `portfolio_sql`).
 
-Para facilitar a análise nos relatórios e explorações do GA4, os principais parâmetros dos eventos foram registrados como dimensões personalizadas. Os eventos `project_click` e `contact_intent` foram definidos como Eventos principais, representando, respectivamente, interesse nos projetos e intenção de contato profissional.
+Para facilitar a análise nos relatórios e explorações do GA4, os principais parâmetros dos eventos podem ser registrados como dimensões personalizadas. Os eventos `project_click` e `contact_intent` permanecem como Eventos principais, representando, respectivamente, interesse nos projetos e intenção de contato profissional. As interações com certificados são tratadas como sinais intermediários de interesse e não como conversões.
 
-**Funil principal:** Visita → Projetos → Clique em projeto → Intenção de contato.
+**Funil principal:** Visita → Projetos / Certificações → Clique em projeto ou visualização de certificado → Intenção de contato.
+
+**Funil de certificações:** Seção de certificações na home → Catálogo completo → `certificate_view` → `certificate_original_click`.
 
 A origem dos acessos por canais controlados pode ser identificada por parâmetros UTM, incluindo LinkedIn, currículo, plataformas de candidatura, assinatura de e-mail e Taggo.
 
