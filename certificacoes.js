@@ -405,6 +405,10 @@
     const card = document.createElement('article');
     const areaClass = AREA_CLASSES[certificate.area] || 'cert-area-other';
     card.className = `cert-card ${areaClass}${certificate.featured ? ' is-featured' : ''}`;
+    card.dataset.certificateName = certificate.title || '';
+    card.dataset.certificateArea = certificate.area || '';
+    card.dataset.certificateIssuer = certificate.issuer || '';
+    card.dataset.certificateFeatured = String(Boolean(certificate.featured));
 
     const hoursTag = certificate.hours ? `<span>${formatHours(certificate.hours)}</span>` : '';
     const issuerTag = certificate.issuer ? `<span>${certificate.issuer}</span>` : '';
