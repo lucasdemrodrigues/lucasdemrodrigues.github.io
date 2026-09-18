@@ -13,7 +13,6 @@
   <link rel="stylesheet" href="certificacoes.css" />
 </head>
 <body>
-  <a class="skip-link" href="#conteudo-principal">Pular para o conteúdo</a>
   <header class="cert-topbar">
     <a class="cert-brand" href="index.html" aria-label="Voltar ao portfólio de Lucas Rodrigues">
       <span>LR<span>.</span></span>
@@ -30,7 +29,7 @@
     </div>
   </header>
 
-  <main id="conteudo-principal">
+  <main>
     <section class="cert-hero">
       <div class="cert-shell">
         <div class="cert-title-row">
@@ -38,7 +37,7 @@
           <span class="cert-page-status"><i aria-hidden="true"></i> <span data-i18n="status">Em evolução</span></span>
         </div>
 
-        <div class="cert-summary" aria-label="Resumo das certificações">
+        <div class="cert-summary" role="group" aria-label="Resumo das certificações">
           <article class="cert-summary-card">
             <strong id="cert-count">16</strong>
             <span data-i18n="summaryCertifications">Certificações</span>
@@ -52,9 +51,9 @@
               <strong><span id="cert-area-count">2</span> <i>↗</i></strong>
               <span data-i18n="summaryAreas">Áreas profissionais</span>
             </button>
-            <div class="cert-area-popover" id="areas-popover" aria-label="Distribuição das áreas profissionais" hidden>
+            <div class="cert-area-popover" id="areas-popover" role="region" aria-labelledby="areas-popover-title" hidden>
               <div class="cert-popover-head">
-                <strong data-i18n="areasTitle">Áreas profissionais</strong>
+                <strong id="areas-popover-title" data-i18n="areasTitle">Áreas profissionais</strong>
                 <small data-i18n="areasByHours">Por carga horária</small>
               </div>
               <div id="areas-breakdown"></div>
@@ -62,7 +61,7 @@
           </div>
           <article class="cert-summary-card cert-modality-card">
             <strong data-i18n="modality">Modalidade</strong>
-            <div class="cert-modality-breakdown" aria-label="Distribuição da modalidade por número de certificações">
+            <div class="cert-modality-breakdown" role="group" aria-label="Distribuição da modalidade por número de certificações">
               <span><b id="modality-online">100%</b> <span data-i18n="online">Online</span></span>
               <span><b id="modality-presencial">0%</b> <span data-i18n="onsite">Presencial</span></span>
               <span><b id="modality-hibrido">0%</b> <span data-i18n="hybrid">Híbrido</span></span>
@@ -75,7 +74,8 @@
 
     <section class="cert-section">
       <div class="cert-shell">
-        <div class="cert-filter-panel" aria-label="Filtros de certificações">
+        <h2 class="sr-only" data-i18n="catalogTitle">Certificados</h2>
+        <div class="cert-filter-panel" role="group" aria-label="Filtros de certificações">
           <div class="cert-filter-group">
             <span class="cert-filter-label" data-i18n="filterArea">Filtrar por área</span>
             <div class="cert-filter-list" id="area-filters">
@@ -97,7 +97,7 @@
         </div>
 
         <div class="cert-toolbar">
-          <p><span id="visible-count">16</span> certificados · <span id="visible-hours">28h</span> de carga horária</p>
+          <p role="status" aria-live="polite"><span id="visible-count">16</span> certificados · <span id="visible-hours">28h</span> de carga horária</p>
           <label for="cert-order"><span data-i18n="sort">Ordenar</span>
             <select id="cert-order">
               <option value="desc" data-i18n="newest">Mais recentes primeiro</option>
@@ -106,7 +106,7 @@
           </label>
         </div>
 
-        <div id="cert-catalog" aria-live="polite"></div>
+        <div id="cert-catalog"></div>
       </div>
     </section>
   </main>
