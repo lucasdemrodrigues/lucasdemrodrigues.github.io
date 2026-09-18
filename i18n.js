@@ -1,45 +1,390 @@
 (() => {
-  const KEY='portfolio-language', supported=['pt','en','es'];
-  let lang=supported.includes(localStorage.getItem(KEY))?localStorage.getItem(KEY):'pt';
+  const KEY = 'portfolio-language';
+  const supported = ['pt', 'en', 'es'];
+  let lang = supported.includes(localStorage.getItem(KEY))
+    ? localStorage.getItem(KEY)
+    : 'pt';
   const t={
-    pt:{html:'pt-BR',title:'Lucas Rodrigues — Marketing, CRM & Dados',desc:'Portfólio de Lucas Rodrigues — Marketing, CRM, Inteligência Comercial e Dados.',nav:['Sobre','Trajetória','Projetos','Certificações','Contato'],certifications:['CERTIFICAÇÕES EM DESTAQUE','Ver todas as certificações','Abrir original','Fechar certificado'],eyebrow:'Inteligência Comercial · CRM · Marketing · Dados',tagline:'Conectando clientes, dados e negócio.',actions:['Ver projetos','Entrar em contato'],about:['SOBRE','Minha experiência profissional foi construída próxima ao cliente e ao negócio, evoluindo de funções comerciais e de relacionamento para uma atuação cada vez mais ligada a indicadores, segmentação e análise.','Hoje, uso dados para compreender cenários e resultados, identificar oportunidades, melhorar processos e apoiar decisões de negócio, com atuação em campanhas, segmentação, jornadas, indicadores e experiência do cliente.'],focus:['FOCO',['CRM & Jornadas','Business Intelligence','Marketing & Mercado'],['Segmentação, comunicação e acompanhamento de resultados.','Modelagem de dados, dashboards, indicadores e suporte à tomada de decisão.','Comportamento do consumidor, pesquisa de mercado e performance de campanhas.']],tools:'COMPETÊNCIAS & FERRAMENTAS',skill:{'Análise de Dados':'Análise de Dados','Segmentação':'Segmentação'},languages:['IDIOMAS','Português · Nativo','Inglês · Intermediário','Espanhol · Intermediário'],impact:['IMPACTO PROFISSIONAL','Conversão de ofertas com NBO','Tempo de atualização de relatórios','Adesão à solução CoPiloto em um ano','Pontos no NPS PME','54,5 → 63,7 em 6 meses'],career:['TRAJETÓRIA','EXPERIÊNCIA PROFISSIONAL','FORMAÇÃO',['Estágio Comercial / Marketing B2B / CRM','Analista de Relacionamento com o Cliente','Vendas / Pós-venda','Bacharelado em Marketing','Técnico em Administração']],projects:'PROJETOS',filters:{Todos:'Todos','Power BI':'Power BI',SQL:'SQL',Excel:'Excel',IA:'IA'},filterAria:'Filtrar projetos por categoria',status:{loading:'Sincronizando projetos com o GitHub...',ok:'Projetos sincronizados com o GitHub via API',cache:'Projetos exibidos em modo de segurança',fallback:'Projetos exibidos em modo de segurança'},projectLink:'Ver projeto no GitHub',newTab:'abre em nova aba',contact:['CONTATO','LINKEDIN','E-MAIL','Copiar','Copiado!'],copyEmail:'Copiar e-mail',copyAnnounce:'E-mail copiado para a área de transferência.',openLinkedin:'Abrir perfil de Lucas Rodrigues no LinkedIn',footer:'São Paulo, Brasil',theme:['Ativar modo escuro','Ativar modo claro','Modo escuro','Modo claro'],menu:['Abrir menu','Fechar menu']},
-    en:{html:'en',title:'Lucas Rodrigues — Marketing, CRM & Data',desc:'Lucas Rodrigues portfolio — Sales Intelligence, CRM, Marketing and Data.',nav:['About','Career','Projects','Certifications','Contact'],certifications:['FEATURED CERTIFICATIONS','View all certifications','Open original','Close certificate'],eyebrow:'Sales Intelligence · CRM · Marketing · Data',tagline:'Connecting customers, data and business.',actions:['View projects','Get in touch'],about:['ABOUT','My professional experience was built close to customers and business operations, evolving from sales and customer relationship roles into work increasingly focused on performance indicators, segmentation and analysis.','Today, I use data to understand business scenarios and results, identify opportunities, improve processes and support decision-making, with experience across campaigns, segmentation, customer journeys, performance indicators and customer experience.'],focus:['FOCUS',['CRM & Customer Journeys','Business Intelligence','Marketing & Market Insights'],['Segmentation, communication and performance tracking.','Data modeling, dashboards, indicators and decision-making support.','Consumer behavior, market research and campaign performance.']],tools:'SKILLS & TOOLS',skill:{'Análise de Dados':'Data Analysis','Segmentação':'Segmentation'},languages:['LANGUAGES','Portuguese · Native','English · Intermediate','Spanish · Intermediate'],impact:['PROFESSIONAL IMPACT','Offer conversion with NBO','Report update time','CoPiloto adoption in one year','SME NPS increase','54.5 → 63.7 in 6 months'],career:['CAREER','PROFESSIONAL EXPERIENCE','EDUCATION',['B2B Sales Planning, Marketing & CRM Intern','Customer Relationship Analyst','Sales / After-sales',"Bachelor's Degree in Marketing",'Technical Diploma in Business Administration']],projects:'PROJECTS',filters:{Todos:'All','Power BI':'Power BI',SQL:'SQL',Excel:'Excel',IA:'AI'},filterAria:'Filter projects by category',status:{loading:'Syncing projects with GitHub...',ok:'Projects synced with GitHub via API',cache:'Projects displayed in safe mode',fallback:'Projects displayed in safe mode'},projectLink:'View project on GitHub',newTab:'opens in a new tab',contact:['CONTACT','LINKEDIN','EMAIL','Copy','Copied!'],copyEmail:'Copy email',copyAnnounce:'Email copied to the clipboard.',openLinkedin:'Open Lucas Rodrigues profile on LinkedIn',footer:'São Paulo, Brazil',theme:['Switch to dark mode','Switch to light mode','Dark mode','Light mode'],menu:['Open menu','Close menu']},
-    es:{html:'es',title:'Lucas Rodrigues — Marketing, CRM y Datos',desc:'Portafolio de Lucas Rodrigues — Marketing, CRM, Inteligencia Comercial y Datos.',nav:['Sobre mí','Trayectoria','Proyectos','Certificaciones','Contacto'],certifications:['CERTIFICACIONES DESTACADAS','Ver todas las certificaciones','Abrir original','Cerrar certificado'],eyebrow:'Inteligencia Comercial · CRM · Marketing · Datos',tagline:'Conectando clientes, datos y negocio.',actions:['Ver proyectos','Contactar'],about:['SOBRE MÍ','Mi experiencia profesional se ha desarrollado cerca del cliente y del negocio, evolucionando desde funciones comerciales y de relación con clientes hacia una actuación cada vez más vinculada a indicadores, segmentación y análisis.','Hoy utilizo datos para comprender escenarios y resultados, identificar oportunidades, mejorar procesos y apoyar la toma de decisiones, con experiencia en campañas, segmentación, recorridos del cliente, indicadores y experiencia del cliente.'],focus:['ENFOQUE',['CRM & Ciclo de Vida del Cliente','Business Intelligence','Marketing & Mercado'],['Segmentación, comunicación y seguimiento de resultados.','Modelado de datos, dashboards, indicadores y apoyo a la toma de decisiones.','Comportamiento del consumidor, investigación de mercado y rendimiento de campañas.']],tools:'COMPETENCIAS & HERRAMIENTAS',skill:{'Análise de Dados':'Análisis de Datos','Segmentação':'Segmentación'},languages:['IDIOMAS','Portugués · Nativo','Inglés · Intermedio','Español · Intermedio'],impact:['IMPACTO PROFESIONAL','Conversión de ofertas con NBO','Tiempo de actualización de informes','Adopción de CoPiloto en un año','Aumento del NPS de PyME','54,5 → 63,7 en 6 meses'],career:['TRAYECTORIA','EXPERIENCIA PROFESIONAL','FORMACIÓN',['Prácticas en Planificación Comercial B2B / Marketing / CRM','Analista de Relación con Clientes','Ventas / Posventa','Grado en Marketing','Técnico en Administración']],projects:'PROYECTOS',filters:{Todos:'Todos','Power BI':'Power BI',SQL:'SQL',Excel:'Excel',IA:'IA'},filterAria:'Filtrar proyectos por categoría',status:{loading:'Sincronizando proyectos con GitHub...',ok:'Proyectos sincronizados con GitHub mediante API',cache:'Proyectos mostrados en modo seguro',fallback:'Proyectos mostrados en modo seguro'},projectLink:'Ver proyecto en GitHub',newTab:'se abre en una pestaña nueva',contact:['CONTACTO','LINKEDIN','E-MAIL','Copiar','¡Copiado!'],copyEmail:'Copiar correo electrónico',copyAnnounce:'Correo electrónico copiado al portapapeles.',openLinkedin:'Abrir el perfil de Lucas Rodrigues en LinkedIn',footer:'São Paulo, Brasil',theme:['Activar modo oscuro','Activar modo claro','Modo oscuro','Modo claro'],menu:['Abrir menú','Cerrar menú']}
-  };
+  "pt": {
+    "html": "pt-BR",
+    "title": "Lucas Rodrigues — Marketing, CRM & Dados",
+    "desc": "Portfólio de Lucas Rodrigues — Marketing, CRM, Inteligência Comercial e Dados.",
+    "nav": [
+      "Sobre",
+      "Trajetória",
+      "Projetos",
+      "Certificações",
+      "Contato"
+    ],
+    "certifications": [
+      "CERTIFICAÇÕES EM DESTAQUE",
+      "Ver todas as certificações",
+      "Abrir original",
+      "Fechar certificado"
+    ],
+    "eyebrow": "Inteligência Comercial · CRM · Marketing · Dados",
+    "tagline": "Conectando clientes, dados e negócio.",
+    "actions": [
+      "Ver projetos",
+      "Entrar em contato"
+    ],
+    "about": [
+      "SOBRE",
+      "Minha experiência profissional foi construída próxima ao cliente e ao negócio, evoluindo de funções comerciais e de relacionamento para uma atuação cada vez mais ligada a indicadores, segmentação e análise.",
+      "Hoje, uso dados para compreender cenários e resultados, identificar oportunidades, melhorar processos e apoiar decisões de negócio, com atuação em campanhas, segmentação, jornadas, indicadores e experiência do cliente."
+    ],
+    "focus": [
+      "FOCO",
+      [
+        "CRM & Jornadas",
+        "Business Intelligence",
+        "Marketing & Mercado"
+      ],
+      [
+        "Segmentação, comunicação e acompanhamento de resultados.",
+        "Modelagem de dados, dashboards, indicadores e suporte à tomada de decisão.",
+        "Comportamento do consumidor, pesquisa de mercado e performance de campanhas."
+      ]
+    ],
+    "tools": "COMPETÊNCIAS & FERRAMENTAS",
+    "skill": {
+      "Análise de Dados": "Análise de Dados",
+      "Segmentação": "Segmentação"
+    },
+    "languages": [
+      "IDIOMAS",
+      "Português · Nativo",
+      "Inglês · Intermediário",
+      "Espanhol · Intermediário"
+    ],
+    "impact": [
+      "IMPACTO PROFISSIONAL",
+      "Conversão de ofertas com NBO",
+      "Tempo de atualização de relatórios",
+      "Adesão à solução CoPiloto em um ano",
+      "Pontos no NPS PME",
+      "54,5 → 63,7 em 6 meses"
+    ],
+    "career": [
+      "TRAJETÓRIA",
+      "EXPERIÊNCIA PROFISSIONAL",
+      "FORMAÇÃO",
+      [
+        "Estágio Comercial / Marketing B2B / CRM",
+        "Analista de Relacionamento com o Cliente",
+        "Vendas / Pós-venda",
+        "Bacharelado em Marketing",
+        "Técnico em Administração"
+      ]
+    ],
+    "projects": "PROJETOS",
+    "filters": {
+      "Todos": "Todos",
+      "Power BI": "Power BI",
+      "SQL": "SQL",
+      "Excel": "Excel",
+      "IA": "IA"
+    },
+    "filterAria": "Filtrar projetos por categoria",
+    "status": {
+      "loading": "Sincronizando projetos com o GitHub...",
+      "ok": "Projetos sincronizados com o GitHub via API",
+      "cache": "Projetos exibidos em modo de segurança",
+      "fallback": "Projetos exibidos em modo de segurança"
+    },
+    "projectLink": "Ver projeto no GitHub",
+    "newTab": "abre em nova aba",
+    "contact": [
+      "CONTATO",
+      "LINKEDIN",
+      "E-MAIL",
+      "Copiar",
+      "Copiado!"
+    ],
+    "copyEmail": "Copiar e-mail",
+    "copyAnnounce": "E-mail copiado para a área de transferência.",
+    "openLinkedin": "Abrir perfil de Lucas Rodrigues no LinkedIn",
+    "footer": "São Paulo, Brasil",
+    "theme": [
+      "Ativar modo escuro",
+      "Ativar modo claro",
+      "Modo escuro",
+      "Modo claro"
+    ],
+    "menu": [
+      "Abrir menu",
+      "Fechar menu"
+    ]
+  },
+  "en": {
+    "html": "en",
+    "title": "Lucas Rodrigues — Marketing, CRM & Data",
+    "desc": "Lucas Rodrigues portfolio — Sales Intelligence, CRM, Marketing and Data.",
+    "nav": [
+      "About",
+      "Career",
+      "Projects",
+      "Certifications",
+      "Contact"
+    ],
+    "certifications": [
+      "FEATURED CERTIFICATIONS",
+      "View all certifications",
+      "Open original",
+      "Close certificate"
+    ],
+    "eyebrow": "Sales Intelligence · CRM · Marketing · Data",
+    "tagline": "Connecting customers, data and business.",
+    "actions": [
+      "View projects",
+      "Get in touch"
+    ],
+    "about": [
+      "ABOUT",
+      "My professional experience was built close to customers and business operations, evolving from sales and customer relationship roles into work increasingly focused on performance indicators, segmentation and analysis.",
+      "Today, I use data to understand business scenarios and results, identify opportunities, improve processes and support decision-making, with experience across campaigns, segmentation, customer journeys, performance indicators and customer experience."
+    ],
+    "focus": [
+      "FOCUS",
+      [
+        "CRM & Customer Journeys",
+        "Business Intelligence",
+        "Marketing & Market Insights"
+      ],
+      [
+        "Segmentation, communication and performance tracking.",
+        "Data modeling, dashboards, indicators and decision-making support.",
+        "Consumer behavior, market research and campaign performance."
+      ]
+    ],
+    "tools": "SKILLS & TOOLS",
+    "skill": {
+      "Análise de Dados": "Data Analysis",
+      "Segmentação": "Segmentation"
+    },
+    "languages": [
+      "LANGUAGES",
+      "Portuguese · Native",
+      "English · Intermediate",
+      "Spanish · Intermediate"
+    ],
+    "impact": [
+      "PROFESSIONAL IMPACT",
+      "Offer conversion with NBO",
+      "Report update time",
+      "CoPiloto adoption in one year",
+      "SME NPS increase",
+      "54.5 → 63.7 in 6 months"
+    ],
+    "career": [
+      "CAREER",
+      "PROFESSIONAL EXPERIENCE",
+      "EDUCATION",
+      [
+        "B2B Sales Planning, Marketing & CRM Intern",
+        "Customer Relationship Analyst",
+        "Sales / After-sales",
+        "Bachelor's Degree in Marketing",
+        "Technical Diploma in Business Administration"
+      ]
+    ],
+    "projects": "PROJECTS",
+    "filters": {
+      "Todos": "All",
+      "Power BI": "Power BI",
+      "SQL": "SQL",
+      "Excel": "Excel",
+      "IA": "AI"
+    },
+    "filterAria": "Filter projects by category",
+    "status": {
+      "loading": "Syncing projects with GitHub...",
+      "ok": "Projects synced with GitHub via API",
+      "cache": "Projects displayed in safe mode",
+      "fallback": "Projects displayed in safe mode"
+    },
+    "projectLink": "View project on GitHub",
+    "newTab": "opens in a new tab",
+    "contact": [
+      "CONTACT",
+      "LINKEDIN",
+      "EMAIL",
+      "Copy",
+      "Copied!"
+    ],
+    "copyEmail": "Copy email",
+    "copyAnnounce": "Email copied to the clipboard.",
+    "openLinkedin": "Open Lucas Rodrigues profile on LinkedIn",
+    "footer": "São Paulo, Brazil",
+    "theme": [
+      "Switch to dark mode",
+      "Switch to light mode",
+      "Dark mode",
+      "Light mode"
+    ],
+    "menu": [
+      "Open menu",
+      "Close menu"
+    ]
+  },
+  "es": {
+    "html": "es",
+    "title": "Lucas Rodrigues — Marketing, CRM y Datos",
+    "desc": "Portafolio de Lucas Rodrigues — Marketing, CRM, Inteligencia Comercial y Datos.",
+    "nav": [
+      "Sobre mí",
+      "Trayectoria",
+      "Proyectos",
+      "Certificaciones",
+      "Contacto"
+    ],
+    "certifications": [
+      "CERTIFICACIONES DESTACADAS",
+      "Ver todas las certificaciones",
+      "Abrir original",
+      "Cerrar certificado"
+    ],
+    "eyebrow": "Inteligencia Comercial · CRM · Marketing · Datos",
+    "tagline": "Conectando clientes, datos y negocio.",
+    "actions": [
+      "Ver proyectos",
+      "Contactar"
+    ],
+    "about": [
+      "SOBRE MÍ",
+      "Mi experiencia profesional se ha desarrollado cerca del cliente y del negocio, evolucionando desde funciones comerciales y de relación con clientes hacia una actuación cada vez más vinculada a indicadores, segmentación y análisis.",
+      "Hoy utilizo datos para comprender escenarios y resultados, identificar oportunidades, mejorar procesos y apoyar la toma de decisiones, con experiencia en campañas, segmentación, recorridos del cliente, indicadores y experiencia del cliente."
+    ],
+    "focus": [
+      "ENFOQUE",
+      [
+        "CRM & Ciclo de Vida del Cliente",
+        "Business Intelligence",
+        "Marketing & Mercado"
+      ],
+      [
+        "Segmentación, comunicación y seguimiento de resultados.",
+        "Modelado de datos, dashboards, indicadores y apoyo a la toma de decisiones.",
+        "Comportamiento del consumidor, investigación de mercado y rendimiento de campañas."
+      ]
+    ],
+    "tools": "COMPETENCIAS & HERRAMIENTAS",
+    "skill": {
+      "Análise de Dados": "Análisis de Datos",
+      "Segmentação": "Segmentación"
+    },
+    "languages": [
+      "IDIOMAS",
+      "Portugués · Nativo",
+      "Inglés · Intermedio",
+      "Español · Intermedio"
+    ],
+    "impact": [
+      "IMPACTO PROFESIONAL",
+      "Conversión de ofertas con NBO",
+      "Tiempo de actualización de informes",
+      "Adopción de CoPiloto en un año",
+      "Aumento del NPS de PyME",
+      "54,5 → 63,7 en 6 meses"
+    ],
+    "career": [
+      "TRAYECTORIA",
+      "EXPERIENCIA PROFESIONAL",
+      "FORMACIÓN",
+      [
+        "Prácticas en Planificación Comercial B2B / Marketing / CRM",
+        "Analista de Relación con Clientes",
+        "Ventas / Posventa",
+        "Grado en Marketing",
+        "Técnico en Administración"
+      ]
+    ],
+    "projects": "PROYECTOS",
+    "filters": {
+      "Todos": "Todos",
+      "Power BI": "Power BI",
+      "SQL": "SQL",
+      "Excel": "Excel",
+      "IA": "IA"
+    },
+    "filterAria": "Filtrar proyectos por categoría",
+    "status": {
+      "loading": "Sincronizando proyectos con GitHub...",
+      "ok": "Proyectos sincronizados con GitHub mediante API",
+      "cache": "Proyectos mostrados en modo seguro",
+      "fallback": "Proyectos mostrados en modo seguro"
+    },
+    "projectLink": "Ver proyecto en GitHub",
+    "newTab": "se abre en una pestaña nueva",
+    "contact": [
+      "CONTACTO",
+      "LINKEDIN",
+      "E-MAIL",
+      "Copiar",
+      "¡Copiado!"
+    ],
+    "copyEmail": "Copiar correo electrónico",
+    "copyAnnounce": "Correo electrónico copiado al portapapeles.",
+    "openLinkedin": "Abrir el perfil de Lucas Rodrigues en LinkedIn",
+    "footer": "São Paulo, Brasil",
+    "theme": [
+      "Activar modo oscuro",
+      "Activar modo claro",
+      "Modo oscuro",
+      "Modo claro"
+    ],
+    "menu": [
+      "Abrir menú",
+      "Cerrar menú"
+    ]
+  }
+};
 
   const fallbackProjects={
-    'lucasdemrodrigues.github.io':{
-      title:'Portfólio profissional com IA e GA4',
-      title_en:'Professional portfolio with AI and GA4',
-      title_es:'Portafolio profesional con IA y GA4',
-      description:'Construção e evolução de um portfólio profissional estruturado do zero com apoio de IA generativa, integração com GitHub e mensuração em GA4, com foco em apresentar projetos, resultados e sinais de interesse profissional de forma estruturada.',
-      description_en:'Development and evolution of a professional portfolio built from scratch with generative AI support, GitHub integration and GA4 measurement, focused on presenting projects, results and signals of professional interest in a structured way.',
-      description_es:'Construcción y evolución de un portafolio profesional estructurado desde cero con apoyo de IA generativa, integración con GitHub y medición en GA4, centrado en presentar proyectos, resultados y señales de interés profesional de forma estructurada.',
-      eyebrow:'IA & ANALYTICS',eyebrow_en:'AI & ANALYTICS',eyebrow_es:'IA & ANALYTICS'
-    },
-    'relatorio-de-vendas-power-bi':{
-      title:'Relatório de Vendas no Power BI',
-      title_en:'Sales Report in Power BI',
-      title_es:'Informe de Ventas en Power BI',
-      description:'Análise de vendas e lucratividade para identificar os produtos, segmentos, países e períodos com melhor desempenho e apoiar decisões comerciais com maior clareza.',
-      description_en:'Sales and profitability analysis to identify top-performing products, segments, countries and periods, supporting clearer commercial decision-making.',
-      description_es:'Análisis de ventas y rentabilidad para identificar los productos, segmentos, países y períodos con mejor desempeño y apoyar decisiones comerciales con mayor claridad.',
-      eyebrow:'POWER BI',eyebrow_en:'POWER BI',eyebrow_es:'POWER BI'
-    },
-    'open-finance-com-notebooklm':{
-      title:'Open Finance no Gemini Notebook',
-      title_en:'Open Finance in Gemini Notebook',
-      title_es:'Open Finance en Gemini Notebook',
-      description:'Organização e síntese de informações sobre o Open Finance brasileiro a partir de curadoria de fontes e engenharia de prompts, com foco em facilitar a compreensão de seus principais atores, oportunidades e impactos no mercado financeiro.',
-      description_en:'Organization and synthesis of information on Brazilian Open Finance through source curation and prompt engineering, making its main players, opportunities and market impacts easier to understand.',
-      description_es:'Organización y síntesis de información sobre el Open Finance brasileño mediante curaduría de fuentes e ingeniería de prompts, con foco en facilitar la comprensión de sus principales actores, oportunidades e impactos en el mercado financiero.',
-      eyebrow:'IA & PESQUISA',eyebrow_en:'AI & RESEARCH',eyebrow_es:'IA & INVESTIGACIÓN'
-    }
-  };
+  "lucasdemrodrigues.github.io": {
+    "title": "Portfólio profissional com IA e GA4",
+    "title_en": "Professional portfolio with AI and GA4",
+    "title_es": "Portafolio profesional con IA y GA4",
+    "description": "Construção e evolução de um portfólio profissional estruturado do zero com apoio de IA generativa, integração com GitHub e mensuração em GA4, com foco em apresentar projetos, resultados e sinais de interesse profissional de forma estruturada.",
+    "description_en": "Development and evolution of a professional portfolio built from scratch with generative AI support, GitHub integration and GA4 measurement, focused on presenting projects, results and signals of professional interest in a structured way.",
+    "description_es": "Construcción y evolución de un portafolio profesional estructurado desde cero con apoyo de IA generativa, integración con GitHub y medición en GA4, centrado en presentar proyectos, resultados y señales de interés profesional de forma estructurada.",
+    "eyebrow": "IA & ANALYTICS",
+    "eyebrow_en": "AI & ANALYTICS",
+    "eyebrow_es": "IA & ANALYTICS"
+  },
+  "relatorio-de-vendas-power-bi": {
+    "title": "Relatório de Vendas no Power BI",
+    "title_en": "Sales Report in Power BI",
+    "title_es": "Informe de Ventas en Power BI",
+    "description": "Análise de vendas e lucratividade para identificar os produtos, segmentos, países e períodos com melhor desempenho e apoiar decisões comerciais com maior clareza.",
+    "description_en": "Sales and profitability analysis to identify top-performing products, segments, countries and periods, supporting clearer commercial decision-making.",
+    "description_es": "Análisis de ventas y rentabilidad para identificar los productos, segmentos, países y períodos con mejor desempeño y apoyar decisiones comerciales con mayor claridad.",
+    "eyebrow": "POWER BI",
+    "eyebrow_en": "POWER BI",
+    "eyebrow_es": "POWER BI"
+  },
+  "open-finance-com-notebooklm": {
+    "title": "Open Finance no Gemini Notebook",
+    "title_en": "Open Finance in Gemini Notebook",
+    "title_es": "Open Finance en Gemini Notebook",
+    "description": "Organização e síntese de informações sobre o Open Finance brasileiro a partir de curadoria de fontes e engenharia de prompts, com foco em facilitar a compreensão de seus principais atores, oportunidades e impactos no mercado financeiro.",
+    "description_en": "Organization and synthesis of information on Brazilian Open Finance through source curation and prompt engineering, making its main players, opportunities and market impacts easier to understand.",
+    "description_es": "Organización y síntesis de información sobre el Open Finance brasileño mediante curaduría de fuentes e ingeniería de prompts, con foco en facilitar la comprensión de sus principales actores, oportunidades e impactos en el mercado financiero.",
+    "eyebrow": "IA & PESQUISA",
+    "eyebrow_en": "AI & RESEARCH",
+    "eyebrow_es": "IA & INVESTIGACIÓN"
+  }
+};
 
-  const topbar=document.querySelector('.topbar'),theme=document.querySelector('.theme-toggle'),controls=document.createElement('div');
-  controls.className='topbar-controls';if(topbar)topbar.appendChild(controls);
-  const sw=document.createElement('div');sw.className='language-switch';sw.setAttribute('role','group');sw.setAttribute('aria-label','Language / Idioma');
+  const topbar = document.querySelector('.topbar');
+  const theme = document.querySelector('.theme-toggle');
+  const controls = document.createElement('div');
+  controls.className = 'topbar-controls';
+  if (topbar) topbar.appendChild(controls);
+  const sw = document.createElement('div');
+  sw.className = 'language-switch';
+  sw.setAttribute('role', 'group');
+  sw.setAttribute('aria-label', 'Language / Idioma');
   ['pt','en','es'].forEach((l,i)=>{const b=document.createElement('button');b.type='button';b.dataset.lang=l;b.textContent=l.toUpperCase();const name=l==='pt'?'Português':l==='en'?'English':'Español';b.title=name;b.setAttribute('aria-label',name);b.setAttribute('aria-pressed','false');sw.appendChild(b);if(i<2){const x=document.createElement('i');x.textContent='·';x.setAttribute('aria-hidden','true');sw.appendChild(x)}});
   controls.appendChild(sw);if(theme)controls.appendChild(theme);
 
