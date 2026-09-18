@@ -197,19 +197,6 @@ html.custom-cursor .cert-modal *{cursor:none!important}
   position:absolute;
   pointer-events:none
 }
-.cert-hero::before{
-  z-index:0;
-  inset:-18% -8% -12%;
-  background-image:
-    linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
-  background-size:46px 46px;
-  mask-image:linear-gradient(to bottom,rgba(0,0,0,.9),rgba(0,0,0,.45) 62%,transparent 100%);
-  -webkit-mask-image:linear-gradient(to bottom,rgba(0,0,0,.9),rgba(0,0,0,.45) 62%,transparent 100%);
-  transform:perspective(700px) rotateX(62deg) translateY(-4%);
-  transform-origin:50% 0;
-  opacity:.78
-}
 .cert-hero::after{
   z-index:1;
   width:620px;
@@ -224,12 +211,6 @@ body.light-mode .cert-hero{
   background:
     radial-gradient(circle at 72% 12%,rgba(18,155,0,.04),transparent 30%),
     linear-gradient(180deg,rgba(0,0,0,.012),transparent 78%)
-}
-body.light-mode .cert-hero::before{
-  background-image:
-    linear-gradient(rgba(0,0,0,.055) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(0,0,0,.055) 1px,transparent 1px);
-  opacity:.62
 }
 body.light-mode .cert-hero::after{
   background:radial-gradient(circle,rgba(18,155,0,.065) 0,rgba(0,0,0,.018) 30%,transparent 68%)
