@@ -32,3 +32,10 @@ body.light-mode .project-feature{border-color:rgba(0,0,0,.11);background:linear-
 /* Pequenos metadados com contraste AA no tema escuro. */
 body:not(.light-mode) .career-period{color:#828282}
 body:not(.light-mode) #projetos .project-meta{color:#808080}
+
+/* CTA de certificações: sem divisor superior; mantém apenas a microinteração do link. */
+#certificacoes .featured-certs-all{
+  border-top:0!important;
+  padding-top:8px
+}
+body.light-mode #certificacoes .featured-certs-all{border-top:0!important}
