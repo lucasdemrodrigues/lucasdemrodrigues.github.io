@@ -1,6 +1,100 @@
 (() => {
   const DATA_URL = 'certificacoes.json';
   const INITIAL_VISIBLE_COUNT = 9;
+
+  const LANGUAGE_KEY = 'portfolio-language';
+  const SUPPORTED_LANGUAGES = ['pt','en','es'];
+  let language = SUPPORTED_LANGUAGES.includes(localStorage.getItem(LANGUAGE_KEY))
+    ? localStorage.getItem(LANGUAGE_KEY)
+    : 'pt';
+
+  const UI = {
+    pt:{
+      html:'pt-BR',
+      pageTitle:'Certificações — Lucas Rodrigues',
+      description:'Certificações de Lucas Rodrigues em dados, BI, IA, CRM e marketing.',
+      back:'← Portfólio', title:'Certificações', status:'Em evolução',
+      summaryCertifications:'Certificações', summaryHours:'Carga horária', summaryAreas:'Áreas profissionais',
+      areasTitle:'Áreas profissionais', areasByHours:'Por carga horária', modality:'Modalidade',
+      online:'Online', onsite:'Presencial', hybrid:'Híbrido',
+      modalityNote1:'Por número de certificações.', modalityNote2:'Inclui todos os certificados.',
+      filterArea:'Filtrar por área', filterCollection:'Filtrar por coleção', allCollections:'Todas as coleções',
+      standalone:'Certificações avulsas', sort:'Ordenar', newest:'Mais recentes primeiro', oldest:'Mais antigos primeiro',
+      resultSingular:'certificado', resultPlural:'certificados', hoursLabel:'de carga horária',
+      showAll:'Mostrar todas as certificações ↓', showLess:'Mostrar menos ↑',
+      empty:'Nenhuma certificação encontrada neste filtro.', loadError:'Não foi possível carregar os certificados agora.',
+      openOriginal:'Abrir original', close:'Fechar certificado', footer:'São Paulo, Brasil',
+      themeDark:'Ativar modo escuro', themeLight:'Ativar modo claro', darkTitle:'Modo escuro', lightTitle:'Modo claro',
+      enlarge:'Ampliar certificado', originalAria:'Abrir certificado original',
+      areas:{
+        all:'Todos',
+        'Dados & BI':'Dados & BI',
+        'Marketing & CRM':'Marketing & CRM',
+        'IA & Tecnologia':'IA & Tecnologia',
+        'Gestão & Negócios':'Gestão & Negócios',
+        'Carreira & Desenvolvimento':'Carreira & Desenvolvimento',
+        'Outros interesses':'Outros interesses'
+      },
+      types:{Curso:'Curso',Projeto:'Projeto','Módulo':'Módulo','Imersão':'Imersão',LIVE:'LIVE',Mentoria:'Mentoria',Certificado:'Certificado'}
+    },
+    en:{
+      html:'en',
+      pageTitle:'Certifications — Lucas Rodrigues',
+      description:'Lucas Rodrigues certifications in data, BI, AI, CRM and marketing.',
+      back:'← Portfolio', title:'Certifications', status:'In progress',
+      summaryCertifications:'Certifications', summaryHours:'Training hours', summaryAreas:'Professional areas',
+      areasTitle:'Professional areas', areasByHours:'By training hours', modality:'Format',
+      online:'Online', onsite:'In person', hybrid:'Hybrid',
+      modalityNote1:'By number of certifications.', modalityNote2:'Includes all certificates.',
+      filterArea:'Filter by area', filterCollection:'Filter by collection', allCollections:'All collections',
+      standalone:'Standalone certifications', sort:'Sort', newest:'Newest first', oldest:'Oldest first',
+      resultSingular:'certificate', resultPlural:'certificates', hoursLabel:'of training',
+      showAll:'Show all certifications ↓', showLess:'Show less ↑',
+      empty:'No certifications found for this filter.', loadError:'Certifications could not be loaded right now.',
+      openOriginal:'Open original', close:'Close certificate', footer:'São Paulo, Brazil',
+      themeDark:'Switch to dark mode', themeLight:'Switch to light mode', darkTitle:'Dark mode', lightTitle:'Light mode',
+      enlarge:'Enlarge certificate', originalAria:'Open original certificate',
+      areas:{
+        all:'All',
+        'Dados & BI':'Data & BI',
+        'Marketing & CRM':'Marketing & CRM',
+        'IA & Tecnologia':'AI & Technology',
+        'Gestão & Negócios':'Management & Business',
+        'Carreira & Desenvolvimento':'Career & Development',
+        'Outros interesses':'Other interests'
+      },
+      types:{Curso:'Course',Projeto:'Project','Módulo':'Module','Imersão':'Immersion',LIVE:'LIVE',Mentoria:'Mentoring',Certificado:'Certificate'}
+    },
+    es:{
+      html:'es',
+      pageTitle:'Certificaciones — Lucas Rodrigues',
+      description:'Certificaciones de Lucas Rodrigues en datos, BI, IA, CRM y marketing.',
+      back:'← Portafolio', title:'Certificaciones', status:'En evolución',
+      summaryCertifications:'Certificaciones', summaryHours:'Carga horaria', summaryAreas:'Áreas profesionales',
+      areasTitle:'Áreas profesionales', areasByHours:'Por carga horaria', modality:'Modalidad',
+      online:'Online', onsite:'Presencial', hybrid:'Híbrido',
+      modalityNote1:'Por número de certificaciones.', modalityNote2:'Incluye todos los certificados.',
+      filterArea:'Filtrar por área', filterCollection:'Filtrar por colección', allCollections:'Todas las colecciones',
+      standalone:'Certificaciones independientes', sort:'Ordenar', newest:'Más recientes primero', oldest:'Más antiguas primero',
+      resultSingular:'certificado', resultPlural:'certificados', hoursLabel:'de carga horaria',
+      showAll:'Mostrar todas las certificaciones ↓', showLess:'Mostrar menos ↑',
+      empty:'No se encontraron certificaciones con este filtro.', loadError:'No fue posible cargar las certificaciones ahora.',
+      openOriginal:'Abrir original', close:'Cerrar certificado', footer:'São Paulo, Brasil',
+      themeDark:'Activar modo oscuro', themeLight:'Activar modo claro', darkTitle:'Modo oscuro', lightTitle:'Modo claro',
+      enlarge:'Ampliar certificado', originalAria:'Abrir certificado original',
+      areas:{
+        all:'Todos',
+        'Dados & BI':'Datos & BI',
+        'Marketing & CRM':'Marketing & CRM',
+        'IA & Tecnologia':'IA & Tecnología',
+        'Gestão & Negócios':'Gestión & Negocios',
+        'Carreira & Desenvolvimento':'Carrera & Desarrollo',
+        'Outros interesses':'Otros intereses'
+      },
+      types:{Curso:'Curso',Projeto:'Proyecto','Módulo':'Módulo','Imersão':'Inmersión',LIVE:'LIVE',Mentoria:'Mentoría',Certificado:'Certificado'}
+    }
+  };
+
   const PROFESSIONAL_AREAS = new Set([
     'Dados & BI',
     'Marketing & CRM',
@@ -24,6 +118,7 @@
   const areasPopover = document.getElementById('areas-popover');
   const areasBreakdown = document.getElementById('areas-breakdown');
   const areasWrap = document.querySelector('.cert-summary-area-wrap');
+  const languageButtons = [...document.querySelectorAll('.cert-language-switch [data-lang]')];
 
   document.getElementById('year').textContent = new Date().getFullYear();
 
@@ -32,9 +127,10 @@
 
   const syncTheme = () => {
     const light = document.body.classList.contains('light-mode');
+    const c = UI[language];
     themeButton.textContent = light ? '☾' : '☀';
-    themeButton.setAttribute('aria-label', light ? 'Ativar modo escuro' : 'Ativar modo claro');
-    themeButton.title = light ? 'Modo escuro' : 'Modo claro';
+    themeButton.setAttribute('aria-label', light ? c.themeDark : c.themeLight);
+    themeButton.title = light ? c.darkTitle : c.lightTitle;
     document.querySelector('meta[name="theme-color"]')?.setAttribute('content', light ? '#f4f2ed' : '#000000');
   };
 
@@ -43,6 +139,56 @@
     document.body.classList.toggle('light-mode');
     localStorage.setItem('portfolio-theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
     syncTheme();
+  });
+
+
+  const setText = (selector, value) => {
+    const el = document.querySelector(selector);
+    if (el && value != null) el.textContent = value;
+  };
+
+  const translateStaticInterface = () => {
+    const c = UI[language];
+    document.documentElement.lang = c.html;
+    document.title = c.pageTitle;
+    document.querySelector('meta[name="description"]')?.setAttribute('content', c.description);
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.dataset.i18n;
+      if (c[key] != null) el.textContent = c[key];
+    });
+
+    document.querySelectorAll('[data-i18n-area]').forEach(el => {
+      el.textContent = c.areas[el.dataset.i18nArea] || el.dataset.i18nArea;
+    });
+
+    document.querySelector('[data-i18n="allCollections"]')?.textContent = c.allCollections;
+    setText('[data-i18n="openOriginal"]', c.openOriginal);
+    closeModal?.setAttribute('aria-label', c.close);
+    document.querySelector('.cert-brand')?.setAttribute('aria-label', c.back.replace('← ', '') + ' — Lucas Rodrigues');
+    document.querySelector('.cert-summary')?.setAttribute('aria-label', c.summaryCertifications);
+    document.querySelector('.cert-filter-panel')?.setAttribute('aria-label', c.filterArea);
+    document.querySelector('.cert-summary-area')?.setAttribute('aria-label', c.summaryAreas);
+    document.querySelector('.cert-area-popover')?.setAttribute('aria-label', c.areasTitle);
+
+    languageButtons.forEach(button => {
+      button.setAttribute('aria-pressed', String(button.dataset.lang === language));
+    });
+
+    syncTheme();
+  };
+
+  const applyLanguage = nextLanguage => {
+    language = SUPPORTED_LANGUAGES.includes(nextLanguage) ? nextLanguage : 'pt';
+    localStorage.setItem(LANGUAGE_KEY, language);
+    translateStaticInterface();
+    populateCollectionFilter(true);
+    renderSummary();
+    renderCatalog();
+  };
+
+  languageButtons.forEach(button => {
+    button.addEventListener('click', () => applyLanguage(button.dataset.lang));
   });
 
 
@@ -202,7 +348,7 @@
         const value = percentage(area.hours, professionalHours);
         return `
           <div class="cert-area-row">
-            <div><span>${area.name}</span><strong>${value}%</strong></div>
+            <div><span>${UI[language].areas[area.name] || area.name}</span><strong>${value}%</strong></div>
             <span class="cert-area-track" aria-hidden="true"><i style="width:${value}%"></i></span>
           </div>`;
       }).join('');
@@ -219,8 +365,8 @@
     modalImage.alt = `Certificado: ${certificate.title}`;
     modalTitle.textContent = certificate.title;
     modalOriginal.href = certificate.url;
-    modalOriginal.setAttribute('aria-label', `Abrir certificado original ${certificate.title} no Google Drive, abre em nova aba`);
-    const meta = [certificate.type, formatDate(certificate.issued_at), certificate.hours ? formatHours(certificate.hours) : null]
+    modalOriginal.setAttribute('aria-label', `${UI[language].originalAria}: ${certificate.title}`);
+    const meta = [UI[language].types[certificate.type] || certificate.type, formatDate(certificate.issued_at), certificate.hours ? formatHours(certificate.hours) : null]
       .filter(Boolean)
       .join(' · ');
     modalMeta.textContent = meta;
@@ -236,14 +382,14 @@
 
     const hoursTag = certificate.hours ? `<span>${formatHours(certificate.hours)}</span>` : '';
     const issuerTag = certificate.issuer ? `<span>${certificate.issuer}</span>` : '';
-    const areaTag = certificate.area ? `<span>${certificate.area}</span>` : '';
+    const areaTag = certificate.area ? `<span>${UI[language].areas[certificate.area] || certificate.area}</span>` : '';
 
     card.innerHTML = `
-      <button class="cert-image-button" type="button" aria-label="Ampliar certificado ${certificate.title}">
+      <button class="cert-image-button" type="button" aria-label="${UI[language].enlarge}: ${certificate.title}">
         <img src="${certificate.image}" alt="" loading="lazy" referrerpolicy="no-referrer" />
       </button>
       <div class="cert-card-body">
-        <div class="cert-meta"><span>${certificate.type || 'Certificado'}</span><span>${formatDate(certificate.issued_at)}</span></div>
+        <div class="cert-meta"><span>${UI[language].types[certificate.type || 'Certificado'] || certificate.type || UI[language].types.Certificado}</span><span>${formatDate(certificate.issued_at)}</span></div>
         <h3>${certificate.title}</h3>
         <div class="cert-details">${hoursTag}${issuerTag}${areaTag}</div>
       </div>`;
@@ -264,9 +410,14 @@
 
     document.getElementById('visible-count').textContent = filtered.length;
     document.getElementById('visible-hours').textContent = formatHours(sumHours(filtered));
+    const toolbarText = document.querySelector('.cert-toolbar p');
+    if (toolbarText) {
+      const noun = filtered.length === 1 ? UI[language].resultSingular : UI[language].resultPlural;
+      toolbarText.innerHTML = `<span id="visible-count">${filtered.length}</span> ${noun} · <span id="visible-hours">${formatHours(sumHours(filtered))}</span> ${UI[language].hoursLabel}`;
+    }
 
     if (!filtered.length) {
-      catalog.innerHTML = '<p class="cert-empty">Nenhuma certificação encontrada neste filtro.</p>';
+      catalog.innerHTML = `<p class="cert-empty">${UI[language].empty}</p>`;
       return;
     }
 
@@ -282,7 +433,7 @@
       const revealButton = document.createElement('button');
       revealButton.className = 'cert-reveal';
       revealButton.type = 'button';
-      revealButton.textContent = showAllDefault ? 'Mostrar menos ↑' : 'Mostrar todas as certificações ↓';
+      revealButton.textContent = showAllDefault ? UI[language].showLess : UI[language].showAll;
       revealButton.setAttribute('aria-expanded', String(showAllDefault));
       revealButton.addEventListener('click', () => {
         showAllDefault = !showAllDefault;
@@ -295,21 +446,32 @@
     }
   };
 
-  const populateCollectionFilter = () => {
+  const populateCollectionFilter = (preserveSelection = false) => {
+    const selected = preserveSelection ? collectionFilter.value : 'all';
+    collectionFilter.innerHTML = '';
+    const allOption = document.createElement('option');
+    allOption.value = 'all';
+    allOption.textContent = UI[language].allCollections;
+    collectionFilter.appendChild(allOption);
+
     [...collections]
       .sort((a, b) => a.title.localeCompare(b.title, 'pt-BR'))
       .forEach(collection => {
-      const option = document.createElement('option');
-      option.value = collection.id;
-      option.textContent = collection.title;
-      collectionFilter.appendChild(option);
-    });
+        const option = document.createElement('option');
+        option.value = collection.id;
+        option.textContent = collection.title;
+        collectionFilter.appendChild(option);
+      });
 
     if (certificates.some(certificate => !certificate.collection_id)) {
       const option = document.createElement('option');
       option.value = 'standalone';
-      option.textContent = 'Certificações avulsas';
+      option.textContent = UI[language].standalone;
       collectionFilter.appendChild(option);
+    }
+
+    if (preserveSelection && [...collectionFilter.options].some(option => option.value === selected)) {
+      collectionFilter.value = selected;
     }
   };
 
@@ -378,6 +540,8 @@
     });
   }
 
+  translateStaticInterface();
+
   fetch(DATA_URL)
     .then(response => {
       if (!response.ok) throw new Error('Falha ao carregar certificações.');
@@ -386,12 +550,13 @@
     .then(data => {
       collections = Array.isArray(data.collections) ? data.collections : [];
       certificates = Array.isArray(data.certificates) ? data.certificates : [];
+      translateStaticInterface();
       populateCollectionFilter();
       syncAreaFilters();
       renderSummary();
       renderCatalog();
     })
     .catch(() => {
-      catalog.innerHTML = '<p class="cert-empty">Não foi possível carregar os certificados agora.</p>';
+      catalog.innerHTML = `<p class="cert-empty">${UI[language].loadError}</p>`;
     });
 })();
