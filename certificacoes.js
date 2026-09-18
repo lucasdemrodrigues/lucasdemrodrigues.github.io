@@ -25,7 +25,9 @@
       empty:'Nenhuma certificação encontrada neste filtro.', loadError:'Não foi possível carregar os certificados agora.',
       openOriginal:'Abrir original', close:'Fechar certificado', footer:'São Paulo, Brasil',
       themeDark:'Ativar modo escuro', themeLight:'Ativar modo claro', darkTitle:'Modo escuro', lightTitle:'Modo claro',
-      enlarge:'Ampliar certificado', originalAria:'Abrir certificado original',
+      enlarge:'Ampliar certificado', originalAria:'Abrir certificado original', newTab:'se abre en una pestaña nueva',
+      summaryAria:'Resumen de certificaciones', filterAria:'Filtros de certificaciones', modalityAria:'Distribución de modalidad por número de certificaciones', newTab:'abre em nova aba',
+      summaryAria:'Resumo das certificações', filterAria:'Filtros de certificações', modalityAria:'Distribuição da modalidade por número de certificações',
       areas:{
         all:'Todos',
         'Dados & BI':'Dados & BI',
@@ -53,7 +55,8 @@
       empty:'No certifications found for this filter.', loadError:'Certifications could not be loaded right now.',
       openOriginal:'Open original', close:'Close certificate', footer:'São Paulo, Brazil',
       themeDark:'Switch to dark mode', themeLight:'Switch to light mode', darkTitle:'Dark mode', lightTitle:'Light mode',
-      enlarge:'Enlarge certificate', originalAria:'Open original certificate',
+      enlarge:'Enlarge certificate', originalAria:'Open original certificate', newTab:'opens in a new tab',
+      summaryAria:'Certifications summary', filterAria:'Certification filters', modalityAria:'Certification format distribution by number of certificates',
       areas:{
         all:'All',
         'Dados & BI':'Data & BI',
@@ -167,10 +170,11 @@
     setText('[data-i18n="openOriginal"]', c.openOriginal);
     closeModal?.setAttribute('aria-label', c.close);
     document.querySelector('.cert-brand')?.setAttribute('aria-label', c.back.replace('← ', '') + ' — Lucas Rodrigues');
-    document.querySelector('.cert-summary')?.setAttribute('aria-label', c.summaryCertifications);
-    document.querySelector('.cert-filter-panel')?.setAttribute('aria-label', c.filterArea);
+    document.querySelector('.cert-summary')?.setAttribute('aria-label', c.summaryAria);
+    document.querySelector('.cert-filter-panel')?.setAttribute('aria-label', c.filterAria);
     document.querySelector('.cert-summary-area')?.setAttribute('aria-label', c.summaryAreas);
     document.querySelector('.cert-area-popover')?.setAttribute('aria-label', c.areasTitle);
+    document.querySelector('.cert-modality-breakdown')?.setAttribute('aria-label', c.modalityAria);
 
     languageButtons.forEach(button => {
       button.setAttribute('aria-pressed', String(button.dataset.lang === language));
@@ -264,6 +268,7 @@
   let activeArea = 'all';
   let areasPinned = false;
   let showAllDefault = false;
+  let lastCertificateTrigger = null;
 
   const formatDate = iso => {
     if (!iso) return '';
@@ -364,12 +369,13 @@
     document.getElementById('modality-hibrido').textContent = `${percentage(modalityCounts.get('híbrido') || modalityCounts.get('hibrido') || 0, modalityTotal)}%`;
   };
 
-  const openCertificate = certificate => {
+  const openCertificate = (certificate, trigger) => {
+    lastCertificateTrigger = trigger || document.activeElement;
     modalImage.src = certificate.image;
     modalImage.alt = `Certificado: ${certificate.title}`;
     modalTitle.textContent = certificate.title;
     modalOriginal.href = certificate.url;
-    modalOriginal.setAttribute('aria-label', `${UI[language].originalAria}: ${certificate.title}`);
+    modalOriginal.setAttribute('aria-label', `${UI[language].originalAria}: ${certificate.title}, ${UI[language].newTab}`);
     const meta = [UI[language].types[certificate.type] || certificate.type, formatDate(certificate.issued_at), certificate.hours ? formatHours(certificate.hours) : null]
       .filter(Boolean)
       .join(' · ');
@@ -398,7 +404,8 @@
         <div class="cert-details">${hoursTag}${issuerTag}${areaTag}</div>
       </div>`;
 
-    card.querySelector('.cert-image-button').addEventListener('click', () => openCertificate(certificate));
+    const imageButton = card.querySelector('.cert-image-button');
+    imageButton.addEventListener('click', () => openCertificate(certificate, imageButton));
     return card;
   };
 
@@ -509,6 +516,10 @@
     const cursorRing = modal.querySelector('.custom-cursor-ring');
     const cursorDot = modal.querySelector('.custom-cursor-dot');
     if (cursorRing && cursorDot) document.body.append(cursorRing, cursorDot);
+    if (lastCertificateTrigger instanceof HTMLElement && document.contains(lastCertificateTrigger)) {
+      lastCertificateTrigger.focus();
+    }
+    lastCertificateTrigger = null;
   };
 
   closeModal.addEventListener('click', () => modal.close());
