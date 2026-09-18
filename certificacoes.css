@@ -195,3 +195,37 @@ body.light-mode .cert-hero .cert-shell::before{
 @media(prefers-reduced-motion:reduce){
   .cert-hero .cert-shell::before{animation:none!important}
 }
+
+
+/* Ajustes finais de legibilidade e acessibilidade. */
+.skip-link{
+  position:fixed;
+  left:16px;
+  top:12px;
+  z-index:10000;
+  transform:translateY(-160%);
+  padding:10px 14px;
+  border-radius:8px;
+  background:#f4f4f4;
+  color:#111;
+  font:700 14px "DM Sans",sans-serif;
+  text-decoration:none
+}
+.skip-link:focus{transform:translateY(0)}
+
+.cert-page-status{font-size:11px}
+.cert-meta{font-size:11px}
+.cert-popover-head small{font-size:11px}
+.cert-modality-breakdown span{font-size:12px}
+.cert-filter-label{font-size:12px}
+.cert-filter{font-size:12px}
+.cert-language-switch button{font-size:11px}
+.cert-area-row span{font-size:12px}
+
+/* Mantém o hero visualmente rico, mas estático como na versão preferida. */
+.cert-hero::before,
+.cert-hero::after,
+.cert-hero .cert-shell::before{
+  animation:none!important
+}
+.cert-hero .cert-shell::before{display:none}
