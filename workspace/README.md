@@ -61,3 +61,28 @@ A URL do projeto e a chave publishable/anon podem existir no navegador; elas nã
 O Workspace foi mantido dentro da pasta `workspace/`. Os módulos têm dependências apenas na fundação compartilhada dessa pasta e no Supabase.
 
 Se um módulo for abandonado, seus arquivos e tabelas podem ser removidos sem afetar o portfólio público. Se todo o Workspace for removido, basta retirar a pasta `workspace/` e o link público que aponta para ela.
+
+
+## IA no Workspace
+
+A camada de IA usa uma única Supabase Edge Function: `workspace-ai`.
+
+Fluxo:
+
+`Workspace autenticado → Supabase Edge Function → OpenAI Responses API`
+
+A chave da OpenAI nunca deve ser colocada no GitHub, no navegador ou em `supabase-config.js`. Ela deve existir apenas como secret do projeto Supabase com o nome:
+
+`OPENAI_API_KEY`
+
+Escopos atuais:
+
+- `weekly` — Insight da semana na home, reunindo Carreira, Metas e Hábitos.
+- `career` — pipeline e oportunidades.
+- `goals` — metas, progresso, prazos e critérios de conclusão.
+- `habits` — metas semanais e check-ins dos últimos 7 dias.
+- `health` — organização de consultas e resumo neutro de peso/pressão, sem diagnóstico.
+
+A função lê os dados diretamente do Supabase usando a sessão autenticada e as policies RLS existentes. O cliente não envia todo o banco para a função.
+
+Código da função: `supabase/functions/workspace-ai/index.ts`.
