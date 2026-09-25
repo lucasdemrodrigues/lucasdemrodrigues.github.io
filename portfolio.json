@@ -1,15 +1,24 @@
 {
   "portfolio": true,
   "order": 1,
-  "title": "Portfólio profissional com IA e GA4",
-  "title_en": "Professional portfolio with AI and GA4",
-  "title_es": "Portafolio profesional con IA y GA4",
-  "categories": ["IA"],
-  "description": "Construção e evolução de um portfólio profissional estruturado do zero com apoio de IA generativa, integração com GitHub e mensuração em GA4, com foco em apresentar projetos, resultados e sinais de interesse profissional de forma estruturada.",
-  "description_en": "Development and evolution of a professional portfolio built from scratch with generative AI support, GitHub integration and GA4 measurement, focused on presenting projects, results and signals of professional interest in a structured way.",
-  "description_es": "Construcción y evolución de un portafolio profesional estructurado desde cero con apoyo de IA generativa, integración con GitHub y medición en GA4, centrado en presentar proyectos, resultados y señales de interés profesional de forma estructurada.",
+  "title": "Portfólio profissional com IA, Analytics e Workspace privado",
+  "title_en": "Professional portfolio with AI, Analytics and a private Workspace",
+  "title_es": "Portafolio profesional con IA, Analytics y Workspace privado",
+  "categories": [
+    "IA"
+  ],
+  "description": "Construção e evolução de um ecossistema profissional com portfólio público, integração com GitHub, mensuração em GA4 e Workspace privado autenticado, desenvolvido com apoio de IA generativa e serviços como Supabase e Cloudflare para organização, análise e tomada de decisão.",
+  "description_en": "Development and evolution of a professional ecosystem with a public portfolio, GitHub integration, GA4 measurement and an authenticated private Workspace, built with generative AI support and services such as Supabase and Cloudflare for organization, analysis and decision-making.",
+  "description_es": "Construcción y evolución de un ecosistema profesional con portafolio público, integración con GitHub, medición en GA4 y Workspace privado autenticado, desarrollado con apoyo de IA generativa y servicios como Supabase y Cloudflare para organización, análisis y toma de decisiones.",
   "image": "https://raw.githubusercontent.com/lucasdemrodrigues/lucasdemrodrigues.github.io/main/assets/open-graph.png",
-  "tags": ["IA Generativa", "GA4", "GitHub API", "UX", "Analytics"],
+  "tags": [
+    "IA Generativa",
+    "GA4",
+    "Supabase",
+    "Cloudflare",
+    "GitHub API",
+    "Analytics"
+  ],
   "eyebrow": "IA & ANALYTICS",
   "eyebrow_en": "AI & ANALYTICS",
   "eyebrow_es": "IA & ANALYTICS"
