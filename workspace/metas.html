@@ -29,8 +29,21 @@
 </section>
 
 <section class="ai-insight-card" aria-labelledby="goals-ai-title">
-<div class="ai-insight-head"><div><p class="eyebrow">IA</p><h2 id="goals-ai-title">Análise de metas</h2><p>Revise prazos, progresso e critérios de conclusão.</p></div><button id="goals-ai-button" class="secondary-button ai-insight-button" type="button">Analisar com IA</button></div>
-<div id="goals-ai-output" class="ai-insight-output" hidden></div>
+  <button id="goals-ai-toggle" class="ai-insight-toggle" type="button" aria-expanded="false" aria-controls="goals-ai-content">
+    <span>
+      <span class="eyebrow">IA</span>
+      <strong id="goals-ai-title">Análise de metas</strong>
+      <small id="goals-ai-date">Nenhuma análise gerada ainda</small>
+    </span>
+    <span class="ai-insight-chevron" aria-hidden="true">⌄</span>
+  </button>
+  <div id="goals-ai-content" class="ai-insight-content" hidden>
+    <div class="ai-insight-home-actions">
+      <p>Revise prazos, progresso e critérios de conclusão.</p>
+      <button id="goals-ai-button" class="secondary-button ai-insight-button" type="button">Gerar análise</button>
+    </div>
+    <div id="goals-ai-output" class="ai-insight-output" hidden></div>
+  </div>
 </section>
 
 <section class="goals-toolbar">

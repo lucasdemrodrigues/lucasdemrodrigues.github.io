@@ -22,8 +22,21 @@
 </header>
 
 <section class="ai-insight-card" aria-labelledby="health-ai-title">
-<div class="ai-insight-head"><div><p class="eyebrow">IA</p><h2 id="health-ai-title">Análise do acompanhamento</h2><p>Resume organização de consultas e tendências dos registros, sem diagnóstico.</p></div><button id="health-ai-button" class="secondary-button ai-insight-button" type="button">Analisar com IA</button></div>
-<div id="health-ai-output" class="ai-insight-output" hidden></div>
+  <button id="health-ai-toggle" class="ai-insight-toggle" type="button" aria-expanded="false" aria-controls="health-ai-content">
+    <span>
+      <span class="eyebrow">IA</span>
+      <strong id="health-ai-title">Análise do acompanhamento</strong>
+      <small id="health-ai-date">Nenhuma análise gerada ainda</small>
+    </span>
+    <span class="ai-insight-chevron" aria-hidden="true">⌄</span>
+  </button>
+  <div id="health-ai-content" class="ai-insight-content" hidden>
+    <div class="ai-insight-home-actions">
+      <p>Resume organização de consultas e tendências dos registros, sem diagnóstico.</p>
+      <button id="health-ai-button" class="secondary-button ai-insight-button" type="button">Gerar análise</button>
+    </div>
+    <div id="health-ai-output" class="ai-insight-output" hidden></div>
+  </div>
 </section>
 
 <nav class="health-tabs" aria-label="Áreas de saúde">
