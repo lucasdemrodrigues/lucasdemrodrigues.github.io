@@ -1,29 +1,357 @@
-import * as XLSX from "https://cdn.sheetjs.com/xlsx-0.20.3/package/xlsx.mjs";
-import {createClient} from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-import {SUPABASE_URL,SUPABASE_ANON_KEY} from "./supabase-config.js";
-const supabase=createClient(SUPABASE_URL,SUPABASE_ANON_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
-const $=s=>document.querySelector(s);
-const e={loading:$("#career-loading"),auth:$("#career-auth-required"),view:$("#career-view"),logout:$("#logout-button"),newBtn:$("#new-application-button"),exportBtn:$("#export-career-button"),dialog:$("#application-dialog"),form:$("#application-form"),close:$("#dialog-close"),cancel:$("#cancel-application-button"),remove:$("#delete-application-button"),save:$("#save-application-button"),id:$("#application-id"),company:$("#company"),role:$("#role"),date:$("#applied-at"),applicationDeadline:$("#application-deadline"),status:$("#status"),source:$("#source"),model:$("#work-model"),location:$("#location"),salary:$("#salary"),url:$("#job-url"),notes:$("#notes"),msg:$("#form-message"),search:$("#career-search"),statusFilter:$("#status-filter"),period:$("#period-filter"),list:$("#applications-list"),empty:$("#applications-empty"),warning:$("#career-setup-warning"),count:$("#applications-count"),total:$("#kpi-total"),active:$("#kpi-active"),interviews:$("#kpi-interviews"),rate:$("#kpi-response-rate"),title:$("#application-dialog-title")};
-let rows=[],ready=true;
-const terminal=new Set(["Oferta","Reprovado","Desistência"]);
-const preApplicationStatus="Para candidatar";
-const advanced=new Set(["Em análise","Entrevista","Case/Teste","Oferta","Reprovado","Desistência"]);
-const interview=new Set(["Entrevista","Case/Teste","Oferta"]);
-const esc=v=>String(v??"").replace(/[&<>"\']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","\'":"&#039;"}[c]));
-const fmt=d=>d?d.split("-").reverse().join("/"):"—";
-const daysSince=d=>{if(!d)return "";const start=new Date(d+"T12:00:00");const now=new Date();start.setHours(0,0,0,0);now.setHours(0,0,0,0);const days=Math.max(0,Math.floor((now-start)/86400000));return days===0?"Hoje":days===1?"Há 1 dia":"Há "+days+" dias"};
-const today=()=>{const n=new Date(),l=new Date(n.getTime()-n.getTimezoneOffset()*60000);return l.toISOString().slice(0,10)};
-function openForm(r){e.form.reset();e.id.value="";e.date.value="";e.applicationDeadline.value="";e.status.value="Para candidatar";e.remove.hidden=true;e.title.textContent="Nova candidatura";if(r){e.id.value=r.id;e.company.value=r.company||"";e.role.value=r.role||"";e.date.value=r.applied_at||"";e.applicationDeadline.value=r.application_deadline||"";e.status.value=r.status||"Para candidatar";e.source.value=r.source||"";e.model.value=r.work_model||"";e.location.value=r.location||"";e.salary.value=r.salary||"";e.url.value=r.job_url||"";e.notes.value=r.notes||"";e.remove.hidden=false;e.title.textContent="Editar candidatura"}e.dialog.showModal();setTimeout(()=>e.company.focus(),0)}
-function closeForm(){if(e.dialog.open)e.dialog.close()}
-function filtered(){const q=e.search.value.trim().toLowerCase(),s=e.statusFilter.value,p=e.period.value,now=new Date(),yr=now.getFullYear();return rows.filter(r=>{if(q&&!((r.company+" "+r.role).toLowerCase().includes(q)))return false;if(s!=="all"&&r.status!==s)return false;if(p!=="all"){const base=r.applied_at||r.created_at?.slice(0,10);if(!base)return false;const d=new Date(base+"T12:00:00");if(p==="year"&&d.getFullYear()!==yr)return false;if(p==="30"||p==="90"){const c=new Date();c.setDate(c.getDate()-Number(p));if(d<c)return false}}return true})}
-function exportCareer(){const data=filtered();if(!data.length){alert("Não há registros para exportar com os filtros atuais.");return}const exportRows=data.map(r=>({"Empresa":r.company,"Vaga":r.role,"Status":r.status,"Data da candidatura":r.applied_at?fmt(r.applied_at):"","Prazo para candidatar":r.application_deadline?fmt(r.application_deadline):"","Fonte":r.source||"","Modelo":r.work_model||"","Localização":r.location||"","Faixa salarial":r.salary||"","Link da vaga":r.job_url||"","Observações":r.notes||""}));const ws=XLSX.utils.json_to_sheet(exportRows);ws["!cols"]=[{wch:24},{wch:32},{wch:18},{wch:20},{wch:22},{wch:16},{wch:14},{wch:20},{wch:18},{wch:42},{wch:45}];const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"Carreira");XLSX.writeFile(wb,"carreira.xlsx")}
-function render(){const applications=rows.filter(r=>r.status!==preApplicationStatus);e.total.textContent=applications.length;e.active.textContent=applications.filter(r=>!terminal.has(r.status)).length;e.interviews.textContent=applications.filter(r=>interview.has(r.status)).length;e.rate.textContent=(applications.length?Math.round(applications.filter(r=>advanced.has(r.status)).length/applications.length*100):0)+"%";const data=filtered();e.count.textContent=data.length+" "+(data.length===1?"registro":"registros");e.empty.hidden=data.length!==0||!ready;e.list.innerHTML=data.map(r=>"<article class=\"application-row\" data-id=\""+esc(r.id)+"\"><div class=\"application-company\"><strong>"+esc(r.company)+"</strong><span>"+esc(r.source||"Fonte não informada")+"</span></div><div class=\"application-role\">"+esc(r.role)+"<span>"+esc(r.work_model||r.location||"Modelo não informado")+"</span></div><time class=\"application-date\" datetime=\""+esc(r.applied_at||r.application_deadline||"")+"\">"+(r.status===preApplicationStatus?(r.application_deadline?fmt(r.application_deadline):"Sem prazo"):fmt(r.applied_at))+"<span>"+(r.status===preApplicationStatus?"Para candidatar":daysSince(r.applied_at))+"</span></time><span class=\"status-badge\">"+esc(r.status)+"</span><button class=\"row-menu\" type=\"button\" aria-label=\"Editar\">•••</button></article>").join("");e.list.querySelectorAll(".application-row").forEach(n=>n.querySelector("button").onclick=()=>openForm(rows.find(r=>String(r.id)===n.dataset.id)))}
-async function load(){ready=true;e.warning.hidden=true;const{data,error}=await supabase.from("career_applications").select("*").order("applied_at",{ascending:false}).order("created_at",{ascending:false});if(error){if(error.code==="42P01"||/career_applications|schema cache|does not exist/i.test(error.message||"")){ready=false;rows=[];e.warning.hidden=false;render();return}throw error}rows=data||[];render()}
-e.form.onsubmit=async ev=>{ev.preventDefault();if(!e.form.checkValidity()){e.form.reportValidity();return}const{data:{user}}=await supabase.auth.getUser();if(!user)return;e.save.disabled=true;e.save.textContent="Salvando…";if(e.status.value!==preApplicationStatus&&!e.date.value){e.msg.textContent="Informe a data da candidatura para este status.";e.msg.classList.add("is-error");e.save.disabled=false;e.save.textContent="Salvar candidatura";return}const payload={user_id:user.id,company:e.company.value.trim(),role:e.role.value.trim(),applied_at:e.status.value===preApplicationStatus?null:e.date.value,application_deadline:e.applicationDeadline.value||null,status:e.status.value,source:e.source.value||null,work_model:e.model.value||null,location:e.location.value.trim()||null,salary:e.salary.value.trim()||null,job_url:e.url.value.trim()||null,notes:e.notes.value.trim()||null};const q=e.id.value?supabase.from("career_applications").update(payload).eq("id",e.id.value):supabase.from("career_applications").insert(payload);const{error}=await q;e.save.disabled=false;e.save.textContent="Salvar candidatura";if(error){e.msg.textContent="Não foi possível salvar. Verifique a configuração do banco.";e.msg.classList.add("is-error");return}closeForm();await load()};
-e.remove.onclick=async()=>{if(!e.id.value||!confirm("Excluir esta candidatura?"))return;await supabase.from("career_applications").delete().eq("id",e.id.value);closeForm();await load()};
-e.newBtn.onclick=()=>ready?openForm():e.warning.scrollIntoView({behavior:"smooth"});e.exportBtn.onclick=exportCareer;
-e.close.onclick=e.cancel.onclick=closeForm;
-e.search.oninput=render;e.statusFilter.onchange=e.period.onchange=render;
-e.logout.onclick=async()=>{await supabase.auth.signOut();location.href="./"};
-(async()=>{const{data:{session}}=await supabase.auth.getSession();e.loading.hidden=true;if(!session){e.auth.hidden=false;return}e.view.hidden=false;try{await load()}catch{e.warning.hidden=false}})();
-e.status.addEventListener("change",()=>{const pre=e.status.value===preApplicationStatus;if(pre){e.date.value=""}else if(!e.date.value){e.date.value=today()}});
+import {
+  $,
+  bindLogout,
+  escapeHtml,
+  formatDate,
+  initProtectedPage,
+  supabase,
+  todayIso
+} from "./shared.js";
+import { exportRowsToExcel } from "./export-excel.js";
+
+const elements = {
+  loading: $("#career-loading"),
+  auth: $("#career-auth-required"),
+  view: $("#career-view"),
+  logout: $("#logout-button"),
+  newButton: $("#new-application-button"),
+  exportButton: $("#export-career-button"),
+  dialog: $("#application-dialog"),
+  form: $("#application-form"),
+  close: $("#dialog-close"),
+  cancel: $("#cancel-application-button"),
+  remove: $("#delete-application-button"),
+  save: $("#save-application-button"),
+  id: $("#application-id"),
+  company: $("#company"),
+  role: $("#role"),
+  date: $("#applied-at"),
+  applicationDeadline: $("#application-deadline"),
+  status: $("#status"),
+  source: $("#source"),
+  model: $("#work-model"),
+  location: $("#location"),
+  salary: $("#salary"),
+  url: $("#job-url"),
+  notes: $("#notes"),
+  message: $("#form-message"),
+  search: $("#career-search"),
+  statusFilter: $("#status-filter"),
+  periodFilter: $("#period-filter"),
+  list: $("#applications-list"),
+  empty: $("#applications-empty"),
+  warning: $("#career-setup-warning"),
+  count: $("#applications-count"),
+  total: $("#kpi-total"),
+  active: $("#kpi-active"),
+  interviews: $("#kpi-interviews"),
+  rate: $("#kpi-response-rate"),
+  dialogTitle: $("#application-dialog-title")
+};
+
+const TERMINAL_STATUSES = new Set(["Oferta", "Reprovado", "Desistência"]);
+const ADVANCED_STATUSES = new Set([
+  "Em análise",
+  "Entrevista",
+  "Case/Teste",
+  "Oferta",
+  "Reprovado",
+  "Desistência"
+]);
+const INTERVIEW_STATUSES = new Set(["Entrevista", "Case/Teste", "Oferta"]);
+const PRE_APPLICATION_STATUS = "Para candidatar";
+
+let rows = [];
+let ready = true;
+
+const daysSince = date => {
+  if (!date) return "";
+
+  const start = new Date(date + "T12:00:00");
+  const now = new Date();
+
+  start.setHours(0, 0, 0, 0);
+  now.setHours(0, 0, 0, 0);
+
+  const days = Math.max(0, Math.floor((now - start) / 86400000));
+
+  if (days === 0) return "Hoje";
+  if (days === 1) return "Há 1 dia";
+  return `Há ${days} dias`;
+};
+
+function openForm(row) {
+  elements.form.reset();
+  elements.id.value = "";
+  elements.date.value = "";
+  elements.applicationDeadline.value = "";
+  elements.status.value = PRE_APPLICATION_STATUS;
+  elements.remove.hidden = true;
+  elements.dialogTitle.textContent = "Nova candidatura";
+
+  if (row) {
+    elements.id.value = row.id;
+    elements.company.value = row.company || "";
+    elements.role.value = row.role || "";
+    elements.date.value = row.applied_at || "";
+    elements.applicationDeadline.value = row.application_deadline || "";
+    elements.status.value = row.status || PRE_APPLICATION_STATUS;
+    elements.source.value = row.source || "";
+    elements.model.value = row.work_model || "";
+    elements.location.value = row.location || "";
+    elements.salary.value = row.salary || "";
+    elements.url.value = row.job_url || "";
+    elements.notes.value = row.notes || "";
+    elements.remove.hidden = false;
+    elements.dialogTitle.textContent = "Editar candidatura";
+  }
+
+  elements.dialog.showModal();
+  setTimeout(() => elements.company.focus(), 0);
+}
+
+function closeForm() {
+  if (elements.dialog.open) elements.dialog.close();
+}
+
+function filteredRows() {
+  const query = elements.search.value.trim().toLowerCase();
+  const status = elements.statusFilter.value;
+  const period = elements.periodFilter.value;
+  const currentYear = new Date().getFullYear();
+
+  return rows.filter(row => {
+    if (query && !(`${row.company} ${row.role}`).toLowerCase().includes(query)) {
+      return false;
+    }
+
+    if (status !== "all" && row.status !== status) return false;
+
+    if (period !== "all") {
+      const baseDate = row.applied_at || row.created_at?.slice(0, 10);
+      if (!baseDate) return false;
+
+      const date = new Date(baseDate + "T12:00:00");
+
+      if (period === "year" && date.getFullYear() !== currentYear) return false;
+
+      if (period === "30" || period === "90") {
+        const cutoff = new Date();
+        cutoff.setDate(cutoff.getDate() - Number(period));
+        if (date < cutoff) return false;
+      }
+    }
+
+    return true;
+  });
+}
+
+function exportCareer() {
+  const data = filteredRows();
+
+  if (!data.length) {
+    alert("Não há registros para exportar com os filtros atuais.");
+    return;
+  }
+
+  exportRowsToExcel({
+    rows: data,
+    columns: [
+      { header: "Empresa", value: row => row.company },
+      { header: "Vaga", value: row => row.role },
+      { header: "Status", value: row => row.status },
+      { header: "Data da candidatura", value: row => row.applied_at ? formatDate(row.applied_at) : "" },
+      { header: "Prazo para candidatar", value: row => row.application_deadline ? formatDate(row.application_deadline) : "" },
+      { header: "Fonte", value: row => row.source || "" },
+      { header: "Modelo", value: row => row.work_model || "" },
+      { header: "Localização", value: row => row.location || "" },
+      { header: "Faixa salarial", value: row => row.salary || "" },
+      { header: "Link da vaga", value: row => row.job_url || "" },
+      { header: "Observações", value: row => row.notes || "" }
+    ],
+    widths: [24, 32, 18, 20, 22, 16, 14, 20, 18, 42, 45],
+    sheetName: "Carreira",
+    fileName: "carreira.xlsx"
+  });
+}
+
+function render() {
+  const applications = rows.filter(row => row.status !== PRE_APPLICATION_STATUS);
+
+  elements.total.textContent = applications.length;
+  elements.active.textContent = applications.filter(row => !TERMINAL_STATUSES.has(row.status)).length;
+  elements.interviews.textContent = applications.filter(row => INTERVIEW_STATUSES.has(row.status)).length;
+  elements.rate.textContent =
+    (applications.length
+      ? Math.round(applications.filter(row => ADVANCED_STATUSES.has(row.status)).length / applications.length * 100)
+      : 0) + "%";
+
+  const data = filteredRows();
+  elements.count.textContent = `${data.length} ${data.length === 1 ? "registro" : "registros"}`;
+  elements.empty.hidden = data.length !== 0 || !ready;
+
+  elements.list.innerHTML = data.map(row => {
+    const displayDate = row.status === PRE_APPLICATION_STATUS
+      ? (row.application_deadline ? formatDate(row.application_deadline) : "Sem prazo")
+      : formatDate(row.applied_at);
+
+    const dateCaption = row.status === PRE_APPLICATION_STATUS
+      ? "Para candidatar"
+      : daysSince(row.applied_at);
+
+    return `
+      <article class="application-row" data-id="${escapeHtml(row.id)}">
+        <div class="application-company">
+          <strong>${escapeHtml(row.company)}</strong>
+          <span>${escapeHtml(row.source || "Fonte não informada")}</span>
+        </div>
+        <div class="application-role">
+          ${escapeHtml(row.role)}
+          <span>${escapeHtml(row.work_model || row.location || "Modelo não informado")}</span>
+        </div>
+        <time class="application-date" datetime="${escapeHtml(row.applied_at || row.application_deadline || "")}">
+          ${displayDate}
+          <span>${dateCaption}</span>
+        </time>
+        <span class="status-badge" data-status="${escapeHtml(row.status)}">${escapeHtml(row.status)}</span>
+        <button class="row-menu" type="button" aria-label="Editar">•••</button>
+      </article>
+    `;
+  }).join("");
+
+  elements.list.querySelectorAll(".application-row").forEach(rowElement => {
+    rowElement.querySelector("button").onclick = () =>
+      openForm(rows.find(row => String(row.id) === rowElement.dataset.id));
+  });
+}
+
+async function load() {
+  ready = true;
+  elements.warning.hidden = true;
+
+  const { data, error } = await supabase
+    .from("career_applications")
+    .select("*")
+    .order("applied_at", { ascending: false })
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    if (
+      error.code === "42P01" ||
+      /career_applications|schema cache|does not exist/i.test(error.message || "")
+    ) {
+      ready = false;
+      rows = [];
+      elements.warning.hidden = false;
+      render();
+      return;
+    }
+
+    throw error;
+  }
+
+  rows = data || [];
+  render();
+}
+
+elements.form.addEventListener("submit", async event => {
+  event.preventDefault();
+
+  if (!elements.form.checkValidity()) {
+    elements.form.reportValidity();
+    return;
+  }
+
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return;
+
+  elements.save.disabled = true;
+  elements.save.textContent = "Salvando…";
+  elements.message.textContent = "";
+  elements.message.classList.remove("is-error");
+
+  if (elements.status.value !== PRE_APPLICATION_STATUS && !elements.date.value) {
+    elements.message.textContent = "Informe a data da candidatura para este status.";
+    elements.message.classList.add("is-error");
+    elements.save.disabled = false;
+    elements.save.textContent = "Salvar candidatura";
+    return;
+  }
+
+  const payload = {
+    user_id: user.id,
+    company: elements.company.value.trim(),
+    role: elements.role.value.trim(),
+    applied_at: elements.status.value === PRE_APPLICATION_STATUS ? null : elements.date.value,
+    application_deadline: elements.applicationDeadline.value || null,
+    status: elements.status.value,
+    source: elements.source.value || null,
+    work_model: elements.model.value || null,
+    location: elements.location.value.trim() || null,
+    salary: elements.salary.value.trim() || null,
+    job_url: elements.url.value.trim() || null,
+    notes: elements.notes.value.trim() || null
+  };
+
+  const query = elements.id.value
+    ? supabase.from("career_applications").update(payload).eq("id", elements.id.value)
+    : supabase.from("career_applications").insert(payload);
+
+  const { error } = await query;
+
+  elements.save.disabled = false;
+  elements.save.textContent = "Salvar candidatura";
+
+  if (error) {
+    elements.message.textContent = "Não foi possível salvar. Verifique a configuração do banco.";
+    elements.message.classList.add("is-error");
+    return;
+  }
+
+  closeForm();
+  await load();
+});
+
+elements.remove.addEventListener("click", async () => {
+  if (!elements.id.value || !confirm("Excluir esta candidatura?")) return;
+
+  await supabase
+    .from("career_applications")
+    .delete()
+    .eq("id", elements.id.value);
+
+  closeForm();
+  await load();
+});
+
+elements.newButton.addEventListener("click", () => {
+  ready ? openForm() : elements.warning.scrollIntoView({ behavior: "smooth" });
+});
+
+elements.exportButton.addEventListener("click", exportCareer);
+elements.close.addEventListener("click", closeForm);
+elements.cancel.addEventListener("click", closeForm);
+elements.search.addEventListener("input", render);
+elements.statusFilter.addEventListener("change", render);
+elements.periodFilter.addEventListener("change", render);
+
+elements.status.addEventListener("change", () => {
+  const isPreApplication = elements.status.value === PRE_APPLICATION_STATUS;
+
+  if (isPreApplication) {
+    elements.date.value = "";
+  } else if (!elements.date.value) {
+    elements.date.value = todayIso();
+  }
+});
+
+bindLogout(elements.logout);
+
+initProtectedPage({
+  loading: elements.loading,
+  authRequired: elements.auth,
+  view: elements.view,
+  onReady: load
+}).catch(() => {
+  elements.warning.hidden = false;
+});

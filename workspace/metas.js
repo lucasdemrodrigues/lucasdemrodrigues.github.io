@@ -1,23 +1,324 @@
-import * as XLSX from "https://cdn.sheetjs.com/xlsx-0.20.3/package/xlsx.mjs";
-import {createClient} from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-import {SUPABASE_URL,SUPABASE_ANON_KEY} from "./supabase-config.js";
-const supabase=createClient(SUPABASE_URL,SUPABASE_ANON_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
-const $=s=>document.querySelector(s);
-const e={loading:$("#goals-loading"),auth:$("#goals-auth-required"),view:$("#goals-view"),logout:$("#logout-button"),newBtn:$("#new-goal-button"),exportBtn:$("#export-goals-button"),dialog:$("#goal-dialog"),form:$("#goal-form"),close:$("#dialog-close"),cancel:$("#cancel-goal-button"),remove:$("#delete-goal-button"),save:$("#save-goal-button"),id:$("#goal-id"),title:$("#goal-title"),period:$("#goal-period"),category:$("#goal-category"),deadline:$("#goal-deadline"),status:$("#goal-status"),progress:$("#goal-progress"),progressLabel:$("#goal-progress-label"),notes:$("#goal-notes"),msg:$("#goal-form-message"),search:$("#goals-search"),periodFilter:$("#period-filter"),statusFilter:$("#status-filter"),list:$("#goals-list"),empty:$("#goals-empty"),warning:$("#goals-setup-warning"),count:$("#goals-count"),kActive:$("#kpi-active"),kCompleted:$("#kpi-completed"),kProgress:$("#kpi-progress"),kDue:$("#kpi-due"),dialogTitle:$("#goal-dialog-title")};
-let rows=[],ready=true,userId=null;
-const today=()=>{const n=new Date(),x=new Date(n.getTime()-n.getTimezoneOffset()*60000);return x.toISOString().slice(0,10)};
-const fmt=d=>d?d.split("-").reverse().join("/"):"—";
-const daysUntil=d=>{if(!d)return null;const a=new Date(today()+"T12:00:00"),b=new Date(d+"T12:00:00");return Math.round((b-a)/86400000)};
-function deadlineLabel(r){if(r.status==="Concluída")return "Concluída";const days=daysUntil(r.deadline);if(days===null)return "Sem prazo";if(days<0)return "Atrasada "+Math.abs(days)+"d";if(days===0)return "Hoje";if(days===1)return "Amanhã";return "Em "+days+" dias"}
-function openForm(r){e.form.reset();e.id.value="";e.period.value="Mensal";e.status.value="Em andamento";e.progress.value="0";e.progressLabel.textContent="0%";e.deadline.value=today();e.remove.hidden=true;e.dialogTitle.textContent="Nova meta";if(r){e.id.value=r.id;e.title.value=r.title||"";e.period.value=r.period_type||"Mensal";e.category.value=r.category||"";e.deadline.value=r.deadline||today();e.status.value=r.status||"Em andamento";e.progress.value=String(r.progress||0);e.progressLabel.textContent=(r.progress||0)+"%";e.notes.value=r.notes||"";e.remove.hidden=false;e.dialogTitle.textContent="Editar meta"}e.dialog.showModal();setTimeout(()=>e.title.focus(),0)}
-function closeForm(){if(e.dialog.open)e.dialog.close()}
-function filtered(){const q=e.search.value.trim().toLowerCase(),p=e.periodFilter.value,s=e.statusFilter.value;return rows.filter(r=>{if(q&&!r.title.toLowerCase().includes(q))return false;if(p!=="all"&&r.period_type!==p)return false;if(s==="active"&&r.status==="Concluída")return false;if(s!=="active"&&s!=="all"&&r.status!==s)return false;return true})}
-function exportGoals(){const data=filtered();if(!data.length){alert("Não há metas para exportar com os filtros atuais.");return}const exportRows=data.map(r=>({"Meta":r.title,"Período":r.period_type,"Categoria":r.category||"","Prazo":fmt(r.deadline),"Status":r.status,"Progresso (%)":Number(r.progress||0),"Observações":r.notes||""}));const ws=XLSX.utils.json_to_sheet(exportRows);ws["!cols"]=[{wch:38},{wch:12},{wch:16},{wch:14},{wch:16},{wch:14},{wch:45}];const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"Metas");XLSX.writeFile(wb,"metas.xlsx")}
-function render(){const active=rows.filter(r=>r.status!=="Concluída"),completed=rows.filter(r=>r.status==="Concluída");e.kActive.textContent=active.length;e.kCompleted.textContent=completed.length;e.kProgress.textContent=(active.length?Math.round(active.reduce((sum,r)=>sum+Number(r.progress||0),0)/active.length):0)+"%";e.kDue.textContent=active.filter(r=>{const d=daysUntil(r.deadline);return d!==null&&d>=0&&d<=7}).length;const data=filtered();e.count.textContent=data.length+" "+(data.length===1?"registro":"registros");e.empty.hidden=data.length!==0||!ready;e.list.innerHTML=data.map(r=>{const days=daysUntil(r.deadline),cls=r.status!=="Concluída"&&days!==null&&days<0?" is-overdue":r.status!=="Concluída"&&days!==null&&days<=7?" is-soon":"";return '<article class="goal-row" data-id="'+r.id+'"><div class="goal-main"><strong>'+r.title+'</strong><span>'+(r.category||"Sem categoria")+' · '+r.status+'</span></div><span class="goal-period">'+r.period_type+'</span><div class="goal-progress-wrap"><div class="goal-progress-top"><span>Progresso</span><strong>'+r.progress+'%</strong></div><div class="goal-progress-bar"><div class="goal-progress-fill" style="width:'+r.progress+'%"></div></div></div><div class="goal-deadline'+cls+'">'+deadlineLabel(r)+'<br><span>'+fmt(r.deadline)+'</span></div><button class="row-menu" type="button" aria-label="Editar meta">•••</button></article>'}).join("");e.list.querySelectorAll(".goal-row").forEach(row=>row.querySelector(".row-menu").onclick=()=>openForm(rows.find(r=>r.id===row.dataset.id)))}
-async function load(){ready=true;e.warning.hidden=true;const{data,error}=await supabase.from("goals").select("*").order("deadline",{ascending:true}).order("created_at",{ascending:false});if(error){if(error.code==="42P01"||/goals|schema cache|does not exist/i.test(error.message||"")){ready=false;rows=[];e.warning.hidden=false;render();return}throw error}rows=data||[];render()}
-e.progress.oninput=()=>e.progressLabel.textContent=e.progress.value+"%";
-e.status.onchange=()=>{if(e.status.value==="Concluída"){e.progress.value="100";e.progressLabel.textContent="100%"}};
-e.form.onsubmit=async ev=>{ev.preventDefault();if(!e.form.checkValidity()){e.form.reportValidity();return}const payload={user_id:userId,title:e.title.value.trim(),period_type:e.period.value,category:e.category.value||null,deadline:e.deadline.value,status:e.status.value,progress:Number(e.progress.value),notes:e.notes.value.trim()||null};e.save.disabled=true;const q=e.id.value?supabase.from("goals").update(payload).eq("id",e.id.value):supabase.from("goals").insert(payload);const{error}=await q;e.save.disabled=false;if(error){e.msg.textContent="Não foi possível salvar.";e.msg.classList.add("is-error");return}closeForm();await load()};
-e.remove.onclick=async()=>{if(!e.id.value||!confirm("Excluir esta meta?"))return;await supabase.from("goals").delete().eq("id",e.id.value);closeForm();await load()};
-e.newBtn.onclick=()=>ready?openForm():e.warning.scrollIntoView({behavior:"smooth"});e.exportBtn.onclick=exportGoals;e.close.onclick=e.cancel.onclick=closeForm;e.search.oninput=render;e.periodFilter.onchange=e.statusFilter.onchange=render;e.logout.onclick=async()=>{await supabase.auth.signOut();location.href="./"};
-(async()=>{const{data:{session}}=await supabase.auth.getSession();e.loading.hidden=true;if(!session){e.auth.hidden=false;return}userId=session.user.id;e.view.hidden=false;try{await load()}catch{e.warning.hidden=false}})();
+import {
+  $,
+  bindLogout,
+  escapeHtml,
+  formatDate,
+  initProtectedPage,
+  supabase,
+  todayIso
+} from "./shared.js";
+import { exportRowsToExcel } from "./export-excel.js";
+
+const elements = {
+  loading: $("#goals-loading"),
+  auth: $("#goals-auth-required"),
+  view: $("#goals-view"),
+  logout: $("#logout-button"),
+  newButton: $("#new-goal-button"),
+  exportButton: $("#export-goals-button"),
+  dialog: $("#goal-dialog"),
+  form: $("#goal-form"),
+  close: $("#dialog-close"),
+  cancel: $("#cancel-goal-button"),
+  remove: $("#delete-goal-button"),
+  save: $("#save-goal-button"),
+  id: $("#goal-id"),
+  title: $("#goal-title"),
+  period: $("#goal-period"),
+  category: $("#goal-category"),
+  deadline: $("#goal-deadline"),
+  status: $("#goal-status"),
+  progress: $("#goal-progress"),
+  progressLabel: $("#goal-progress-label"),
+  notes: $("#goal-notes"),
+  message: $("#goal-form-message"),
+  search: $("#goals-search"),
+  periodFilter: $("#period-filter"),
+  statusFilter: $("#status-filter"),
+  list: $("#goals-list"),
+  empty: $("#goals-empty"),
+  warning: $("#goals-setup-warning"),
+  count: $("#goals-count"),
+  active: $("#kpi-active"),
+  completed: $("#kpi-completed"),
+  progressAverage: $("#kpi-progress"),
+  dueSoon: $("#kpi-due"),
+  dialogTitle: $("#goal-dialog-title")
+};
+
+let rows = [];
+let ready = true;
+let userId = null;
+
+const daysUntil = date => {
+  if (!date) return null;
+
+  const today = new Date(todayIso() + "T12:00:00");
+  const deadline = new Date(date + "T12:00:00");
+
+  return Math.round((deadline - today) / 86400000);
+};
+
+function deadlineLabel(row) {
+  if (row.status === "Concluída") return "Concluída";
+
+  const days = daysUntil(row.deadline);
+
+  if (days === null) return "Sem prazo";
+  if (days < 0) return `Atrasada ${Math.abs(days)}d`;
+  if (days === 0) return "Hoje";
+  if (days === 1) return "Amanhã";
+
+  return `Em ${days} dias`;
+}
+
+function openForm(row) {
+  elements.form.reset();
+  elements.id.value = "";
+  elements.period.value = "Mensal";
+  elements.status.value = "Em andamento";
+  elements.progress.value = "0";
+  elements.progressLabel.textContent = "0%";
+  elements.deadline.value = todayIso();
+  elements.remove.hidden = true;
+  elements.dialogTitle.textContent = "Nova meta";
+
+  if (row) {
+    elements.id.value = row.id;
+    elements.title.value = row.title || "";
+    elements.period.value = row.period_type || "Mensal";
+    elements.category.value = row.category || "";
+    elements.deadline.value = row.deadline || todayIso();
+    elements.status.value = row.status || "Em andamento";
+    elements.progress.value = String(row.progress || 0);
+    elements.progressLabel.textContent = `${row.progress || 0}%`;
+    elements.notes.value = row.notes || "";
+    elements.remove.hidden = false;
+    elements.dialogTitle.textContent = "Editar meta";
+  }
+
+  elements.dialog.showModal();
+  setTimeout(() => elements.title.focus(), 0);
+}
+
+function closeForm() {
+  if (elements.dialog.open) elements.dialog.close();
+}
+
+function filteredRows() {
+  const query = elements.search.value.trim().toLowerCase();
+  const period = elements.periodFilter.value;
+  const status = elements.statusFilter.value;
+
+  return rows.filter(row => {
+    if (query && !row.title.toLowerCase().includes(query)) return false;
+    if (period !== "all" && row.period_type !== period) return false;
+    if (status === "active" && row.status === "Concluída") return false;
+    if (status !== "active" && status !== "all" && row.status !== status) return false;
+
+    return true;
+  });
+}
+
+function exportGoals() {
+  const data = filteredRows();
+
+  if (!data.length) {
+    alert("Não há metas para exportar com os filtros atuais.");
+    return;
+  }
+
+  exportRowsToExcel({
+    rows: data,
+    columns: [
+      { header: "Meta", value: row => row.title },
+      { header: "Período", value: row => row.period_type },
+      { header: "Categoria", value: row => row.category || "" },
+      { header: "Prazo", value: row => formatDate(row.deadline) },
+      { header: "Status", value: row => row.status },
+      { header: "Progresso (%)", value: row => Number(row.progress || 0) },
+      { header: "Observações", value: row => row.notes || "" }
+    ],
+    widths: [38, 12, 16, 14, 16, 14, 45],
+    sheetName: "Metas",
+    fileName: "metas.xlsx"
+  });
+}
+
+function render() {
+  const active = rows.filter(row => row.status !== "Concluída");
+  const completed = rows.filter(row => row.status === "Concluída");
+
+  elements.active.textContent = active.length;
+  elements.completed.textContent = completed.length;
+  elements.progressAverage.textContent =
+    (active.length
+      ? Math.round(active.reduce((sum, row) => sum + Number(row.progress || 0), 0) / active.length)
+      : 0) + "%";
+  elements.dueSoon.textContent = active.filter(row => {
+    const days = daysUntil(row.deadline);
+    return days !== null && days >= 0 && days <= 7;
+  }).length;
+
+  const data = filteredRows();
+  elements.count.textContent = `${data.length} ${data.length === 1 ? "registro" : "registros"}`;
+  elements.empty.hidden = data.length !== 0 || !ready;
+
+  elements.list.innerHTML = data.map(row => {
+    const days = daysUntil(row.deadline);
+    const deadlineClass =
+      row.status !== "Concluída" && days !== null && days < 0
+        ? " is-overdue"
+        : row.status !== "Concluída" && days !== null && days <= 7
+          ? " is-soon"
+          : "";
+
+    const progress = Math.max(0, Math.min(100, Number(row.progress || 0)));
+
+    return `
+      <article class="goal-row" data-id="${escapeHtml(row.id)}">
+        <div class="goal-main">
+          <strong>${escapeHtml(row.title)}</strong>
+          <span>${escapeHtml(row.category || "Sem categoria")} · ${escapeHtml(row.status)}</span>
+        </div>
+        <span class="goal-period">${escapeHtml(row.period_type)}</span>
+        <div class="goal-progress-wrap">
+          <div class="goal-progress-top">
+            <span>Progresso</span>
+            <strong>${progress}%</strong>
+          </div>
+          <div class="goal-progress-bar">
+            <div class="goal-progress-fill" style="width:${progress}%"></div>
+          </div>
+        </div>
+        <div class="goal-deadline${deadlineClass}">
+          ${deadlineLabel(row)}<br>
+          <span>${formatDate(row.deadline)}</span>
+        </div>
+        <button class="row-menu" type="button" aria-label="Editar meta">•••</button>
+      </article>
+    `;
+  }).join("");
+
+  elements.list.querySelectorAll(".goal-row").forEach(rowElement => {
+    rowElement.querySelector(".row-menu").onclick = () =>
+      openForm(rows.find(row => row.id === rowElement.dataset.id));
+  });
+}
+
+async function load() {
+  ready = true;
+  elements.warning.hidden = true;
+
+  const { data, error } = await supabase
+    .from("goals")
+    .select("*")
+    .order("deadline", { ascending: true })
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    if (
+      error.code === "42P01" ||
+      /goals|schema cache|does not exist/i.test(error.message || "")
+    ) {
+      ready = false;
+      rows = [];
+      elements.warning.hidden = false;
+      render();
+      return;
+    }
+
+    throw error;
+  }
+
+  rows = data || [];
+  render();
+}
+
+elements.progress.addEventListener("input", () => {
+  elements.progressLabel.textContent = `${elements.progress.value}%`;
+});
+
+elements.status.addEventListener("change", () => {
+  if (elements.status.value === "Concluída") {
+    elements.progress.value = "100";
+    elements.progressLabel.textContent = "100%";
+  }
+});
+
+elements.form.addEventListener("submit", async event => {
+  event.preventDefault();
+
+  if (!elements.form.checkValidity()) {
+    elements.form.reportValidity();
+    return;
+  }
+
+  const payload = {
+    user_id: userId,
+    title: elements.title.value.trim(),
+    period_type: elements.period.value,
+    category: elements.category.value || null,
+    deadline: elements.deadline.value,
+    status: elements.status.value,
+    progress: Number(elements.progress.value),
+    notes: elements.notes.value.trim() || null
+  };
+
+  elements.save.disabled = true;
+  elements.message.textContent = "";
+  elements.message.classList.remove("is-error");
+
+  const query = elements.id.value
+    ? supabase.from("goals").update(payload).eq("id", elements.id.value)
+    : supabase.from("goals").insert(payload);
+
+  const { error } = await query;
+  elements.save.disabled = false;
+
+  if (error) {
+    elements.message.textContent = "Não foi possível salvar.";
+    elements.message.classList.add("is-error");
+    return;
+  }
+
+  closeForm();
+  await load();
+});
+
+elements.remove.addEventListener("click", async () => {
+  if (!elements.id.value || !confirm("Excluir esta meta?")) return;
+
+  await supabase
+    .from("goals")
+    .delete()
+    .eq("id", elements.id.value);
+
+  closeForm();
+  await load();
+});
+
+elements.newButton.addEventListener("click", () => {
+  ready ? openForm() : elements.warning.scrollIntoView({ behavior: "smooth" });
+});
+
+elements.exportButton.addEventListener("click", exportGoals);
+elements.close.addEventListener("click", closeForm);
+elements.cancel.addEventListener("click", closeForm);
+elements.search.addEventListener("input", render);
+elements.periodFilter.addEventListener("change", render);
+elements.statusFilter.addEventListener("change", render);
+
+bindLogout(elements.logout);
+
+initProtectedPage({
+  loading: elements.loading,
+  authRequired: elements.auth,
+  view: elements.view,
+  onReady: async session => {
+    userId = session.user.id;
+    await load();
+  }
+}).catch(() => {
+  elements.warning.hidden = false;
+});

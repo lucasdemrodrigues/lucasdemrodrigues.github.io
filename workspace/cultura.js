@@ -1,21 +1,302 @@
-import * as XLSX from "https://cdn.sheetjs.com/xlsx-0.20.3/package/xlsx.mjs";
-import {createClient} from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-import {SUPABASE_URL,SUPABASE_ANON_KEY} from "./supabase-config.js";
-const supabase=createClient(SUPABASE_URL,SUPABASE_ANON_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
-const $=s=>document.querySelector(s);
-const e={loading:$("#culture-loading"),auth:$("#culture-auth-required"),view:$("#culture-view"),logout:$("#logout-button"),newBtn:$("#new-culture-button"),exportBtn:$("#export-culture-button"),dialog:$("#culture-dialog"),form:$("#culture-form"),close:$("#dialog-close"),cancel:$("#cancel-culture-button"),remove:$("#delete-culture-button"),save:$("#save-culture-button"),id:$("#culture-id"),type:$("#culture-type"),title:$("#culture-title"),creator:$("#culture-creator"),date:$("#culture-date"),genre:$("#culture-genre"),rating:$("#culture-rating"),platform:$("#culture-platform"),notes:$("#culture-notes"),msg:$("#culture-form-message"),search:$("#culture-search"),typeFilter:$("#type-filter"),yearFilter:$("#year-filter"),list:$("#culture-list"),empty:$("#culture-empty"),warning:$("#culture-setup-warning"),count:$("#culture-count"),kTotal:$("#kpi-total"),kMovies:$("#kpi-movies"),kBooks:$("#kpi-books"),kRating:$("#kpi-rating"),dialogTitle:$("#culture-dialog-title")};
-let rows=[],ready=true,userId=null;
-const today=()=>{const n=new Date(),x=new Date(n.getTime()-n.getTimezoneOffset()*60000);return x.toISOString().slice(0,10)};
-const fmt=d=>d?d.split("-").reverse().join("/"):"—";
-const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[c]));
-function openForm(r){e.form.reset();e.id.value="";e.type.value="Filme";e.date.value=today();e.remove.hidden=true;e.dialogTitle.textContent="Novo registro";if(r){e.id.value=r.id;e.type.value=r.item_type;e.title.value=r.title||"";e.creator.value=r.creator||"";e.date.value=r.completed_at||today();e.genre.value=r.genre||"";e.rating.value=r.rating??"";e.platform.value=r.platform||"";e.notes.value=r.notes||"";e.remove.hidden=false;e.dialogTitle.textContent="Editar registro"}e.dialog.showModal();setTimeout(()=>e.title.focus(),0)}
-function closeForm(){if(e.dialog.open)e.dialog.close()}
-function filtered(){const q=e.search.value.trim().toLowerCase(),type=e.typeFilter.value,year=e.yearFilter.value,current=String(new Date().getFullYear());return rows.filter(r=>{const hay=(r.title+" "+(r.creator||"")).toLowerCase();if(q&&!hay.includes(q))return false;if(type!=="all"&&r.item_type!==type)return false;if(year==="current"&&!String(r.completed_at||"").startsWith(current))return false;if(year!=="current"&&year!=="all"&&!String(r.completed_at||"").startsWith(year))return false;return true})}
-function syncYearOptions(){const current=String(new Date().getFullYear()),selected=e.yearFilter.value;const years=[...new Set(rows.map(r=>String(r.completed_at||"").slice(0,4)).filter(y=>/^\\d{4}$/.test(y)&&y!==current))].sort((a,b)=>Number(b)-Number(a));e.yearFilter.innerHTML='<option value="current">Este ano</option>'+years.map(y=>'<option value="'+y+'">'+y+'</option>').join("")+'<option value="all">Todos</option>';e.yearFilter.value=[...e.yearFilter.options].some(o=>o.value===selected)?selected:"current"}
-function exportExcel(){const data=filtered();if(!data.length){alert("Não há registros para exportar com os filtros atuais.");return}const exportRows=data.map(r=>({"Tipo":r.item_type,"Título":r.title,"Autor / Diretor":r.creator||"","Data de conclusão":fmt(r.completed_at),"Gênero":r.genre||"","Nota":r.rating??"","Onde / Formato":r.platform||"","Observações":r.notes||""}));const ws=XLSX.utils.json_to_sheet(exportRows);ws["!cols"]=[{wch:10},{wch:34},{wch:28},{wch:18},{wch:22},{wch:8},{wch:20},{wch:45}];const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"Cultura");const period=e.yearFilter.value==="current"?String(new Date().getFullYear()):e.yearFilter.value==="all"?"todos":e.yearFilter.value;XLSX.writeFile(wb,"cultura_"+period+".xlsx")}
-function render(){const current=String(new Date().getFullYear()),yearRows=rows.filter(r=>String(r.completed_at||"").startsWith(current));e.kTotal.textContent=yearRows.length;e.kMovies.textContent=yearRows.filter(r=>r.item_type==="Filme").length;e.kBooks.textContent=yearRows.filter(r=>r.item_type==="Livro").length;const rated=yearRows.filter(r=>Number.isFinite(Number(r.rating)));e.kRating.textContent=rated.length?(rated.reduce((s,r)=>s+Number(r.rating),0)/rated.length).toFixed(1).replace(".",","):"—";const data=filtered();e.count.textContent=data.length+" "+(data.length===1?"registro":"registros");e.empty.hidden=data.length!==0||!ready;e.list.innerHTML=data.map(r=>'<article class="culture-row" data-id="'+r.id+'"><span class="culture-type">'+esc(r.item_type)+'</span><div class="culture-main"><strong>'+esc(r.title)+'</strong><span>'+esc(r.genre||"Gênero não informado")+'</span></div><div class="culture-creator">'+esc(r.creator||"—")+'<span>'+esc(r.platform||"")+'</span></div><time class="culture-date">'+fmt(r.completed_at)+'</time><div class="culture-rating">'+(r.rating?esc(r.rating)+"/10":"—")+'</div><button class="row-menu" type="button" aria-label="Editar registro">•••</button></article>').join("");e.list.querySelectorAll(".culture-row").forEach(row=>row.querySelector(".row-menu").onclick=()=>openForm(rows.find(r=>r.id===row.dataset.id)))}
-async function load(){ready=true;e.warning.hidden=true;const{data,error}=await supabase.from("culture_items").select("*").order("completed_at",{ascending:false}).order("created_at",{ascending:false});if(error){if(error.code==="42P01"||/culture_items|schema cache|does not exist/i.test(error.message||"")){ready=false;rows=[];e.warning.hidden=false;render();return}throw error}rows=data||[];syncYearOptions();render()}
-e.form.onsubmit=async ev=>{ev.preventDefault();if(!e.form.checkValidity()){e.form.reportValidity();return}const payload={user_id:userId,item_type:e.type.value,title:e.title.value.trim(),creator:e.creator.value.trim()||null,completed_at:e.date.value,genre:e.genre.value.trim()||null,rating:e.rating.value?Number(e.rating.value):null,platform:e.platform.value.trim()||null,notes:e.notes.value.trim()||null};e.save.disabled=true;const q=e.id.value?supabase.from("culture_items").update(payload).eq("id",e.id.value):supabase.from("culture_items").insert(payload);const{error}=await q;e.save.disabled=false;if(error){e.msg.textContent="Não foi possível salvar.";e.msg.classList.add("is-error");return}closeForm();await load()};
-e.remove.onclick=async()=>{if(!e.id.value||!confirm("Excluir este registro?"))return;await supabase.from("culture_items").delete().eq("id",e.id.value);closeForm();await load()};
-e.newBtn.onclick=()=>ready?openForm():e.warning.scrollIntoView({behavior:"smooth"});e.exportBtn.onclick=exportExcel;e.close.onclick=e.cancel.onclick=closeForm;e.search.oninput=render;e.typeFilter.onchange=e.yearFilter.onchange=render;e.logout.onclick=async()=>{await supabase.auth.signOut();location.href="./"};
-(async()=>{const{data:{session}}=await supabase.auth.getSession();e.loading.hidden=true;if(!session){e.auth.hidden=false;return}userId=session.user.id;e.view.hidden=false;try{await load()}catch{e.warning.hidden=false}})();
+import {
+  $,
+  bindLogout,
+  escapeHtml,
+  formatDate,
+  initProtectedPage,
+  supabase,
+  todayIso
+} from "./shared.js";
+import { exportRowsToExcel } from "./export-excel.js";
+
+const elements = {
+  loading: $("#culture-loading"),
+  auth: $("#culture-auth-required"),
+  view: $("#culture-view"),
+  logout: $("#logout-button"),
+  newButton: $("#new-culture-button"),
+  exportButton: $("#export-culture-button"),
+  dialog: $("#culture-dialog"),
+  form: $("#culture-form"),
+  close: $("#dialog-close"),
+  cancel: $("#cancel-culture-button"),
+  remove: $("#delete-culture-button"),
+  save: $("#save-culture-button"),
+  id: $("#culture-id"),
+  type: $("#culture-type"),
+  title: $("#culture-title"),
+  creator: $("#culture-creator"),
+  date: $("#culture-date"),
+  genre: $("#culture-genre"),
+  rating: $("#culture-rating"),
+  platform: $("#culture-platform"),
+  notes: $("#culture-notes"),
+  message: $("#culture-form-message"),
+  search: $("#culture-search"),
+  typeFilter: $("#type-filter"),
+  yearFilter: $("#year-filter"),
+  list: $("#culture-list"),
+  empty: $("#culture-empty"),
+  warning: $("#culture-setup-warning"),
+  count: $("#culture-count"),
+  total: $("#kpi-total"),
+  movies: $("#kpi-movies"),
+  books: $("#kpi-books"),
+  ratingAverage: $("#kpi-rating"),
+  dialogTitle: $("#culture-dialog-title")
+};
+
+let rows = [];
+let ready = true;
+let userId = null;
+
+function openForm(row) {
+  elements.form.reset();
+  elements.id.value = "";
+  elements.type.value = "Filme";
+  elements.date.value = todayIso();
+  elements.remove.hidden = true;
+  elements.dialogTitle.textContent = "Novo registro";
+
+  if (row) {
+    elements.id.value = row.id;
+    elements.type.value = row.item_type;
+    elements.title.value = row.title || "";
+    elements.creator.value = row.creator || "";
+    elements.date.value = row.completed_at || todayIso();
+    elements.genre.value = row.genre || "";
+    elements.rating.value = row.rating ?? "";
+    elements.platform.value = row.platform || "";
+    elements.notes.value = row.notes || "";
+    elements.remove.hidden = false;
+    elements.dialogTitle.textContent = "Editar registro";
+  }
+
+  elements.dialog.showModal();
+  setTimeout(() => elements.title.focus(), 0);
+}
+
+function closeForm() {
+  if (elements.dialog.open) elements.dialog.close();
+}
+
+function filteredRows() {
+  const query = elements.search.value.trim().toLowerCase();
+  const type = elements.typeFilter.value;
+  const year = elements.yearFilter.value;
+  const currentYear = String(new Date().getFullYear());
+
+  return rows.filter(row => {
+    const haystack = `${row.title} ${row.creator || ""}`.toLowerCase();
+
+    if (query && !haystack.includes(query)) return false;
+    if (type !== "all" && row.item_type !== type) return false;
+    if (year === "current" && !String(row.completed_at || "").startsWith(currentYear)) return false;
+    if (year !== "current" && year !== "all" && !String(row.completed_at || "").startsWith(year)) return false;
+
+    return true;
+  });
+}
+
+function syncYearOptions() {
+  const currentYear = String(new Date().getFullYear());
+  const selected = elements.yearFilter.value;
+  const years = [...new Set(
+    rows
+      .map(row => String(row.completed_at || "").slice(0, 4))
+      .filter(year => /^\d{4}$/.test(year) && year !== currentYear)
+  )].sort((a, b) => Number(b) - Number(a));
+
+  elements.yearFilter.replaceChildren(
+    new Option("Este ano", "current"),
+    ...years.map(year => new Option(year, year)),
+    new Option("Todos", "all")
+  );
+
+  elements.yearFilter.value = [...elements.yearFilter.options]
+    .some(option => option.value === selected)
+      ? selected
+      : "current";
+}
+
+function exportCulture() {
+  const data = filteredRows();
+
+  if (!data.length) {
+    alert("Não há registros para exportar com os filtros atuais.");
+    return;
+  }
+
+  const period = elements.yearFilter.value === "current"
+    ? String(new Date().getFullYear())
+    : elements.yearFilter.value === "all"
+      ? "todos"
+      : elements.yearFilter.value;
+
+  exportRowsToExcel({
+    rows: data,
+    columns: [
+      { header: "Tipo", value: row => row.item_type },
+      { header: "Título", value: row => row.title },
+      { header: "Autor / Diretor", value: row => row.creator || "" },
+      { header: "Data de conclusão", value: row => formatDate(row.completed_at) },
+      { header: "Gênero", value: row => row.genre || "" },
+      { header: "Nota", value: row => row.rating ?? "" },
+      { header: "Onde / Formato", value: row => row.platform || "" },
+      { header: "Observações", value: row => row.notes || "" }
+    ],
+    widths: [10, 34, 28, 18, 22, 8, 20, 45],
+    sheetName: "Cultura",
+    fileName: `cultura_${period}.xlsx`
+  });
+}
+
+function render() {
+  const currentYear = String(new Date().getFullYear());
+  const yearRows = rows.filter(row => String(row.completed_at || "").startsWith(currentYear));
+
+  elements.total.textContent = yearRows.length;
+  elements.movies.textContent = yearRows.filter(row => row.item_type === "Filme").length;
+  elements.books.textContent = yearRows.filter(row => row.item_type === "Livro").length;
+
+  const rated = yearRows.filter(row => Number.isFinite(Number(row.rating)));
+  elements.ratingAverage.textContent = rated.length
+    ? (rated.reduce((sum, row) => sum + Number(row.rating), 0) / rated.length)
+        .toFixed(1)
+        .replace(".", ",")
+    : "—";
+
+  const data = filteredRows();
+  elements.count.textContent = `${data.length} ${data.length === 1 ? "registro" : "registros"}`;
+  elements.empty.hidden = data.length !== 0 || !ready;
+
+  elements.list.innerHTML = data.map(row => `
+    <article class="culture-row" data-id="${escapeHtml(row.id)}">
+      <span class="culture-type">${escapeHtml(row.item_type)}</span>
+      <div class="culture-main">
+        <strong>${escapeHtml(row.title)}</strong>
+        <span>${escapeHtml(row.genre || "Gênero não informado")}</span>
+      </div>
+      <div class="culture-creator">
+        ${escapeHtml(row.creator || "—")}
+        <span>${escapeHtml(row.platform || "")}</span>
+      </div>
+      <time class="culture-date">${formatDate(row.completed_at)}</time>
+      <div class="culture-rating">${row.rating ? escapeHtml(row.rating) + "/10" : "—"}</div>
+      <button class="row-menu" type="button" aria-label="Editar registro">•••</button>
+    </article>
+  `).join("");
+
+  elements.list.querySelectorAll(".culture-row").forEach(rowElement => {
+    rowElement.querySelector(".row-menu").onclick = () =>
+      openForm(rows.find(row => row.id === rowElement.dataset.id));
+  });
+}
+
+async function load() {
+  ready = true;
+  elements.warning.hidden = true;
+
+  const { data, error } = await supabase
+    .from("culture_items")
+    .select("*")
+    .order("completed_at", { ascending: false })
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    if (
+      error.code === "42P01" ||
+      /culture_items|schema cache|does not exist/i.test(error.message || "")
+    ) {
+      ready = false;
+      rows = [];
+      elements.warning.hidden = false;
+      render();
+      return;
+    }
+
+    throw error;
+  }
+
+  rows = data || [];
+  syncYearOptions();
+  render();
+}
+
+elements.form.addEventListener("submit", async event => {
+  event.preventDefault();
+
+  if (!elements.form.checkValidity()) {
+    elements.form.reportValidity();
+    return;
+  }
+
+  const payload = {
+    user_id: userId,
+    item_type: elements.type.value,
+    title: elements.title.value.trim(),
+    creator: elements.creator.value.trim() || null,
+    completed_at: elements.date.value,
+    genre: elements.genre.value.trim() || null,
+    rating: elements.rating.value ? Number(elements.rating.value) : null,
+    platform: elements.platform.value.trim() || null,
+    notes: elements.notes.value.trim() || null
+  };
+
+  elements.save.disabled = true;
+  elements.message.textContent = "";
+  elements.message.classList.remove("is-error");
+
+  const query = elements.id.value
+    ? supabase.from("culture_items").update(payload).eq("id", elements.id.value)
+    : supabase.from("culture_items").insert(payload);
+
+  const { error } = await query;
+  elements.save.disabled = false;
+
+  if (error) {
+    elements.message.textContent = "Não foi possível salvar.";
+    elements.message.classList.add("is-error");
+    return;
+  }
+
+  closeForm();
+  await load();
+});
+
+elements.remove.addEventListener("click", async () => {
+  if (!elements.id.value || !confirm("Excluir este registro?")) return;
+
+  await supabase
+    .from("culture_items")
+    .delete()
+    .eq("id", elements.id.value);
+
+  closeForm();
+  await load();
+});
+
+elements.newButton.addEventListener("click", () => {
+  ready ? openForm() : elements.warning.scrollIntoView({ behavior: "smooth" });
+});
+
+elements.exportButton.addEventListener("click", exportCulture);
+elements.close.addEventListener("click", closeForm);
+elements.cancel.addEventListener("click", closeForm);
+elements.search.addEventListener("input", render);
+elements.typeFilter.addEventListener("change", render);
+elements.yearFilter.addEventListener("change", render);
+
+bindLogout(elements.logout);
+
+initProtectedPage({
+  loading: elements.loading,
+  authRequired: elements.auth,
+  view: elements.view,
+  onReady: async session => {
+    userId = session.user.id;
+    await load();
+  }
+}).catch(() => {
+  elements.warning.hidden = false;
+});
