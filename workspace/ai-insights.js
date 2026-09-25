@@ -171,5 +171,15 @@ export const bindAiInsight = ({
     }
   });
 
+  supabase.auth.onAuthStateChange((event, session) => {
+    if (event === "SIGNED_IN" && session) {
+      loadSaved();
+    }
+
+    if (event === "SIGNED_OUT") {
+      renderSaved(null);
+    }
+  });
+
   loadSaved();
 };
