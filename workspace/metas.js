@@ -7,7 +7,8 @@ import {
   supabase,
   todayIso
 } from "./shared.js";
-import { exportRowsToExcel } from "./export-excel.js";
+
+import { bindAiInsight } from "./ai-insights.js";import { exportRowsToExcel } from "./export-excel.js";
 
 const elements = {
   loading: $("#goals-loading"),
@@ -326,4 +327,11 @@ initProtectedPage({
   }
 }).catch(() => {
   elements.warning.hidden = false;
+});
+
+
+bindAiInsight({
+  button: document.querySelector("#goals-ai-button"),
+  output: document.querySelector("#goals-ai-output"),
+  scope: "goals"
 });
