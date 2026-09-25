@@ -52,5 +52,5 @@ body.light-mode .custom-cursor-ring{border-color:rgba(32,32,32,.7)}
 body.light-mode .custom-cursor-ring.is-interactive{border-color:rgba(32,32,32,.92);background:rgba(0,0,0,.035)}
 body.light-mode .custom-cursor-ring.is-clicking{background:rgba(0,0,0,.055)}
 
-html.custom-cursor .home-cert-modal,
-html.custom-cursor .home-cert-modal *{cursor:none!important}
+html.custom-cursor dialog,
+html.custom-cursor dialog *{cursor:none!important}
