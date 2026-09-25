@@ -36,6 +36,7 @@ const elements = {
   today: $("#kpi-today"),
   month: $("#kpi-month"),
   monthCheckins: $("#kpi-month-checkins"),
+  week: $("#habits-week"),
   dialogTitle: $("#habit-dialog-title")
 };
 
@@ -51,6 +52,25 @@ const monthStart = () => {
   const local = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
   return local.toISOString().slice(0, 10);
 };
+
+const sevenDaysAgo = () => {
+  const date = new Date();
+  date.setDate(date.getDate() - 6);
+  const local = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+  return local.toISOString().slice(0, 10);
+};
+
+const lastSevenDays = () => Array.from({ length: 7 }, (_, index) => {
+  const date = new Date();
+  date.setDate(date.getDate() - (6 - index));
+  const local = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+  return local.toISOString().slice(0, 10);
+});
+
+const formatDayShort = date =>
+  new Intl.DateTimeFormat("pt-BR", { weekday: "short", day: "2-digit" })
+    .format(new Date(date + "T12:00:00"))
+    .replace(".", "");
 
 const formatToday = () =>
   new Intl.DateTimeFormat("pt-BR", {
@@ -154,6 +174,29 @@ function exportHabits() {
   });
 }
 
+function renderWeek(activeHabits) {
+  const days = lastSevenDays();
+
+  elements.week.innerHTML = activeHabits.map(habit => {
+    const markers = days.map(day => {
+      const done = logs.some(log =>
+        log.habit_id === habit.id &&
+        log.log_date === day &&
+        log.completed
+      );
+
+      return `<span class="week-day ${done ? "is-done" : ""}" title="${escapeHtml(formatDayShort(day))}" aria-label="${escapeHtml(formatDayShort(day))}: ${done ? "concluído" : "não concluído"}">${done ? "✓" : ""}</span>`;
+    }).join("");
+
+    return `
+      <div class="week-row">
+        <div><strong>${escapeHtml(habit.name)}</strong><span>${monthProgress(habit)}% no mês</span></div>
+        <div class="week-days" aria-label="Últimos sete dias de ${escapeHtml(habit.name)}">${markers}</div>
+      </div>
+    `;
+  }).join("");
+}
+
 function render() {
   const activeHabits = habits.filter(habit => habit.active !== false);
   const today = todayIso();
@@ -188,6 +231,7 @@ function render() {
     (expected ? Math.min(100, Math.round(monthDone / expected * 100)) : 0) + "%";
   elements.monthCheckins.textContent = monthDone;
   elements.empty.hidden = activeHabits.length !== 0 || !ready;
+  renderWeek(activeHabits);
 
   elements.list.innerHTML = activeHabits.map(habit => {
     const doneToday = logs.some(log =>
@@ -237,7 +281,7 @@ async function load() {
     { data: logData, error: logError }
   ] = await Promise.all([
     supabase.from("habits").select("*").order("created_at"),
-    supabase.from("habit_logs").select("*").gte("log_date", monthStart()).order("log_date")
+    supabase.from("habit_logs").select("*").gte("log_date", sevenDaysAgo() < monthStart() ? sevenDaysAgo() : monthStart()).order("log_date")
   ]);
 
   if (habitError || logError) {
