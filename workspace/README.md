@@ -11,9 +11,13 @@ Manter ferramentas pessoais em uma estrutura simples, reversível e desacoplada 
 ### Fundação
 
 - `index.html` — login e home autenticada do Workspace.
-- `workspace.css` — estilos compartilhados da home, autenticação e componentes-base.
-- `workspace.js` — login, logout e estado da sessão na home.
-- `shared.js` — cliente do Supabase e utilitários compartilhados pelos módulos.
+- `workspace.css` — estilos da home, autenticação e componentes-base.
+- `module-shared.css` — estilos estruturais compartilhados pelos módulos privados.
+- `workspace.js` — ponto de entrada da home; apenas compõe os módulos necessários.
+- `workspace-auth.js` — autenticação da home.
+- `workspace-dashboard.js` — resumos e pendências da home.
+- `shared.js` — cliente único do Supabase e utilitários compartilhados.
+- `ai-insights.js` — comportamento compartilhado dos painéis de IA.
 - `export-excel.js` — função única de exportação para arquivos `.xlsx`.
 - `supabase-config.js` — URL pública do projeto e chave publishable/anon.
 
@@ -41,7 +45,9 @@ A arquitetura segue estas regras:
 3. conteúdo vindo do banco é escapado antes de ser inserido em HTML dinâmico;
 4. exportações usam uma única implementação;
 5. mudanças no banco ficam versionadas em `sql/`;
-6. nenhum módulo deve depender de outro módulo.
+6. nenhum módulo deve depender de outro módulo;
+7. a home separa autenticação, dashboard e integrações em arquivos próprios;
+8. dados privados nunca são usados como fixtures, seeds ou conteúdo estático do repositório.
 
 ## Segurança
 
@@ -55,6 +61,8 @@ Os dados privados permanecem no Supabase e são protegidos por:
 4. ausência de `service_role`, senha do banco ou outros segredos no repositório.
 
 A URL do projeto e a chave publishable/anon podem existir no navegador; elas não substituem RLS.
+
+Os registros reais e as respostas geradas pela IA não são versionados. A política completa está em `SECURITY.md`.
 
 ## Reversibilidade
 
