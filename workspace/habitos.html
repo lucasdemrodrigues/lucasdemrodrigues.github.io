@@ -29,8 +29,21 @@
 </section>
 
 <section class="ai-insight-card" aria-labelledby="habits-ai-title">
-<div class="ai-insight-head"><div><p class="eyebrow">IA</p><h2 id="habits-ai-title">Análise de hábitos</h2><p>Considere sua meta semanal e os últimos sete dias.</p></div><button id="habits-ai-button" class="secondary-button ai-insight-button" type="button">Analisar com IA</button></div>
-<div id="habits-ai-output" class="ai-insight-output" hidden></div>
+  <button id="habits-ai-toggle" class="ai-insight-toggle" type="button" aria-expanded="false" aria-controls="habits-ai-content">
+    <span>
+      <span class="eyebrow">IA</span>
+      <strong id="habits-ai-title">Análise de hábitos</strong>
+      <small id="habits-ai-date">Nenhuma análise gerada ainda</small>
+    </span>
+    <span class="ai-insight-chevron" aria-hidden="true">⌄</span>
+  </button>
+  <div id="habits-ai-content" class="ai-insight-content" hidden>
+    <div class="ai-insight-home-actions">
+      <p>Considere sua meta semanal e os últimos sete dias.</p>
+      <button id="habits-ai-button" class="secondary-button ai-insight-button" type="button">Gerar análise</button>
+    </div>
+    <div id="habits-ai-output" class="ai-insight-output" hidden></div>
+  </div>
 </section>
 
 <section class="week-panel"><div class="panel-head"><div><h2>Últimos 7 dias</h2><p>Consistência por hábito</p></div></div><div id="habits-week" class="habits-week"></div></section>
