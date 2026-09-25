@@ -3,7 +3,7 @@
 ![Capa do portfólio](assets/portfolio-cover.webp)
 
 <h1 align="center">
-  Portfólio profissional com IA, Analytics e Workspace privado
+  Construção de um portfólio profissional com apoio de IA, Analytics e Workspace privado
 </h1>
 
 <p align="center">
