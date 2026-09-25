@@ -9,6 +9,7 @@ create table if not exists public.goals (
   status text not null default 'Em andamento'
     check (status in ('Em andamento','Concluída','Pausada')),
   progress integer not null default 0 check (progress between 0 and 100),
+  success_criteria text,
   notes text,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
