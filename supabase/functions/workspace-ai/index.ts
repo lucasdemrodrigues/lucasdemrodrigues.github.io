@@ -11,19 +11,6 @@ const json = (body: unknown, status = 200) =>
     headers: { ...corsHeaders, "Content-Type": "application/json" }
   });
 
-const extractText = (response: any) => {
-  if (typeof response?.output_text === "string" && response.output_text.trim()) {
-    return response.output_text.trim();
-  }
-
-  return (response?.output || [])
-    .flatMap((item: any) => item?.content || [])
-    .map((part: any) => part?.text || "")
-    .filter(Boolean)
-    .join("\n")
-    .trim();
-};
-
 Deno.serve(async request => {
   if (request.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
@@ -35,9 +22,9 @@ Deno.serve(async request => {
 
   const supabaseUrl = Deno.env.get("SUPABASE_URL");
   const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY");
-  const openAiKey = Deno.env.get("OPENAI_API_KEY");
+  const groqApiKey = Deno.env.get("GROQ_API_KEY");
 
-  if (!supabaseUrl || !supabaseAnonKey || !openAiKey) {
+  if (!supabaseUrl || !supabaseAnonKey || !groqApiKey) {
     return json({ error: "Função ainda não configurada." }, 503);
   }
 
@@ -113,18 +100,22 @@ ${safety}
     weekly: "Crie um Insight da semana reunindo Carreira, Metas e Hábitos. Destaque o que merece atenção primeiro e dê até 3 ações práticas para a próxima semana."
   };
 
-  const openAiResponse = await fetch("https://api.openai.com/v1/responses", {
+  const groqResponse = await fetch("https://api.groq.com/openai/v1/chat/completions", {
     method: "POST",
     headers: {
-      "Authorization": `Bearer ${openAiKey}`,
+      "Authorization": `Bearer ${groqApiKey}`,
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      model: "gpt-5.6-luna",
-      reasoning: { effort: "low" },
-      max_output_tokens: 450,
-      instructions,
-      input: [
+      model: "openai/gpt-oss-120b",
+      reasoning_effort: "low",
+      max_completion_tokens: 500,
+      temperature: 0.3,
+      messages: [
+        {
+          role: "system",
+          content: instructions
+        },
         {
           role: "user",
           content: `${prompts[scope]}\n\nDados estruturados:\n${JSON.stringify(payload)}`
@@ -133,12 +124,12 @@ ${safety}
     })
   });
 
-  if (!openAiResponse.ok) {
+  if (!groqResponse.ok) {
     return json({ error: "Falha ao consultar o modelo." }, 502);
   }
 
-  const ai = await openAiResponse.json();
-  const insight = extractText(ai);
+  const ai = await groqResponse.json();
+  const insight = ai?.choices?.[0]?.message?.content?.trim();
 
   if (!insight) return json({ error: "Resposta vazia." }, 502);
 
