@@ -1,3 +1,4 @@
+import { bindAiInsight } from "./ai-insights.js";
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from "./supabase-config.js";
 
@@ -298,3 +299,11 @@ if (!isConfigured) {
 
   syncSession();
 }
+
+
+bindAiInsight({
+  button: document.querySelector("#weekly-ai-button"),
+  output: document.querySelector("#weekly-ai-output"),
+  scope: "weekly",
+  loadingText: "Gerando…"
+});
