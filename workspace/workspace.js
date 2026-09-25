@@ -16,6 +16,11 @@ const summaryGoals = document.querySelector("#summary-goals");
 const summaryHabits = document.querySelector("#summary-habits");
 const summaryCulture = document.querySelector("#summary-culture");
 const summaryHealth = document.querySelector("#summary-health");
+const cardCareer = document.querySelector("#card-career");
+const cardGoals = document.querySelector("#card-goals");
+const cardHabits = document.querySelector("#card-habits");
+const cardCulture = document.querySelector("#card-culture");
+const cardHealth = document.querySelector("#card-health");
 
 const isConfigured = Boolean(SUPABASE_URL && SUPABASE_ANON_KEY);
 let supabase = null;
@@ -152,6 +157,17 @@ const loadDashboard = async () => {
     : "Nenhum hábito ativo";
   summaryCulture.textContent =
     `${plural(cultureYear, "registro", "registros")} em ${currentYear}`;
+  const setCardAttention = (card, summary, shouldHighlight) => {
+    card?.classList.toggle("has-pending", shouldHighlight);
+    summary?.classList.toggle("has-pending", shouldHighlight);
+  };
+
+  setCardAttention(cardCareer, summaryCareer, savedOpportunities > 0);
+  setCardAttention(cardGoals, summaryGoals, dueGoals > 0);
+  setCardAttention(cardHabits, summaryHabits, habitsPendingToday > 0);
+  setCardAttention(cardCulture, summaryCulture, false);
+  setCardAttention(cardHealth, summaryHealth, healthToSchedule > 0);
+
   summaryHealth.textContent = latestWeight
     ? `${plural(healthToSchedule, "para agendar", "para agendar")} · ${Number(latestWeight.weight_kg).toFixed(1).replace(".", ",")} kg no último registro`
     : `${plural(healthToSchedule, "para agendar", "para agendar")} · ${plural(healthScheduled, "agendada", "agendadas")}`;
@@ -163,6 +179,7 @@ const loadDashboard = async () => {
     healthToSchedule;
 
   pendingTotal.textContent = String(pendingCount);
+  document.querySelector(".workspace-pending")?.classList.toggle("has-pending", pendingCount > 0);
   pendingList.replaceChildren();
 
   if (!pendingCount) {
