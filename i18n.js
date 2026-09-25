@@ -14,7 +14,8 @@
       "Trajetória",
       "Projetos",
       "Certificações",
-      "Contato"
+      "Contato",
+      "Workspace"
     ],
     "certifications": [
       "CERTIFICAÇÕES EM DESTAQUE",
@@ -125,7 +126,8 @@
       "Career",
       "Projects",
       "Certifications",
-      "Contact"
+      "Contact",
+      "Workspace"
     ],
     "certifications": [
       "FEATURED CERTIFICATIONS",
@@ -236,7 +238,8 @@
       "Trayectoria",
       "Proyectos",
       "Certificaciones",
-      "Contacto"
+      "Contacto",
+      "Workspace"
     ],
     "certifications": [
       "CERTIFICACIONES DESTACADAS",
@@ -419,6 +422,7 @@
   const apply=l=>{
     lang=supported.includes(l)?l:'pt';localStorage.setItem(KEY,lang);const c=t[lang];document.documentElement.lang=c.html;document.title=c.title;q('meta[name="description"]')?.setAttribute('content',c.desc);
     ['#sobre','#trajetoria','#projetos','#certificacoes','#contato'].forEach((href,i)=>text(`#main-nav a[href="${href}"]`,c.nav[i]));
+    const workspaceText=q('.workspace-nav-link span:last-child');if(workspaceText)workspaceText.textContent=c.nav[5]||'Workspace';
     const eb=q('.eyebrow');if(eb){eb.textContent=c.eyebrow;const d=document.createElement('span');d.className='status-dot';eb.prepend(d)}
     text('.hero-tagline',c.tagline);lead(q('.hero-actions .button.primary'),c.actions[0]);lead(q('.hero-actions .button.ghost'),c.actions[1]);
     text('#sobre .section-kicker',c.about[0]);text('#sobre .about-copy .lead',c.about[1]);text('#sobre .about-copy p:not(.lead)',c.about[2]);
