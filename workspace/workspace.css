@@ -111,3 +111,7 @@ h1{margin-bottom:12px;font:600 clamp(36px,7vw,54px)/.98 "Space Grotesk",sans-ser
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{scroll-behavior:auto!important;transition:none!important}
 }
+
+.module-card-link{color:inherit;text-decoration:none}
+.module-status-live{border-color:rgba(57,255,20,.22);color:#77ff61;background:rgba(57,255,20,.035)}
+.module-card-link small b{font-weight:500;color:#999}
