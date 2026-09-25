@@ -67,7 +67,6 @@ themeToggle.addEventListener('click', () => {
 });
 
 // Preferências de interação compartilhadas entre os módulos do site.
-const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // Impacto profissional: os números contam uma única vez quando entram na tela.
@@ -114,63 +113,6 @@ if (metricNumbers.length && !prefersReducedMotion) {
   }, { threshold: 0.4 });
 
   document.querySelectorAll('.metric').forEach(metric => metricObserver.observe(metric));
-}
-
-if (finePointer) {
-  document.documentElement.classList.add('custom-cursor');
-
-  const customCursorDot = document.createElement('div');
-  customCursorDot.className = 'custom-cursor-dot';
-  const customCursorRing = document.createElement('div');
-  customCursorRing.className = 'custom-cursor-ring';
-  document.body.append(customCursorRing, customCursorDot);
-
-  let mouseX = innerWidth / 2;
-  let mouseY = innerHeight / 2;
-  let ringX = mouseX;
-  let ringY = mouseY;
-  let hasMoved = false;
-
-  const setVisible = visible => {
-    const opacity = visible ? '1' : '0';
-    customCursorDot.style.opacity = opacity;
-    customCursorRing.style.opacity = opacity;
-  };
-
-  window.addEventListener('pointermove', event => {
-    if (event.pointerType && event.pointerType !== 'mouse') return;
-    mouseX = event.clientX;
-    mouseY = event.clientY;
-    customCursorDot.style.left = `${mouseX}px`;
-    customCursorDot.style.top = `${mouseY}px`;
-    if (!hasMoved) {
-      ringX = mouseX;
-      ringY = mouseY;
-      hasMoved = true;
-    }
-    setVisible(true);
-  });
-
-  document.addEventListener('pointerover', event => {
-    const interactive = event.target.closest('a,button,[role="button"],.contact-card,.text-link,.project-feature,.hero-sql-control-active');
-    if (interactive?.classList.contains('hero-sql-control-active')) interactive.style.cursor = 'none';
-    customCursorRing.classList.toggle('is-interactive', Boolean(interactive));
-  });
-  document.addEventListener('pointerout', event => {
-    if (!event.relatedTarget) setVisible(false);
-  });
-  document.addEventListener('pointerdown', () => customCursorRing.classList.add('is-clicking'));
-  document.addEventListener('pointerup', () => customCursorRing.classList.remove('is-clicking'));
-
-  const animateCursor = () => {
-    const follow = prefersReducedMotion ? 1 : 0.16;
-    ringX += (mouseX - ringX) * follow;
-    ringY += (mouseY - ringY) * follow;
-    customCursorRing.style.left = `${ringX}px`;
-    customCursorRing.style.top = `${ringY}px`;
-    requestAnimationFrame(animateCursor);
-  };
-  animateCursor();
 }
 
 // Menu mobile: este arquivo controla apenas o estado. O texto acessível
