@@ -3,18 +3,19 @@
 ![Capa do portfólio](assets/portfolio-cover.webp)
 
 <h1 align="center">
-  Construção de um portfólio profissional com apoio de IA
+  Portfólio profissional com IA, Analytics e Workspace privado
 </h1>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Status-Em%20evolução-0891B2" alt="Status">
-  <img src="https://img.shields.io/badge/Projeto-Pessoal-2E7D32" alt="Projeto">
-  <img src="https://img.shields.io/badge/IA-Assisted%20Development-673AB7" alt="IA Assisted Development">
+  <img src="https://img.shields.io/badge/Projeto-Pessoal-475569" alt="Projeto pessoal">
+  <img src="https://img.shields.io/badge/IA-Assisted%20Development-7C3AED" alt="IA Assisted Development">
   <img src="https://img.shields.io/badge/GA4-Analytics-E37400?logo=googleanalytics&logoColor=white" alt="GA4 Analytics">
-  <img src="https://img.shields.io/badge/GitHub-API-3B82F6?logo=github&logoColor=white" alt="GitHub API">
-  <img src="https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white" alt="HTML5">
-  <img src="https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white" alt="CSS3">
-  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black" alt="JavaScript">
+  <img src="https://img.shields.io/badge/GitHub-API-181717?logo=github&logoColor=white" alt="GitHub API">
+  <img src="https://img.shields.io/badge/Supabase-Auth%20%26%20PostgreSQL-16A34A?logo=supabase&logoColor=white" alt="Supabase">
+  <img src="https://img.shields.io/badge/Cloudflare-Workers-A16207?logo=cloudflare&logoColor=white" alt="Cloudflare Workers">
+  <img src="https://img.shields.io/badge/Groq-IA%20sob%20demanda-DB2777" alt="Groq">
+  <img src="https://img.shields.io/badge/JavaScript-Vanilla-F7DF1E?logo=javascript&logoColor=black" alt="JavaScript">
 </p>
 
 <p align="center">
@@ -27,6 +28,7 @@
 - 👤 [Meu papel](#-meu-papel)
 - 🧰 [Stack e ferramentas](#-stack-e-ferramentas)
 - ⚙️ [Arquitetura e funcionalidades](#arquitetura-e-funcionalidades)
+- 🔐 [Workspace privado](#workspace-privado)
 - 📊 [Mensuração com GA4](#mensuracao-com-ga4)
 - 🧩 [Desafios e soluções](#desafios-e-solucoes)
 - 🚀 [Deploy e manutenção](#deploy-e-manutencao)
@@ -35,7 +37,7 @@
 
 Este portfólio foi criado para complementar meu currículo e LinkedIn em um formato mais visual e integrado. Ele reúne perfil, projetos, certificações e principais resultados profissionais para que recrutadores e gestores compreendam rapidamente minhas competências e os tipos de problema que já ajudei a resolver.
 
-Ao mesmo tempo, o projeto foi pensado como uma experiência prática de aprendizado, sendo estruturado do zero com apoio de IA generativa e aprimorado continuamente.
+Ao mesmo tempo, o projeto foi pensado como uma experiência prática de aprendizado, sendo estruturado do zero com apoio de IA generativa e aprimorado continuamente. Com a evolução do projeto, passou a incluir também um Workspace privado autenticado, conectado à mesma proposta de organização, análise e tomada de decisão, sem expor dados pessoais no repositório público.
 
 ---
 
@@ -58,13 +60,17 @@ O fluxo de trabalho seguia, de forma geral:
 
 ## 🧰 Stack e ferramentas
 
-O portfólio foi desenvolvido com uma stack simples, leve e sem frameworks, buscando manter a solução enxuta, reduzir dependências e facilitar a manutenção do projeto.
+O projeto mantém um front-end público simples e leve, sem frameworks, e adiciona serviços específicos apenas quando há benefício claro para integração, autenticação, persistência de dados ou IA.
 
-- **Front-end:** HTML5, CSS3 e JavaScript puro
+- **Front-end público:** HTML5, CSS3 e JavaScript puro
 - **Versionamento e repositório:** Git e GitHub
-- **Hospedagem e integração:** GitHub Pages, GitHub API e `portfolio.json`
+- **Hospedagem pública:** GitHub Pages
+- **Integração de projetos:** GitHub API e `portfolio.json`
 - **Analytics:** Google Analytics 4
-- **IA de apoio:** ChatGPT e Gemini
+- **Workspace privado:** Cloudflare Workers
+- **Banco e autenticação:** Supabase Auth + PostgreSQL
+- **IA no Workspace:** Groq, acionada sob demanda
+- **IA de apoio ao desenvolvimento:** ChatGPT e Gemini
 
 ---
 
@@ -117,7 +123,31 @@ Assim, quando a consulta à API não está disponível, o site tenta utilizar um
 - Preloader de entrada com identidade visual da marca `LR.`;
 - Microinterações e Easter eggs discretos no Hero;
 - Links diretos para projetos, LinkedIn e contato por e-mail;
-- Mensuração com Google Analytics 4 e eventos personalizados para aquisição, engajamento e intenção de contato.
+- Mensuração com Google Analytics 4 e eventos personalizados para aquisição, engajamento e intenção de contato;
+- Workspace privado autenticado como extensão do projeto público, com persistência de dados e recursos de IA sob demanda.
+
+---
+
+<a id="workspace-privado"></a>
+## 🔐 Workspace privado
+
+Como evolução do portfólio, o projeto também possui uma área privada autenticada voltada à organização e ao acompanhamento de informações pessoais e profissionais. O conteúdo interno não é documentado neste repositório público; aqui é apresentada apenas a visão arquitetural necessária para contextualizar a solução.
+
+### Arquitetura resumida
+
+**Portfólio público → GitHub Pages → GitHub API + GA4**
+
+**Workspace privado → Cloudflare Workers → Supabase Auth → PostgreSQL com RLS → IA sob demanda via Groq**
+
+A separação entre as duas camadas permite manter o portfólio público leve e acessível, enquanto autenticação, dados privados e processamento de IA permanecem isolados no Workspace.
+
+### Princípios adotados
+
+- Conteúdo pessoal não é armazenado no repositório público;
+- Autenticação e persistência de dados ficam fora do front-end público;
+- O banco utiliza políticas de acesso por usuário;
+- Recursos de IA são acionados apenas quando solicitados, evitando processamento contínuo desnecessário;
+- A arquitetura é mantida modular para permitir evolução ou substituição de serviços sem reestruturar todo o projeto.
 
 ---
 
@@ -168,7 +198,7 @@ A origem dos acessos por canais controlados pode ser identificada por parâmetro
 
 ### Publicação
 
-O portfólio é hospedado no GitHub Pages a partir do repositório `lucasdemrodrigues.github.io`, utilizando a estrutura padrão de site pessoal da plataforma.
+O portfólio público é hospedado no GitHub Pages a partir do repositório `lucasdemrodrigues.github.io`. O Workspace privado utiliza Cloudflare Workers como camada de acesso e permanece separado do conteúdo público.
 
 ### Atualização dos projetos
 
