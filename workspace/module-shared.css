@@ -245,9 +245,18 @@
 }
 
 @media(max-width:620px){
+  :is(.career-topbar-actions,.goals-topbar-actions,.habits-topbar-actions,.culture-topbar-actions,.health-topbar-actions) .text-button{
+    display:none;
+  }
+
   :is(.career-heading,.goals-heading,.habits-heading,.culture-heading,.health-heading){
     display:grid;
     margin-top:38px;
+  }
+
+  :is(.career-heading-actions,.goals-heading-actions,.habits-heading-actions,.culture-heading-actions,.health-heading-actions){
+    display:grid;
+    grid-template-columns:1fr 1fr;
   }
 
   .form-grid{grid-template-columns:1fr}
