@@ -16,8 +16,8 @@
 
 <section id="culture-view" hidden>
 <header class="culture-heading">
-<div><p class="eyebrow">CULTURA</p><h1>Filmes & livros</h1><p class="culture-intro">Registre o que você assistiu e leu ao longo do ano e acompanhe sua biblioteca pessoal.</p></div>
-<button id="new-culture-button" class="primary-button culture-primary" type="button">+ Novo registro</button>
+<div><p class="eyebrow">CULTURA</p><h1>Filmes <span class="title-amp">&amp;</span> livros</h1><p class="culture-intro">Registre o que você assistiu e leu ao longo do ano e acompanhe sua biblioteca pessoal.</p></div>
+<div class="culture-heading-actions"><button id="export-culture-button" class="secondary-button culture-export" type="button">Exportar Excel</button><button id="new-culture-button" class="primary-button culture-primary" type="button">+ Novo registro</button></div>
 </header>
 
 <section class="culture-kpis" aria-label="Resumo cultural">
@@ -30,7 +30,7 @@
 <section class="culture-toolbar">
 <label class="culture-search"><span class="sr-only">Buscar registro</span><input id="culture-search" type="search" placeholder="Buscar título, autor ou diretor..."></label>
 <label class="filter-control"><span>Tipo</span><select id="type-filter"><option value="all">Todos</option><option value="Filme">Filmes</option><option value="Livro">Livros</option></select></label>
-<label class="filter-control"><span>Ano</span><select id="year-filter"><option value="current">Este ano</option><option value="all">Todos</option></select></label>
+<label class="filter-control"><span>Período</span><select id="year-filter"><option value="current">Este ano</option><option value="all">Todos</option></select></label>
 </section>
 
 <section class="culture-panel">
