@@ -134,3 +134,11 @@ h1{margin-bottom:12px;font:600 clamp(36px,7vw,54px)/.98 "Space Grotesk",sans-ser
 .module-card-link small{min-height:28px;display:flex;align-items:flex-end;line-height:1.35}
 @media(max-width:900px){.pending-list{grid-template-columns:repeat(2,minmax(0,1fr))}.pending-item:nth-child(2){border-right:0}.pending-item:nth-child(-n+2){border-bottom:1px solid rgba(255,255,255,.07)}}
 @media(max-width:700px){.pending-list{grid-template-columns:1fr}.pending-item{border-right:0;border-bottom:1px solid rgba(255,255,255,.07)!important}.pending-item:last-child{border-bottom:0!important}}
+
+.workspace-pending.has-pending{border-color:rgba(255,214,102,.24);background:rgba(255,214,102,.025)}
+.workspace-pending.has-pending .pending-head{border-bottom-color:rgba(255,214,102,.16)}
+.pending-item strong{color:#ffd766}
+.pending-item span{color:#b99f58}
+.module-card-link.has-pending{border-color:rgba(255,214,102,.24);background:rgba(255,214,102,.025)}
+.module-card-link.has-pending:hover{border-color:rgba(255,214,102,.36);background:rgba(255,214,102,.04)}
+.module-card-link small.has-pending{color:#ffd766}
