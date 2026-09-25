@@ -69,11 +69,9 @@ A camada de IA usa uma única Supabase Edge Function: `workspace-ai`.
 
 Fluxo:
 
-`Workspace autenticado → Supabase Edge Function → OpenAI Responses API`
+`Workspace autenticado → Supabase Edge Function → Groq API → OpenAI GPT-OSS 120B`
 
-A chave da OpenAI nunca deve ser colocada no GitHub, no navegador ou em `supabase-config.js`. Ela deve existir apenas como secret do projeto Supabase com o nome:
-
-`OPENAI_API_KEY`
+A chave da Groq nunca deve ser colocada no GitHub, no navegador ou em `supabase-config.js`. Ela deve existir apenas como secret do projeto Supabase com o nome:\n\n`GROQ_API_KEY`
 
 Escopos atuais:
 
@@ -83,6 +81,6 @@ Escopos atuais:
 - `habits` — metas semanais e check-ins dos últimos 7 dias.
 - `health` — organização de consultas e resumo neutro de peso/pressão, sem diagnóstico.
 
-A função lê os dados diretamente do Supabase usando a sessão autenticada e as policies RLS existentes. O cliente não envia todo o banco para a função.
+A função lê os dados diretamente do Supabase usando a sessão autenticada e as policies RLS existentes. A inferência usa o plano Free da Groq com o modelo `openai/gpt-oss-120b`. O cliente não envia todo o banco para a função.
 
 Código da função: `supabase/functions/workspace-ai/index.ts`.
