@@ -18,6 +18,7 @@ const summaryCulture = document.querySelector("#summary-culture");
 const summaryHealth = document.querySelector("#summary-health");
 
 const isConfigured = Boolean(SUPABASE_URL && SUPABASE_ANON_KEY);
+let supabase = null;
 
 const showMessage = (message = "", isError = false) => {
   authMessage.textContent = message;
@@ -193,7 +194,7 @@ if (!isConfigured) {
   loginButton.disabled = true;
   showMessage("Autenticação ainda não configurada.", true);
 } else {
-  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
     auth: {
       persistSession: true,
       autoRefreshToken: true,
