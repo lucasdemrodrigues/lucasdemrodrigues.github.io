@@ -57,13 +57,14 @@
       </header>
 
       <section class="workspace-pending" aria-labelledby="pending-title">
-        <div class="pending-head">
-          <div>
-            <h2 id="pending-title">Pendências</h2>
-          </div>
-          <span id="pending-total" class="pending-count">—</span>
-        </div>
-        <div id="pending-list" class="pending-list"><p class="pending-loading">Atualizando seu resumo...</p></div>
+        <button id="pending-toggle" class="pending-head" type="button" aria-expanded="false" aria-controls="pending-list">
+          <h2 id="pending-title">Pendências</h2>
+          <span class="pending-head-meta">
+            <span id="pending-total" class="pending-count">—</span>
+            <span class="pending-chevron" aria-hidden="true">⌄</span>
+          </span>
+        </button>
+        <div id="pending-list" class="pending-list" hidden><p class="pending-loading">Atualizando seu resumo...</p></div>
       </section>
 
       <div class="workspace-grid workspace-grid-compact" aria-label="Módulos do workspace">
