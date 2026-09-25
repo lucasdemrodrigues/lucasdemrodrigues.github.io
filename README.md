@@ -8,14 +8,16 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/Status-Em%20evolução-0891B2" alt="Status">
-  <img src="https://img.shields.io/badge/Projeto-Pessoal-475569" alt="Projeto pessoal">
-  <img src="https://img.shields.io/badge/IA-Assisted%20Development-7C3AED" alt="IA Assisted Development">
+  <img src="https://img.shields.io/badge/Projeto-Pessoal-2E7D32" alt="Projeto">
+  <img src="https://img.shields.io/badge/IA-Assisted%20Development-673AB7" alt="IA Assisted Development">
   <img src="https://img.shields.io/badge/GA4-Analytics-E37400?logo=googleanalytics&logoColor=white" alt="GA4 Analytics">
-  <img src="https://img.shields.io/badge/GitHub-API-181717?logo=github&logoColor=white" alt="GitHub API">
-  <img src="https://img.shields.io/badge/Supabase-Auth%20%26%20PostgreSQL-16A34A?logo=supabase&logoColor=white" alt="Supabase">
-  <img src="https://img.shields.io/badge/Cloudflare-Workers-A16207?logo=cloudflare&logoColor=white" alt="Cloudflare Workers">
-  <img src="https://img.shields.io/badge/Groq-IA%20sob%20demanda-DB2777" alt="Groq">
-  <img src="https://img.shields.io/badge/JavaScript-Vanilla-F7DF1E?logo=javascript&logoColor=black" alt="JavaScript">
+  <img src="https://img.shields.io/badge/GitHub-API-3B82F6?logo=github&logoColor=white" alt="GitHub API">
+  <img src="https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white" alt="HTML5">
+  <img src="https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white" alt="CSS3">
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black" alt="JavaScript">
+  <img src="https://img.shields.io/badge/Supabase-Auth%20%26%20PostgreSQL-334155?logo=supabase&logoColor=white" alt="Supabase">
+  <img src="https://img.shields.io/badge/Cloudflare-Workers-92400E?logo=cloudflare&logoColor=white" alt="Cloudflare Workers">
+  <img src="https://img.shields.io/badge/Groq-IA-DB2777" alt="Groq">
 </p>
 
 <p align="center">
