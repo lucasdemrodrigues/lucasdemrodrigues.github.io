@@ -56,40 +56,51 @@
         <button id="logout-button" class="secondary-button logout-button" type="button">Sair</button>
       </header>
 
+      <section class="workspace-pending" aria-labelledby="pending-title">
+        <div class="pending-head">
+          <div>
+            <p class="eyebrow">AGORA</p>
+            <h2 id="pending-title">Pendências</h2>
+          </div>
+          <span id="pending-total" class="pending-count">—</span>
+        </div>
+        <div id="pending-list" class="pending-list"><p class="pending-loading">Atualizando seu resumo...</p></div>
+      </section>
+
       <div class="workspace-grid workspace-grid-compact" aria-label="Módulos do workspace">
         <a class="module-card module-card-compact module-card-link" href="./carreira.html" aria-label="Abrir módulo Carreira">
           <div class="module-top"><span>01</span><span class="module-status module-status-live">Ativo</span></div>
           <h2>Carreira</h2>
           <p>Candidaturas, etapas e indicadores.</p>
-          <small>Pipeline profissional <b aria-hidden="true">↗</b></small>
+          <small id="summary-career">Carregando resumo...</small>
         </a>
 
         <a class="module-card module-card-compact module-card-link" href="./metas.html" aria-label="Abrir módulo Metas">
           <div class="module-top"><span>02</span><span class="module-status module-status-pilot">Piloto</span></div>
           <h2>Metas</h2>
           <p>Objetivos mensais e anuais.</p>
-          <small>Planejamento pessoal <b aria-hidden="true">↗</b></small>
+          <small id="summary-goals">Carregando resumo...</small>
         </a>
 
         <a class="module-card module-card-compact module-card-link" href="./habitos.html" aria-label="Abrir módulo Hábitos">
           <div class="module-top"><span>03</span><span class="module-status module-status-pilot">Piloto</span></div>
           <h2>Hábitos</h2>
           <p>Rotina, consistência e progresso.</p>
-          <small>Habit tracker <b aria-hidden="true">↗</b></small>
+          <small id="summary-habits">Carregando resumo...</small>
         </a>
 
         <a class="module-card module-card-compact module-card-link" href="./cultura.html" aria-label="Abrir módulo Cultura">
           <div class="module-top"><span>04</span><span class="module-status module-status-pilot">Piloto</span></div>
           <h2>Cultura</h2>
           <p>Filmes, livros e registros do ano.</p>
-          <small>Biblioteca pessoal <b aria-hidden="true">↗</b></small>
+          <small id="summary-culture">Carregando resumo...</small>
         </a>
 
         <a class="module-card module-card-compact module-card-link" href="./saude.html" aria-label="Abrir módulo Saúde">
           <div class="module-top"><span>05</span><span class="module-status module-status-pilot">Piloto</span></div>
           <h2>Saúde</h2>
           <p>Consultas, prazos e acompanhamentos.</p>
-          <small>Organização de cuidados <b aria-hidden="true">↗</b></small>
+          <small id="summary-health">Carregando resumo...</small>
         </a>
 
         <article class="module-card module-card-compact">
