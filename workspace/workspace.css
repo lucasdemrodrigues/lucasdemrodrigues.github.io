@@ -76,24 +76,37 @@ h1{margin-bottom:12px;font:600 clamp(36px,7vw,54px)/.98 "Space Grotesk",sans-ser
 .primary-button:disabled{cursor:wait;opacity:.6;transform:none}
 .form-message{min-height:20px;margin:0;color:#9d9d9d;font-size:13px;line-height:1.45}
 .form-message.is-error{color:#ff8585}
-.private-view{padding-top:86px}
-.workspace-header{display:flex;align-items:flex-start;justify-content:space-between;gap:32px;padding-bottom:34px;border-bottom:1px solid var(--line)}
-.workspace-header h1{font-size:clamp(42px,7vw,72px)}
-.workspace-header p{max-width:620px;margin-bottom:0}
-.workspace-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:28px}
-.module-card{min-height:190px;padding:26px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.018)}
-.module-card>span{color:#7d7d7d;font:600 11px "IBM Plex Mono",monospace}
-.module-card h2{margin:28px 0 8px;font:600 25px "Space Grotesk",sans-serif;letter-spacing:-.03em}
-.module-card p{margin-bottom:0}
+.private-view{padding-top:42px}
+.workspace-header{display:flex;align-items:flex-start;justify-content:space-between;gap:24px;padding-bottom:22px;border-bottom:1px solid var(--line)}
+.workspace-heading{display:grid;gap:7px}
+.workspace-heading-top{display:flex;align-items:center;gap:12px;min-height:24px}
+.workspace-heading-top .eyebrow{margin:0}
+.workspace-count{display:inline-flex;align-items:center;min-height:24px;padding:0 9px;border:1px solid rgba(255,255,255,.09);border-radius:999px;color:#8d8d8d;font:600 10px "IBM Plex Mono",monospace;letter-spacing:.04em;text-transform:uppercase}
+.workspace-header h1{margin:0;font-size:clamp(42px,6vw,64px)}
+.workspace-intro{max-width:620px;margin:0!important;color:var(--muted);line-height:1.5}
+.logout-button{min-height:42px;padding:0 16px;border-radius:12px}
+.workspace-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:20px}
+.module-card{min-width:0;min-height:166px;padding:18px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.018);display:flex;flex-direction:column;transition:border-color .18s,background .18s,transform .18s}
+.module-card:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.18);background:rgba(255,255,255,.026)}
+.module-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.module-top>span:first-child{color:#7d7d7d;font:600 11px "IBM Plex Mono",monospace}
+.module-status{display:inline-flex;align-items:center;min-height:22px;padding:0 8px;border:1px solid rgba(255,255,255,.08);border-radius:999px;color:#909090;font:600 9px "IBM Plex Mono",monospace;letter-spacing:.045em;text-transform:uppercase}
+.module-card h2{margin:18px 0 7px;font:600 23px/1.05 "Space Grotesk",sans-serif;letter-spacing:-.03em}
+.module-card p{margin:0;color:var(--muted);font-size:14px;line-height:1.45}
+.module-card small{margin-top:auto;padding-top:14px;color:#727272;font:500 10px "IBM Plex Mono",monospace;letter-spacing:.02em}
 :focus-visible{outline:2px solid rgba(255,255,255,.8);outline-offset:4px}
+@media(max-width:1050px){
+  .workspace-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
 @media(max-width:700px){
   .workspace-shell{width:min(100% - 28px,var(--max));padding-top:20px}
   .brand-name{display:none}
   .auth-card{padding:28px 22px}
-  .private-view{padding-top:56px}
-  .workspace-header{display:grid}
+  .private-view{padding-top:32px}
+  .workspace-header{display:grid;gap:18px}
   .secondary-button{width:max-content}
-  .workspace-grid{grid-template-columns:1fr}
+  .workspace-grid{grid-template-columns:1fr;gap:12px}
+  .module-card{min-height:150px}
 }
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{scroll-behavior:auto!important;transition:none!important}
