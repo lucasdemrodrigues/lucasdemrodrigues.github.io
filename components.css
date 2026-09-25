@@ -39,3 +39,11 @@ body:not(.light-mode) #projetos .project-meta{color:#808080}
   padding-top:8px
 }
 body.light-mode #certificacoes .featured-certs-all{border-top:0!important}
+
+/* Acesso discreto ao Workspace privado. */
+.workspace-nav-link{display:inline-flex!important;align-items:center;gap:6px;padding:7px 10px!important;border:1px solid rgba(255,255,255,.13);border-radius:999px;color:#b8b8b8!important;line-height:1;transition:border-color .2s,color .2s,background .2s!important}
+.workspace-nav-link:hover,.workspace-nav-link:focus-visible{color:#f4f4f4!important;border-color:rgba(255,255,255,.28);background:rgba(255,255,255,.035)}
+.workspace-nav-lock{font-size:11px;line-height:1;opacity:.78}
+body.light-mode .workspace-nav-link{color:#5f5f5f!important;border-color:rgba(0,0,0,.14);background:rgba(255,255,255,.25)}
+body.light-mode .workspace-nav-link:hover,body.light-mode .workspace-nav-link:focus-visible{color:#171717!important;border-color:rgba(0,0,0,.28);background:rgba(255,255,255,.58)}
+@media(max-width:900px){.workspace-nav-link{justify-content:center;margin-top:5px;padding:10px 12px!important}}
