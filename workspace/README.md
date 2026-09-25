@@ -25,7 +25,8 @@ Cada módulo mantém seu próprio HTML, CSS e JavaScript para continuar independ
 - `metas.*` — metas mensais e anuais.
 - `habitos.*` — hábitos e check-ins.
 - `cultura.*` — filmes e livros.
-- `saude.*` — organização de consultas e acompanhamentos.
+- `saude.*` — consultas, peso e pressão arterial.
+- `Finanças` — planejado para fase futura; ainda sem implementação.
 
 ### Banco de dados
 

@@ -17,11 +17,18 @@
 
 <section id="health-view" hidden>
 <header class="health-heading">
-<div><p class="eyebrow">SAÚDE</p><h1>Consultas</h1><p class="health-intro">Organize consultas, acompanhe periodicidades e veja o que precisa ser agendado.</p></div>
-<div class="health-heading-actions"><button id="export-health-button" class="secondary-button health-export" type="button">Exportar Excel</button><button id="new-health-button" class="primary-button health-primary" type="button">+ Novo acompanhamento</button></div>
+<div><p class="eyebrow">SAÚDE</p><h1>Acompanhamento</h1><p class="health-intro">Consultas, peso e pressão arterial organizados em um único módulo.</p></div>
+<div class="health-heading-actions"><button id="export-health-button" class="secondary-button health-export" type="button">Exportar Excel</button></div>
 </header>
 
-<section class="health-kpis" aria-label="Resumo de saúde">
+<nav class="health-tabs" aria-label="Áreas de saúde">
+<a href="#consultas">Consultas</a><a href="#peso">Peso</a><a href="#pressao">Pressão arterial</a>
+</nav>
+
+<section id="consultas" class="health-section">
+<div class="section-heading"><div><p class="eyebrow">CONSULTAS</p><h2>Consultas e acompanhamentos</h2></div><button id="new-health-button" class="primary-button health-primary" type="button">+ Novo acompanhamento</button></div>
+
+<section class="health-kpis" aria-label="Resumo de consultas">
 <article class="health-kpi"><span>Em dia</span><strong id="kpi-up-to-date">0</strong><small>Acompanhamentos regulares</small></article>
 <article class="health-kpi"><span>Para agendar</span><strong id="kpi-to-schedule">0</strong><small>Precisam de ação</small></article>
 <article class="health-kpi"><span>Agendadas</span><strong id="kpi-scheduled">0</strong><small>Próximas consultas</small></article>
@@ -34,10 +41,39 @@
 </section>
 
 <section class="health-panel">
-<div class="panel-head"><div><h2>Acompanhamentos</h2><p id="health-count">0 registros</p></div></div>
-<div id="health-setup-warning" class="health-setup-warning" hidden><strong>Banco de Saúde ainda não criado.</strong><p>A interface está pronta; falta executar o script SQL no Supabase.</p></div>
+<div class="panel-head"><div><h3>Acompanhamentos</h3><p id="health-count">0 registros</p></div></div>
+<div id="health-setup-warning" class="health-setup-warning" hidden><strong>Banco de Saúde ainda não criado.</strong><p>Execute os scripts SQL no Supabase para ativar os registros.</p></div>
 <div id="health-empty" class="health-empty" hidden><span>Nenhum acompanhamento por aqui ainda.</span><p>Adicione o primeiro para começar.</p></div>
 <div id="health-list" class="health-list"></div>
+</section>
+</section>
+
+<section id="peso" class="health-section">
+<div class="section-heading"><div><p class="eyebrow">PESO</p><h2>Evolução do peso</h2><p>Acompanhe seus registros diários e a variação desde o primeiro registro.</p></div><button id="new-weight-button" class="primary-button health-primary" type="button">+ Registrar peso</button></div>
+<section class="measurement-kpis">
+<article><span>Peso atual</span><strong id="weight-current">—</strong><small>Último registro</small></article>
+<article><span>Variação total</span><strong id="weight-change">—</strong><small>Desde o primeiro registro</small></article>
+<article><span>Registros</span><strong id="weight-count">0</strong><small>Histórico salvo</small></article>
+</section>
+<section class="measurement-panel">
+<div class="panel-head"><div><h3>Histórico de peso</h3><p>Mais recentes primeiro</p></div></div>
+<div id="weight-empty" class="health-empty" hidden><span>Nenhum peso registrado.</span><p>Registre o primeiro valor para começar o acompanhamento.</p></div>
+<div id="weight-list" class="measurement-list"></div>
+</section>
+</section>
+
+<section id="pressao" class="health-section">
+<div class="section-heading"><div><p class="eyebrow">PRESSÃO ARTERIAL</p><h2>Histórico de medições</h2><p>Registre os valores medidos para acompanhar a evolução ao longo do tempo.</p></div><button id="new-pressure-button" class="primary-button health-primary" type="button">+ Registrar pressão</button></div>
+<section class="measurement-kpis">
+<article><span>Última medição</span><strong id="pressure-latest">—</strong><small>mmHg</small></article>
+<article><span>Pulso</span><strong id="pulse-latest">—</strong><small>Último registro</small></article>
+<article><span>Registros</span><strong id="pressure-count">0</strong><small>Histórico salvo</small></article>
+</section>
+<section class="measurement-panel">
+<div class="panel-head"><div><h3>Histórico de pressão</h3><p>Mais recentes primeiro</p></div></div>
+<div id="pressure-empty" class="health-empty" hidden><span>Nenhuma pressão registrada.</span><p>Adicione a primeira medição para começar.</p></div>
+<div id="pressure-list" class="measurement-list"></div>
+</section>
 </section>
 </section>
 </main>
@@ -58,6 +94,34 @@
 </div>
 <p id="health-form-message" class="form-message dialog-message"></p>
 <div class="dialog-actions"><button id="delete-health-button" class="danger-button" type="button" hidden>Excluir</button><div class="dialog-actions-right"><button id="cancel-health-button" class="secondary-button" type="button">Cancelar</button><button id="save-health-button" class="primary-button" type="submit">Salvar acompanhamento</button></div></div>
+</form>
+</dialog>
+
+<dialog id="weight-dialog" class="health-dialog">
+<form id="weight-form" method="dialog" class="health-form">
+<div class="dialog-head"><div><p class="eyebrow">PESO</p><h2>Registrar peso</h2></div><button id="weight-close" class="icon-button" type="button" aria-label="Fechar">×</button></div>
+<div class="form-grid">
+<label><span>Data *</span><input id="weight-date" type="date" required></label>
+<label><span>Peso (kg) *</span><input id="weight-value" type="number" min="20" max="400" step="0.1" inputmode="decimal" required placeholder="Ex.: 92,4"></label>
+<label class="form-span-2"><span>Observação</span><input id="weight-notes" maxlength="300" placeholder="Opcional"></label>
+</div>
+<p id="weight-message" class="form-message dialog-message"></p>
+<div class="dialog-actions"><div></div><div class="dialog-actions-right"><button id="weight-cancel" class="secondary-button" type="button">Cancelar</button><button id="weight-save" class="primary-button" type="submit">Salvar peso</button></div></div>
+</form>
+</dialog>
+
+<dialog id="pressure-dialog" class="health-dialog">
+<form id="pressure-form" method="dialog" class="health-form">
+<div class="dialog-head"><div><p class="eyebrow">PRESSÃO</p><h2>Registrar pressão arterial</h2></div><button id="pressure-close" class="icon-button" type="button" aria-label="Fechar">×</button></div>
+<div class="form-grid">
+<label class="form-span-2"><span>Data e hora *</span><input id="pressure-measured-at" type="datetime-local" required></label>
+<label><span>Sistólica *</span><input id="pressure-systolic" type="number" min="50" max="300" step="1" required placeholder="Ex.: 120"></label>
+<label><span>Diastólica *</span><input id="pressure-diastolic" type="number" min="30" max="200" step="1" required placeholder="Ex.: 80"></label>
+<label><span>Pulso (bpm)</span><input id="pressure-pulse" type="number" min="25" max="250" step="1" placeholder="Opcional"></label>
+<label class="form-span-2"><span>Observação</span><input id="pressure-notes" maxlength="300" placeholder="Opcional"></label>
+</div>
+<p id="pressure-message" class="form-message dialog-message"></p>
+<div class="dialog-actions"><div></div><div class="dialog-actions-right"><button id="pressure-cancel" class="secondary-button" type="button">Cancelar</button><button id="pressure-save" class="primary-button" type="submit">Salvar pressão</button></div></div>
 </form>
 </dialog>
 
