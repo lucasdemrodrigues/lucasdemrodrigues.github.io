@@ -71,7 +71,7 @@ Fluxo:
 
 `Workspace autenticado → Supabase Edge Function → Groq API → OpenAI GPT-OSS 120B`
 
-A chave da Groq nunca deve ser colocada no GitHub, no navegador ou em `supabase-config.js`. Ela deve existir apenas como secret do projeto Supabase com o nome:\n\n`GROQ_API_KEY`
+A chave da Groq nunca deve ser colocada no GitHub, no navegador ou em `supabase-config.js`. Ela deve existir apenas como secret do projeto Supabase com o nome `GROQ_API_KEY`.
 
 Escopos atuais:
 
@@ -86,9 +86,18 @@ A função lê os dados diretamente do Supabase usando a sessão autenticada e a
 Código da função: `supabase/functions/workspace-ai/index.ts`.
 
 
-### Insight semanal salvo
+### Insights salvos
 
-A home mantém um único registro por semana na tabela `weekly_ai_insights`.
-O cabeçalho do bloco fica recolhível, mostra a data/hora da última geração e o botão muda de `Gerar insight` para `Atualizar análise` depois do primeiro registro da semana.
+A home e os módulos com IA usam a tabela `workspace_ai_insights`.
 
-A semana é identificada pela segunda-feira correspondente. Um novo clique em `Atualizar análise` substitui o insight salvo daquela mesma semana.
+Existe no máximo um registro por usuário e por escopo:
+
+- `weekly`
+- `career`
+- `goals`
+- `habits`
+- `health`
+
+Cada painel é recolhível, mostra a data/hora da última geração e troca o botão para `Atualizar análise` após o primeiro uso.
+
+Ao atualizar, o `upsert` substitui o conteúdo do mesmo registro `(user_id, scope)`. Portanto, o texto anterior deixa de existir no banco e não é criado histórico acumulado.
