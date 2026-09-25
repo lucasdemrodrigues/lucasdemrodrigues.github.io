@@ -17,3 +17,5 @@
 .filter-control select option:disabled{
   color:#666;
 }
+
+.status-badge[data-status="Para candidatar"]{border-color:rgba(255,214,102,.28);color:#ffd766;background:rgba(255,214,102,.045)}
