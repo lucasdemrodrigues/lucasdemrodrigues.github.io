@@ -9,6 +9,7 @@ const passwordInput = document.querySelector("#password");
 const loginButton = document.querySelector("#login-button");
 const logoutButton = document.querySelector("#logout-button");
 const authMessage = document.querySelector("#auth-message");
+const pendingToggle = document.querySelector("#pending-toggle");
 const pendingTotal = document.querySelector("#pending-total");
 const pendingList = document.querySelector("#pending-list");
 const summaryCareer = document.querySelector("#summary-career");
@@ -47,6 +48,19 @@ const localIsoDate = date => {
 
 const plural = (value, singular, pluralForm) =>
   `${value} ${value === 1 ? singular : pluralForm}`;
+
+const setPendingExpanded = expanded => {
+  if (!pendingToggle || !pendingList) return;
+
+  pendingToggle.setAttribute("aria-expanded", String(expanded));
+  pendingList.hidden = !expanded;
+};
+
+pendingToggle?.addEventListener("click", () => {
+  if (pendingToggle.disabled) return;
+  const expanded = pendingToggle.getAttribute("aria-expanded") === "true";
+  setPendingExpanded(!expanded);
+});
 
 const addPendingItem = (href, value, label) => {
   const link = document.createElement("a");
@@ -180,6 +194,8 @@ const loadDashboard = async () => {
 
   pendingTotal.textContent = String(pendingCount);
   document.querySelector(".workspace-pending")?.classList.toggle("has-pending", pendingCount > 0);
+  pendingToggle.disabled = pendingCount === 0;
+  if (pendingCount === 0) setPendingExpanded(false);
   pendingList.replaceChildren();
 
   if (!pendingCount) {

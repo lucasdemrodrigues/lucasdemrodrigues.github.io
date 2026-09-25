@@ -119,11 +119,17 @@ h1{margin-bottom:12px;font:600 clamp(36px,7vw,54px)/.98 "Space Grotesk",sans-ser
 .module-status-pilot{border-color:rgba(255,214,102,.28);color:#ffd766;background:rgba(255,214,102,.045)}
 
 .workspace-pending{margin-top:20px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.014);overflow:hidden}
-.pending-head{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:16px 18px;border-bottom:1px solid var(--line)}
+.pending-head{width:100%;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:16px 18px;border:0;border-bottom:1px solid transparent;background:transparent;color:inherit;text-align:left}
+.pending-head:not(:disabled):hover{background:rgba(255,255,255,.018)}
+.pending-head:disabled{cursor:default}
+.pending-head-meta{display:flex;align-items:center;gap:10px}
+.pending-chevron{color:#8c8c8c;font-size:18px;line-height:1;transition:transform .18s ease}
+.pending-head[aria-expanded="true"] .pending-chevron{transform:rotate(180deg)}
 .pending-head .eyebrow{margin:0 0 5px}
 .pending-head h2{margin:0;font:600 20px "Space Grotesk",sans-serif}
 .pending-count{display:inline-flex;min-width:32px;min-height:28px;padding:0 9px;align-items:center;justify-content:center;border:1px solid rgba(255,214,102,.22);border-radius:999px;color:#ffd766;font:600 11px "IBM Plex Mono",monospace}
-.pending-list{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.pending-list{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));animation:pending-reveal .18s ease}
+@keyframes pending-reveal{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
 .pending-item{min-width:0;padding:14px 16px;border-right:1px solid rgba(255,255,255,.07);color:inherit;text-decoration:none}
 .pending-item:last-child{border-right:0}
 .pending-item:hover{background:rgba(255,255,255,.018)}
@@ -136,7 +142,7 @@ h1{margin-bottom:12px;font:600 clamp(36px,7vw,54px)/.98 "Space Grotesk",sans-ser
 @media(max-width:700px){.pending-list{grid-template-columns:1fr}.pending-item{border-right:0;border-bottom:1px solid rgba(255,255,255,.07)!important}.pending-item:last-child{border-bottom:0!important}}
 
 .workspace-pending.has-pending{border-color:rgba(255,214,102,.24);background:rgba(255,214,102,.025)}
-.workspace-pending.has-pending .pending-head{border-bottom-color:rgba(255,214,102,.16)}
+.workspace-pending.has-pending .pending-head[aria-expanded="true"]{border-bottom-color:rgba(255,214,102,.16)}
 .pending-item strong{color:#ffd766}
 .pending-item span{color:#b99f58}
 .module-card-link.has-pending{border-color:rgba(255,214,102,.24);background:rgba(255,214,102,.025)}
