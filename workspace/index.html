@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow,noarchive" />
+  <meta name="theme-color" content="#000000" />
+  <title>Workspace — Lucas Rodrigues</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./workspace.css" />
+</head>
+<body>
+  <main class="workspace-shell">
+    <a class="brand" href="/" aria-label="Voltar ao portfólio">
+      <span class="brand-mark">LR<span>.</span></span>
+      <span class="brand-name">Lucas Rodrigues</span>
+    </a>
+
+    <section id="auth-view" class="auth-view" aria-labelledby="auth-title">
+      <div class="auth-card">
+        <div class="auth-copy">
+          <p class="eyebrow">ÁREA PRIVADA</p>
+          <h1 id="auth-title">Workspace</h1>
+          <p class="auth-description">Acesso restrito ao espaço pessoal.</p>
+        </div>
+
+        <form id="login-form" class="login-form" novalidate>
+          <label>
+            <span>E-mail</span>
+            <input id="email" name="email" type="email" autocomplete="username" required />
+          </label>
+
+          <label>
+            <span>Senha</span>
+            <input id="password" name="password" type="password" autocomplete="current-password" required minlength="8" />
+          </label>
+
+          <button id="login-button" class="primary-button" type="submit">Entrar</button>
+          <p id="auth-message" class="form-message" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
+    <section id="private-view" class="private-view" hidden aria-labelledby="workspace-title">
+      <header class="workspace-header">
+        <div>
+          <p class="eyebrow">WORKSPACE</p>
+          <h1 id="workspace-title">Olá, Lucas.</h1>
+          <p>Esta é a fundação da sua área pessoal. Os módulos serão adicionados aos poucos.</p>
+        </div>
+        <button id="logout-button" class="secondary-button" type="button">Sair</button>
+      </header>
+
+      <div class="workspace-grid" aria-label="Módulos planejados">
+        <article class="module-card">
+          <span>01</span>
+          <h2>Carreira</h2>
+          <p>Candidaturas, etapas e indicadores.</p>
+        </article>
+        <article class="module-card">
+          <span>02</span>
+          <h2>Metas</h2>
+          <p>Objetivos mensais e anuais.</p>
+        </article>
+        <article class="module-card">
+          <span>03</span>
+          <h2>Hábitos</h2>
+          <p>Registros e acompanhamento de consistência.</p>
+        </article>
+        <article class="module-card">
+          <span>04</span>
+          <h2>Biblioteca</h2>
+          <p>Livros, filmes e outros registros pessoais.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="./workspace.js"></script>
+</body>
+</html>
