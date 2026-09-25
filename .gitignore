@@ -1,0 +1,20 @@
+# Segredos e configurações locais
+.env
+.env.*
+!.env.example
+
+# Supabase local
+supabase/.temp/
+
+# Dados privados / exportações do Workspace
+workspace/private/
+workspace/exports/
+workspace/data-private/
+workspace/*.db
+workspace/*.sqlite
+workspace/*.sqlite3
+
+# Arquivos temporários
+.DS_Store
+Thumbs.db
+*.log
