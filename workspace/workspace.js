@@ -1,4 +1,4 @@
-import { bindAiInsight } from "./ai-insights.js";
+import { requestAiInsight } from "./ai-insights.js";
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from "./supabase-config.js";
 
@@ -23,6 +23,11 @@ const cardGoals = document.querySelector("#card-goals");
 const cardHabits = document.querySelector("#card-habits");
 const cardCulture = document.querySelector("#card-culture");
 const cardHealth = document.querySelector("#card-health");
+const weeklyAiToggle = document.querySelector("#weekly-ai-toggle");
+const weeklyAiContent = document.querySelector("#weekly-ai-content");
+const weeklyAiButton = document.querySelector("#weekly-ai-button");
+const weeklyAiOutput = document.querySelector("#weekly-ai-output");
+const weeklyAiDate = document.querySelector("#weekly-ai-date");
 
 const isConfigured = Boolean(SUPABASE_URL && SUPABASE_ANON_KEY);
 let supabase = null;
@@ -62,6 +67,102 @@ pendingToggle?.addEventListener("click", () => {
   const expanded = pendingToggle.getAttribute("aria-expanded") === "true";
   setPendingExpanded(!expanded);
 });
+
+const weekStartIso = () => {
+  const now = new Date();
+  const day = now.getDay();
+  const diff = day === 0 ? -6 : 1 - day;
+  const monday = new Date(now);
+  monday.setDate(now.getDate() + diff);
+  return localIsoDate(monday);
+};
+
+const formatGeneratedAt = value =>
+  new Intl.DateTimeFormat("pt-BR", {
+    dateStyle: "short",
+    timeStyle: "short"
+  }).format(new Date(value));
+
+const setWeeklyExpanded = expanded => {
+  if (!weeklyAiToggle || !weeklyAiContent) return;
+  weeklyAiToggle.setAttribute("aria-expanded", String(expanded));
+  weeklyAiContent.hidden = !expanded;
+};
+
+weeklyAiToggle?.addEventListener("click", () => {
+  const expanded = weeklyAiToggle.getAttribute("aria-expanded") === "true";
+  setWeeklyExpanded(!expanded);
+});
+
+const loadWeeklyInsight = async () => {
+  if (!weeklyAiOutput || !weeklyAiDate || !weeklyAiButton) return;
+
+  const { data, error } = await supabase
+    .from("weekly_ai_insights")
+    .select("insight,generated_at")
+    .eq("week_start", weekStartIso())
+    .maybeSingle();
+
+  if (error) {
+    weeklyAiDate.textContent = "Insight semanal ainda não configurado";
+    weeklyAiButton.textContent = "Gerar insight";
+    return;
+  }
+
+  if (!data) {
+    weeklyAiOutput.hidden = true;
+    weeklyAiOutput.textContent = "";
+    weeklyAiDate.textContent = "Nenhum insight gerado nesta semana";
+    weeklyAiButton.textContent = "Gerar insight";
+    return;
+  }
+
+  weeklyAiOutput.hidden = false;
+  weeklyAiOutput.textContent = data.insight;
+  weeklyAiOutput.classList.remove("is-error");
+  weeklyAiDate.textContent = `Última análise: ${formatGeneratedAt(data.generated_at)}`;
+  weeklyAiButton.textContent = "Atualizar análise";
+};
+
+const generateWeeklyInsight = async () => {
+  if (!weeklyAiButton || !weeklyAiOutput || !weeklyAiDate) return;
+
+  const originalText = weeklyAiButton.textContent;
+  weeklyAiButton.disabled = true;
+  weeklyAiButton.textContent = "Gerando…";
+  weeklyAiOutput.hidden = false;
+  weeklyAiOutput.textContent = "Preparando análise…";
+  weeklyAiOutput.classList.remove("is-error");
+
+  try {
+    const insight = await requestAiInsight("weekly");
+    const generatedAt = new Date().toISOString();
+
+    const { error } = await supabase
+      .from("weekly_ai_insights")
+      .upsert({
+        week_start: weekStartIso(),
+        insight,
+        generated_at: generatedAt
+      }, {
+        onConflict: "user_id,week_start"
+      });
+
+    if (error) throw error;
+
+    weeklyAiOutput.textContent = insight;
+    weeklyAiDate.textContent = `Última análise: ${formatGeneratedAt(generatedAt)}`;
+    weeklyAiButton.textContent = "Atualizar análise";
+  } catch {
+    weeklyAiOutput.textContent = "Não foi possível gerar ou salvar o insight agora.";
+    weeklyAiOutput.classList.add("is-error");
+    weeklyAiButton.textContent = originalText;
+  } finally {
+    weeklyAiButton.disabled = false;
+  }
+};
+
+weeklyAiButton?.addEventListener("click", generateWeeklyInsight);
 
 const addPendingItem = (href, value, label) => {
   const link = document.createElement("a");
@@ -249,6 +350,7 @@ if (!isConfigured) {
     }
     showPrivate();
     await loadDashboard();
+    await loadWeeklyInsight();
   };
 
   loginForm.addEventListener("submit", async event => {
@@ -279,6 +381,7 @@ if (!isConfigured) {
     passwordInput.value = "";
     showPrivate();
     await loadDashboard();
+    await loadWeeklyInsight();
   });
 
   logoutButton.addEventListener("click", async () => {
@@ -299,11 +402,3 @@ if (!isConfigured) {
 
   syncSession();
 }
-
-
-bindAiInsight({
-  button: document.querySelector("#weekly-ai-button"),
-  output: document.querySelector("#weekly-ai-output"),
-  scope: "weekly",
-  loadingText: "Gerando…"
-});
