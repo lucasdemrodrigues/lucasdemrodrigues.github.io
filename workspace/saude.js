@@ -8,7 +8,8 @@ import {
   todayIso
 } from "./shared.js";
 
-import { bindAiInsight } from "./ai-insights.js";import { exportWorkbookToExcel } from "./export-excel.js";
+import { bindAiInsight } from "./ai-insights.js";
+import { exportWorkbookToExcel } from "./export-excel.js";
 
 const elements = {
   loading: $("#health-loading"), auth: $("#health-auth-required"), view: $("#health-view"),
