@@ -15,7 +15,7 @@
   <img src="https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white" alt="HTML5">
   <img src="https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white" alt="CSS3">
   <img src="https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black" alt="JavaScript">
-  <img src="https://img.shields.io/badge/Supabase-Auth%20%26%20PostgreSQL-334155?logo=supabase&logoColor=white" alt="Supabase">
+  <img src="https://img.shields.io/badge/Supabase-Auth%20%26%20PostgreSQL-0F766E?logo=supabase&logoColor=white" alt="Supabase">
   <img src="https://img.shields.io/badge/Cloudflare-Workers-92400E?logo=cloudflare&logoColor=white" alt="Cloudflare Workers">
   <img src="https://img.shields.io/badge/Groq-IA-DB2777" alt="Groq">
 </p>
@@ -73,6 +73,8 @@ O projeto mantém um front-end público simples e leve, sem frameworks, e adicio
 - **Banco e autenticação:** Supabase Auth + PostgreSQL
 - **IA no Workspace:** Groq, acionada sob demanda
 - **IA de apoio ao desenvolvimento:** ChatGPT e Gemini
+
+**Custo atual:** serviços utilizados dentro dos planos gratuitos, sem infraestrutura paga recorrente.
 
 ---
 
