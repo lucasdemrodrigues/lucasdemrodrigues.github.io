@@ -7,6 +7,8 @@ import {
   supabase,
   todayIso
 } from "./shared.js";
+
+import { bindAiInsight } from "./ai-insights.js";
 import { exportRowsToExcel } from "./export-excel.js";
 
 const elements = {
@@ -358,4 +360,11 @@ initProtectedPage({
   onReady: load
 }).catch(() => {
   elements.warning.hidden = false;
+});
+
+
+bindAiInsight({
+  button: document.querySelector("#career-ai-button"),
+  output: document.querySelector("#career-ai-output"),
+  scope: "career"
 });

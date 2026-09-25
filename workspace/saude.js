@@ -7,6 +7,8 @@ import {
   supabase,
   todayIso
 } from "./shared.js";
+
+import { bindAiInsight } from "./ai-insights.js";
 import { exportWorkbookToExcel } from "./export-excel.js";
 
 const elements = {
@@ -291,3 +293,10 @@ initProtectedPage({
   loading:elements.loading,authRequired:elements.auth,view:elements.view,
   onReady:async session=>{userId=session.user.id;await load()}
 }).catch(()=>{elements.warning.hidden=false});
+
+
+bindAiInsight({
+  button: document.querySelector("#health-ai-button"),
+  output: document.querySelector("#health-ai-output"),
+  scope: "health"
+});
