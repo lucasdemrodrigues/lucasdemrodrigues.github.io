@@ -84,3 +84,11 @@ Escopos atuais:
 A função lê os dados diretamente do Supabase usando a sessão autenticada e as policies RLS existentes. A inferência usa o plano Free da Groq com o modelo `openai/gpt-oss-120b`. O cliente não envia todo o banco para a função.
 
 Código da função: `supabase/functions/workspace-ai/index.ts`.
+
+
+### Insight semanal salvo
+
+A home mantém um único registro por semana na tabela `weekly_ai_insights`.
+O cabeçalho do bloco fica recolhível, mostra a data/hora da última geração e o botão muda de `Gerar insight` para `Atualizar análise` depois do primeiro registro da semana.
+
+A semana é identificada pela segunda-feira correspondente. Um novo clique em `Atualizar análise` substitui o insight salvo daquela mesma semana.
