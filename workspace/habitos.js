@@ -6,6 +6,7 @@ import {
   supabase,
   todayIso
 } from "./shared.js";
+import { exportRowsToExcel } from "./export-excel.js";
 
 const elements = {
   loading: $("#habits-loading"),
@@ -13,6 +14,7 @@ const elements = {
   view: $("#habits-view"),
   logout: $("#logout-button"),
   newButton: $("#new-habit-button"),
+  exportButton: $("#export-habits-button"),
   dialog: $("#habit-dialog"),
   form: $("#habit-form"),
   close: $("#dialog-close"),
@@ -112,6 +114,44 @@ function monthProgress(habit) {
   ).length;
 
   return Math.min(100, Math.round(completed / expected * 100));
+}
+
+function monthCheckins(habit) {
+  const start = habit.start_date && habit.start_date > monthStart()
+    ? habit.start_date
+    : monthStart();
+
+  return logs.filter(log =>
+    log.habit_id === habit.id &&
+    log.completed &&
+    log.log_date >= start &&
+    log.log_date <= todayIso()
+  ).length;
+}
+
+function exportHabits() {
+  const activeHabits = habits.filter(habit => habit.active !== false);
+
+  if (!activeHabits.length) {
+    alert("Não há hábitos ativos para exportar.");
+    return;
+  }
+
+  exportRowsToExcel({
+    rows: activeHabits,
+    columns: [
+      { header: "Hábito", value: habit => habit.name },
+      { header: "Categoria", value: habit => habit.category || "" },
+      { header: "Meta semanal", value: habit => Number(habit.target_per_week || 7) },
+      { header: "Data de início", value: habit => habit.start_date || "" },
+      { header: "Progresso no mês (%)", value: habit => monthProgress(habit) },
+      { header: "Check-ins no mês", value: habit => monthCheckins(habit) },
+      { header: "Observações", value: habit => habit.notes || "" }
+    ],
+    widths: [30, 18, 14, 16, 22, 18, 40],
+    sheetName: "Hábitos",
+    fileName: "habitos.xlsx"
+  });
 }
 
 function render() {
@@ -302,6 +342,7 @@ elements.newButton.addEventListener("click", () => {
   ready ? openForm() : elements.warning.scrollIntoView({ behavior: "smooth" });
 });
 
+elements.exportButton.addEventListener("click", exportHabits);
 elements.close.addEventListener("click", closeForm);
 elements.cancel.addEventListener("click", closeForm);
 
