@@ -261,22 +261,12 @@ if (homeCertModal) {
       homeCertModalMeta.textContent = button.dataset.certMeta;
       homeCertModalOriginal.href = button.dataset.certUrl;
       homeCertModalOriginal.setAttribute('aria-label', `Abrir certificado original ${button.dataset.certTitle}, abre em nova aba`);
-      const cursorRing = document.querySelector('.custom-cursor-ring');
-      const cursorDot = document.querySelector('.custom-cursor-dot');
-      if (cursorRing && cursorDot) homeCertModal.append(cursorRing, cursorDot);
       homeCertModal.showModal();
     });
   });
-
-  const restoreHomeCursor = () => {
-    const cursorRing = homeCertModal.querySelector('.custom-cursor-ring');
-    const cursorDot = homeCertModal.querySelector('.custom-cursor-dot');
-    if (cursorRing && cursorDot) document.body.append(cursorRing, cursorDot);
-  };
 
   homeCertModalClose?.addEventListener('click', () => homeCertModal.close());
   homeCertModal.addEventListener('click', event => {
     if (event.target === homeCertModal) homeCertModal.close();
   });
-  homeCertModal.addEventListener('close', restoreHomeCursor);
 }
