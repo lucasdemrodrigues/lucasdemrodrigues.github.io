@@ -151,14 +151,11 @@ h1{margin-bottom:12px;font:600 clamp(36px,7vw,54px)/.98 "Space Grotesk",sans-ser
 
 .ai-insight-card{margin-top:18px;padding:18px;border:1px solid rgba(120,180,255,.18);border-radius:16px;background:linear-gradient(145deg,rgba(120,180,255,.035),rgba(255,255,255,.012))}
 .ai-insight-home{margin-top:20px}
-.ai-insight-head{display:flex;align-items:center;justify-content:space-between;gap:24px}
-.ai-insight-head .eyebrow{margin:0 0 6px;color:#8fb9ef}
-.ai-insight-head h2{margin:0;font:600 20px "Space Grotesk",sans-serif}
-.ai-insight-head p:not(.eyebrow){margin:5px 0 0;color:#858585;font-size:12px;line-height:1.5}
+
 .ai-insight-button{min-width:132px;white-space:nowrap}
 .ai-insight-output{margin-top:15px;padding:15px 16px;border-top:1px solid rgba(120,180,255,.13);color:#c9d8eb;font-size:13px;line-height:1.7;white-space:pre-wrap}
 .ai-insight-output.is-error{color:#ff9a9a}
-@media(max-width:700px){.ai-insight-head{display:grid}.ai-insight-button{width:100%}}
+@media(max-width:700px){.ai-insight-button{width:100%}}
 
 .ai-insight-home{padding:0;overflow:hidden}
 .ai-insight-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:16px 18px;border:0;background:transparent;color:inherit;text-align:left}
