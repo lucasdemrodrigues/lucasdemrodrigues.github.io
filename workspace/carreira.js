@@ -42,6 +42,7 @@ const elements = {
   empty: $("#applications-empty"),
   warning: $("#career-setup-warning"),
   count: $("#applications-count"),
+  saved: $("#kpi-saved"),
   total: $("#kpi-total"),
   active: $("#kpi-active"),
   interviews: $("#kpi-interviews"),
@@ -176,7 +177,10 @@ function exportCareer() {
 }
 
 function render() {
+  const saved = rows.filter(row => row.status === PRE_APPLICATION_STATUS);
   const applications = rows.filter(row => row.status !== PRE_APPLICATION_STATUS);
+
+  elements.saved.textContent = saved.length;
 
   elements.total.textContent = applications.length;
   elements.active.textContent = applications.filter(row => !TERMINAL_STATUSES.has(row.status)).length;

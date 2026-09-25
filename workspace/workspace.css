@@ -117,3 +117,20 @@ h1{margin-bottom:12px;font:600 clamp(36px,7vw,54px)/.98 "Space Grotesk",sans-ser
 .module-card-link small b{font-weight:500;color:#999}
 
 .module-status-pilot{border-color:rgba(255,214,102,.28);color:#ffd766;background:rgba(255,214,102,.045)}
+
+.workspace-pending{margin-top:20px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.014);overflow:hidden}
+.pending-head{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:16px 18px;border-bottom:1px solid var(--line)}
+.pending-head .eyebrow{margin:0 0 5px}
+.pending-head h2{margin:0;font:600 20px "Space Grotesk",sans-serif}
+.pending-count{display:inline-flex;min-width:32px;min-height:28px;padding:0 9px;align-items:center;justify-content:center;border:1px solid rgba(255,214,102,.22);border-radius:999px;color:#ffd766;font:600 11px "IBM Plex Mono",monospace}
+.pending-list{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.pending-item{min-width:0;padding:14px 16px;border-right:1px solid rgba(255,255,255,.07);color:inherit;text-decoration:none}
+.pending-item:last-child{border-right:0}
+.pending-item:hover{background:rgba(255,255,255,.018)}
+.pending-item strong{display:block;font:600 22px "Space Grotesk",sans-serif}
+.pending-item span{display:block;margin-top:3px;color:#858585;font-size:11px}
+.pending-item.is-clear strong{color:#77ff61}
+.pending-loading,.pending-clear{grid-column:1/-1;margin:0;padding:18px;color:#777;font-size:12px}
+.module-card-link small{min-height:28px;display:flex;align-items:flex-end;line-height:1.35}
+@media(max-width:900px){.pending-list{grid-template-columns:repeat(2,minmax(0,1fr))}.pending-item:nth-child(2){border-right:0}.pending-item:nth-child(-n+2){border-bottom:1px solid rgba(255,255,255,.07)}}
+@media(max-width:700px){.pending-list{grid-template-columns:1fr}.pending-item{border-right:0;border-bottom:1px solid rgba(255,255,255,.07)!important}.pending-item:last-child{border-bottom:0!important}}

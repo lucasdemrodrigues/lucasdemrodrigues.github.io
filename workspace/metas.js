@@ -28,6 +28,7 @@ const elements = {
   category: $("#goal-category"),
   deadline: $("#goal-deadline"),
   status: $("#goal-status"),
+  successCriteria: $("#goal-success-criteria"),
   progress: $("#goal-progress"),
   progressLabel: $("#goal-progress-label"),
   notes: $("#goal-notes"),
@@ -77,6 +78,7 @@ function openForm(row) {
   elements.id.value = "";
   elements.period.value = "Mensal";
   elements.status.value = "Em andamento";
+  elements.successCriteria.value = "";
   elements.progress.value = "0";
   elements.progressLabel.textContent = "0%";
   elements.deadline.value = todayIso();
@@ -90,6 +92,7 @@ function openForm(row) {
     elements.category.value = row.category || "";
     elements.deadline.value = row.deadline || todayIso();
     elements.status.value = row.status || "Em andamento";
+    elements.successCriteria.value = row.success_criteria || "";
     elements.progress.value = String(row.progress || 0);
     elements.progressLabel.textContent = `${row.progress || 0}%`;
     elements.notes.value = row.notes || "";
@@ -136,10 +139,11 @@ function exportGoals() {
       { header: "Categoria", value: row => row.category || "" },
       { header: "Prazo", value: row => formatDate(row.deadline) },
       { header: "Status", value: row => row.status },
+      { header: "Critério de conclusão", value: row => row.success_criteria || "" },
       { header: "Progresso (%)", value: row => Number(row.progress || 0) },
       { header: "Observações", value: row => row.notes || "" }
     ],
-    widths: [38, 12, 16, 14, 16, 14, 45],
+    widths: [38, 12, 16, 14, 16, 38, 14, 45],
     sheetName: "Metas",
     fileName: "metas.xlsx"
   });
@@ -261,6 +265,7 @@ elements.form.addEventListener("submit", async event => {
     category: elements.category.value || null,
     deadline: elements.deadline.value,
     status: elements.status.value,
+    success_criteria: elements.successCriteria.value.trim() || null,
     progress: Number(elements.progress.value),
     notes: elements.notes.value.trim() || null
   };
