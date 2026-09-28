@@ -48,6 +48,7 @@
       ]
     ],
     "tools": "COMPETÊNCIAS & FERRAMENTAS",
+    "toolsNote": "Mais repertório, mais caminhos até a solução.",
     "skill": {
       "Análise de Dados": "Análise de Dados",
       "Segmentação": "Segmentação"
@@ -161,6 +162,7 @@
       ]
     ],
     "tools": "SKILLS & TOOLS",
+    "toolsNote": "More repertoire, more paths to the solution.",
     "skill": {
       "Análise de Dados": "Data Analysis",
       "Segmentação": "Segmentation"
@@ -274,6 +276,7 @@
       ]
     ],
     "tools": "COMPETENCIAS & HERRAMIENTAS",
+    "toolsNote": "Más repertorio, más caminos hacia la solución.",
     "skill": {
       "Análise de Dados": "Análisis de Datos",
       "Segmentação": "Segmentación"
@@ -430,7 +433,7 @@
     text('.hero-tagline',c.tagline);lead(q('.hero-actions .button.primary'),c.actions[0]);lead(q('.hero-actions .button.ghost'),c.actions[1]);
     text('#sobre .section-kicker',c.about[0]);text('#sobre .about-copy .lead',c.about[1]);text('#sobre .about-copy p:not(.lead)',c.about[2]);
     text('.focus-strip-label',c.focus[0]);qa('.focus-grid .signal-card').forEach((card,i)=>{focusTitle(q('strong',card),c.focus[1][i]);text('p',c.focus[2][i],card)});
-    text('.tool-label',c.tools);qa('.skills-group span').forEach(e=>{if(!e.dataset.baseSkill)e.dataset.baseSkill=e.textContent.trim();e.textContent=c.skill[e.dataset.baseSkill]||e.dataset.baseSkill});
+    text('.tool-label',c.tools);text('.tools-note',c.toolsNote);qa('.skills-group span').forEach(e=>{if(!e.dataset.baseSkill)e.dataset.baseSkill=e.textContent.trim();e.textContent=c.skill[e.dataset.baseSkill]||e.dataset.baseSkill});
     const li=qa('.languages-inline span');text('.languages-inline strong',c.languages[0]);li.forEach((e,i)=>e.textContent=c.languages[i+1]||e.textContent);
     const ik=qa('#impacto > .section-kicker')[0];if(ik)ik.textContent=c.impact[0];qa('.metrics-grid .metric').forEach((m,i)=>{const p=q('.metric-copy p',m)||q('p',m);if(p)p.textContent=c.impact[i+1]});text('.metric-context',c.impact[5]);
     text('#trajetoria .section-kicker',c.career[0]);const ct=qa('.career-column-title');if(ct[0])ct[0].textContent=c.career[1];if(ct[1])ct[1].textContent=c.career[2];qa('.career-role').forEach((e,i)=>e.textContent=c.career[3][i]||e.textContent);

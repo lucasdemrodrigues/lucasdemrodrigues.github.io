@@ -183,3 +183,10 @@ body.light-mode .featured-certs-all b{color:#27c70b}
 body.light-mode .question-line-right{color:#555}
 @media(max-width:620px){.question-break{min-height:48svh;padding:72px 24px}.question-line{font-size:clamp(36px,11vw,54px);line-height:1.02}}
 @media(prefers-reduced-motion:reduce){.question-line{transform:none!important;opacity:1!important;will-change:auto}}
+
+
+/* Microlegenda conceitual das competências: discreta para não competir com os respiros editoriais. */
+.impact-tools .tool-label{margin-bottom:10px}
+.tools-note{margin:0 0 24px;color:#828282;font-size:14px;line-height:1.55;font-weight:400}
+body.light-mode .tools-note{color:#666}
+@media(max-width:620px){.impact-tools .tool-label{margin-bottom:9px}.tools-note{margin-bottom:20px;font-size:13px}}
