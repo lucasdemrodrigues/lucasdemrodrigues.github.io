@@ -157,3 +157,14 @@ body.light-mode .featured-certs-all b{color:#27c70b}
 @media(prefers-reduced-motion:reduce){
   .featured-certs-all,.featured-certs-all::after,.featured-certs-all b{transition:none!important}
 }
+
+
+/* Foco no mobile: os cards entram alternando as laterais para dar ritmo à leitura vertical. */
+@media(max-width:620px) and (prefers-reduced-motion:no-preference){
+  .focus-grid .signal-card.reveal:not(.visible){
+    transform:translateX(-32px);
+  }
+  .focus-grid .signal-card.reveal:nth-child(even):not(.visible){
+    transform:translateX(32px);
+  }
+}
