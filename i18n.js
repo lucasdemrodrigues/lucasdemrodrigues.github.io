@@ -24,7 +24,7 @@
       "Fechar certificado"
     ],
     "eyebrow": "Inteligência Comercial · CRM · Marketing · Dados",
-    "tagline": "Conectando clientes, dados e negócio.",
+    "tagline": "Conectando clientes, dados e negócio para resolver problemas.",
     "actions": [
       "Ver projetos",
       "Entrar em contato"
@@ -136,7 +136,7 @@
       "Close certificate"
     ],
     "eyebrow": "Sales Intelligence · CRM · Marketing · Data",
-    "tagline": "Connecting customers, data and business.",
+    "tagline": "Connecting customers, data and business to solve problems.",
     "actions": [
       "View projects",
       "Get in touch"
@@ -248,7 +248,7 @@
       "Cerrar certificado"
     ],
     "eyebrow": "Inteligencia Comercial · CRM · Marketing · Datos",
-    "tagline": "Conectando clientes, datos y negocio.",
+    "tagline": "Conectando clientes, datos y negocio para resolver problemas.",
     "actions": [
       "Ver proyectos",
       "Contactar"
