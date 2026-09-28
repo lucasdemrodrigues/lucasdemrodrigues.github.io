@@ -78,6 +78,7 @@
         "Técnico em Administração"
       ]
     ],
+    "questionBreak": ["Boas análises começam", "com boas perguntas."],
     "projects": "PROJETOS",
     "filters": {
       "Todos": "Todos",
@@ -190,6 +191,7 @@
         "Technical Diploma in Business Administration"
       ]
     ],
+    "questionBreak": ["Good analysis starts", "with good questions."],
     "projects": "PROJECTS",
     "filters": {
       "Todos": "All",
@@ -302,6 +304,7 @@
         "Técnico en Administración"
       ]
     ],
+    "questionBreak": ["Los buenos análisis empiezan", "con buenas preguntas."],
     "projects": "PROYECTOS",
     "filters": {
       "Todos": "Todos",
@@ -431,6 +434,7 @@
     const li=qa('.languages-inline span');text('.languages-inline strong',c.languages[0]);li.forEach((e,i)=>e.textContent=c.languages[i+1]||e.textContent);
     const ik=qa('#impacto > .section-kicker')[0];if(ik)ik.textContent=c.impact[0];qa('.metrics-grid .metric').forEach((m,i)=>{const p=q('.metric-copy p',m)||q('p',m);if(p)p.textContent=c.impact[i+1]});text('.metric-context',c.impact[5]);
     text('#trajetoria .section-kicker',c.career[0]);const ct=qa('.career-column-title');if(ct[0])ct[0].textContent=c.career[1];if(ct[1])ct[1].textContent=c.career[2];qa('.career-role').forEach((e,i)=>e.textContent=c.career[3][i]||e.textContent);
+    const qb=qa('.question-line');if(qb[0])qb[0].textContent=c.questionBreak[0];if(qb[1])qb[1].textContent=c.questionBreak[1];
     text('#projetos .section-kicker',c.projects);translateProjects();text('#certificacoes .section-kicker',c.certifications[0]);lead(q('#certificacoes .featured-certs-all'),c.certifications[1]);lead(q('#home-cert-modal-original'),c.certifications[2]);const certClose=q('.home-cert-modal-close');if(certClose)certClose.setAttribute('aria-label',c.certifications[3]);
     text('#contato .section-kicker',c.contact[0]);const labels=qa('.contact-card-label');if(labels[0])labels[0].textContent=c.contact[1];if(labels[1])labels[1].textContent=c.contact[2];
     const linkedin=q('#contato a.contact-card');if(linkedin)linkedin.setAttribute('aria-label',`${c.openLinkedin}, ${c.newTab}`);const email=q('.email-card');if(email)email.setAttribute('aria-label',`${c.copyEmail} lucasdemrodrigues@gmail.com`);
