@@ -172,3 +172,14 @@ body.light-mode .featured-certs-all b{color:#27c70b}
     transform:translateX(32px);
   }
 }
+
+
+/* Respiro editorial entre Trajetória e Projetos. O movimento acompanha o scroll e se desfaz ao subir. */
+.question-break{min-height:58svh;display:grid;place-items:center;padding:88px 24px;overflow:hidden}
+.question-break-inner{width:min(var(--max),100%);text-align:center}
+.question-line{margin:0;color:var(--text);font:600 clamp(42px,5.8vw,78px)/.98 "Space Grotesk",sans-serif;letter-spacing:-.05em;opacity:var(--question-opacity,1);will-change:transform,opacity}
+.question-line-left{transform:translate3d(var(--question-left,0),0,0)}
+.question-line-right{transform:translate3d(var(--question-right,0),0,0);font-weight:500;color:#b9b9b9}
+body.light-mode .question-line-right{color:#555}
+@media(max-width:620px){.question-break{min-height:48svh;padding:72px 24px}.question-line{font-size:clamp(36px,11vw,54px);line-height:1.02}}
+@media(prefers-reduced-motion:reduce){.question-line{transform:none!important;opacity:1!important;will-change:auto}}

@@ -270,3 +270,35 @@ if (homeCertModal) {
     if (event.target === homeCertModal) homeCertModal.close();
   });
 }
+
+
+// Respiro editorial: as duas linhas convergem de lados opostos conforme o scroll.
+// O cálculo é vinculado à posição da seção, então o movimento se reverte naturalmente ao subir.
+const questionBreak = document.querySelector('.question-break');
+if (questionBreak && !reducedMotion) {
+  let questionFrame = 0;
+
+  const updateQuestionBreak = () => {
+    questionFrame = 0;
+    const rect = questionBreak.getBoundingClientRect();
+    const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+    const travel = viewportHeight * 0.65;
+    const progress = Math.max(0, Math.min(1, (viewportHeight - rect.top) / travel));
+    const maxOffset = Math.min(160, window.innerWidth * 0.12);
+    const offset = (1 - progress) * maxOffset;
+    const opacity = 0.38 + (progress * 0.62);
+
+    questionBreak.style.setProperty('--question-left', `${-offset}px`);
+    questionBreak.style.setProperty('--question-right', `${offset}px`);
+    questionBreak.style.setProperty('--question-opacity', opacity.toFixed(3));
+  };
+
+  const requestQuestionUpdate = () => {
+    if (questionFrame) return;
+    questionFrame = requestAnimationFrame(updateQuestionBreak);
+  };
+
+  updateQuestionBreak();
+  window.addEventListener('scroll', requestQuestionUpdate, { passive:true });
+  window.addEventListener('resize', requestQuestionUpdate);
+}
