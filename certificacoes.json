@@ -20,7 +20,7 @@
   "certificates": [
     {
       "title": "Boas Vindas ao Bootcamp Universia - Primeiros Passos em PowerBI",
-      "type": "LIVE",
+      "type": "Live",
       "area": "Carreira & Desenvolvimento",
       "collection_id": "bootcamp-power-bi-2026",
       "issued_at": "2026-07-27",
@@ -275,7 +275,7 @@
     },
     {
       "title": "Boas vindas ao Bootcamp Reclame Aqui - Dados e IA na Prática",
-      "type": "LIVE",
+      "type": "Live",
       "area": "Carreira & Desenvolvimento",
       "collection_id": "bootcamp-dados-ia-2026",
       "issued_at": "2026-09-23",

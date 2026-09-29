@@ -36,7 +36,7 @@
         'Carreira & Desenvolvimento':'Carreira & Desenvolvimento',
         'Outros interesses':'Outros interesses'
       },
-      types:{Curso:'Curso',Projeto:'Projeto','Módulo':'Módulo','Imersão':'Imersão',LIVE:'LIVE',Mentoria:'Mentoria',Certificado:'Certificado'}
+      types:{Curso:'Curso',Projeto:'Projeto','Módulo':'Módulo','Imersão':'Imersão',Live:'Live',Mentoria:'Mentoria',Certificado:'Certificado'}
     },
     en:{
       html:'en',
@@ -65,7 +65,7 @@
         'Carreira & Desenvolvimento':'Career & Development',
         'Outros interesses':'Other interests'
       },
-      types:{Curso:'Course',Projeto:'Project','Módulo':'Module','Imersão':'Immersion',LIVE:'LIVE',Mentoria:'Mentoring',Certificado:'Certificate'}
+      types:{Curso:'Course',Projeto:'Project','Módulo':'Module','Imersão':'Immersion',Live:'Live',Mentoria:'Mentoring',Certificado:'Certificate'}
     },
     es:{
       html:'es',
@@ -94,7 +94,7 @@
         'Carreira & Desenvolvimento':'Carrera & Desarrollo',
         'Outros interesses':'Otros intereses'
       },
-      types:{Curso:'Curso',Projeto:'Proyecto','Módulo':'Módulo','Imersão':'Inmersión',LIVE:'LIVE',Mentoria:'Mentoría',Certificado:'Certificado'}
+      types:{Curso:'Curso',Projeto:'Proyecto','Módulo':'Módulo','Imersão':'Inmersión',Live:'Live',Mentoria:'Mentoría',Certificado:'Certificado'}
     }
   };
 
