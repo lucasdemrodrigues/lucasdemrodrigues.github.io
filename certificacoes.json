@@ -297,7 +297,8 @@
       "issuer": "Anhembi Morumbi + TecBan",
       "image": "https://drive.google.com/thumbnail?id=13vWPka5ahzLtA-GqI8ojUEAQcr6i6SzB&sz=w1000",
       "url": "https://drive.google.com/file/d/13vWPka5ahzLtA-GqI8ojUEAQcr6i6SzB/view",
-      "featured": true
+      "featured": true,
+      "featured_order": 2
     },
     {
       "title": "Estrategista de Consumer Insight",
@@ -480,7 +481,8 @@
       "issuer": "Tetra Educação",
       "image": "https://drive.google.com/thumbnail?id=1V0DYFn_sElzkR8ELI8PChm2vhUOFRcrt&sz=w1000",
       "url": "https://drive.google.com/file/d/1V0DYFn_sElzkR8ELI8PChm2vhUOFRcrt/view",
-      "featured": true
+      "featured": true,
+      "featured_order": 3
     },
     {
       "title": "Marketing e Inteligência em Negócios Digitais",
@@ -593,7 +595,8 @@
       "issuer": "Digital Marketing Institute + ESPM",
       "image": "https://drive.google.com/thumbnail?id=1pObjaYdSxFEQ_cgiCb_mHq0v9K_ahqEb&sz=w1000",
       "url": "https://drive.google.com/file/d/1pObjaYdSxFEQ_cgiCb_mHq0v9K_ahqEb/view",
-      "featured": true
+      "featured": true,
+      "featured_order": 1
     },
     {
       "title": "Turma Itaú Atacado 2024 — Jornada de Dados e IA dos negócios do Itaú",
