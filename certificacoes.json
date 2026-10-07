@@ -1043,6 +1043,21 @@
       "image": "https://drive.google.com/thumbnail?id=1yAmp4OGgsqIFq05fGBGEkV7dwP1_mCLF&sz=w1000",
       "url": "https://drive.google.com/file/d/1yAmp4OGgsqIFq05fGBGEkV7dwP1_mCLF/view",
       "id": "oficina-producao-de-mel-e-seu-beneficiamento-2026-09-27"
+    },
+    {
+      "title": "Imersão Excel Automate",
+      "type": "Imersão",
+      "area": "Dados & BI",
+      "collection_id": null,
+      "issued_at": "2026-10-07",
+      "sequence": 1,
+      "hours": 8,
+      "count_hours": true,
+      "modality": "Online",
+      "issuer": "Tetra Educação",
+      "image": "https://drive.google.com/thumbnail?id=1YlsoBazD-KoKXUP-i6w1f346xtkR344f&sz=w1000",
+      "url": "https://drive.google.com/file/d/1YlsoBazD-KoKXUP-i6w1f346xtkR344f/view",
+      "id": "imersao-excel-automate-2026-10-07"
     }
   ]
 }
