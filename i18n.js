@@ -97,6 +97,7 @@
     },
     "projectLink": "Ver projeto no GitHub",
     "newTab": "abre em nova aba",
+    "taggoLabel": "CARTÃO DIGITAL",
     "contact": [
       "CONTATO",
       "LINKEDIN",
@@ -211,6 +212,7 @@
     },
     "projectLink": "View project on GitHub",
     "newTab": "opens in a new tab",
+    "taggoLabel": "DIGITAL CARD",
     "contact": [
       "CONTACT",
       "LINKEDIN",
@@ -325,6 +327,7 @@
     },
     "projectLink": "Ver proyecto en GitHub",
     "newTab": "se abre en una pestaña nueva",
+    "taggoLabel": "TARJETA DIGITAL",
     "contact": [
       "CONTACTO",
       "LINKEDIN",
@@ -439,7 +442,7 @@
     text('#trajetoria .section-kicker',c.career[0]);const ct=qa('.career-column-title');if(ct[0])ct[0].textContent=c.career[1];if(ct[1])ct[1].textContent=c.career[2];qa('.career-role').forEach((e,i)=>e.textContent=c.career[3][i]||e.textContent);
     const qb=qa('.question-line');if(qb[0])qb[0].textContent=c.questionBreak[0];if(qb[1])qb[1].textContent=c.questionBreak[1];
     text('#projetos .section-kicker',c.projects);translateProjects();text('#certificacoes .section-kicker',c.certifications[0]);lead(q('#certificacoes .featured-certs-all'),c.certifications[1]);lead(q('#home-cert-modal-original'),c.certifications[2]);const certClose=q('.home-cert-modal-close');if(certClose)certClose.setAttribute('aria-label',c.certifications[3]);
-    text('#contato .section-kicker',c.contact[0]);const labels=qa('.contact-card-label');if(labels[0])labels[0].textContent=c.contact[1];if(labels[1])labels[1].textContent=c.contact[2];
+    text('#contato .section-kicker',c.contact[0]);const linkedinLabel=q('#contato a[href*="linkedin.com"] .contact-card-label');if(linkedinLabel)linkedinLabel.textContent=c.contact[1];const taggoLabel=q('#contato a[href*="taggo.one"] .contact-card-label');if(taggoLabel)taggoLabel.textContent=c.taggoLabel;const emailLabel=q('#contato .email-card .contact-card-label');if(emailLabel)emailLabel.textContent=c.contact[2];
     const linkedin=q('#contato a.contact-card');if(linkedin)linkedin.setAttribute('aria-label',`${c.openLinkedin}, ${c.newTab}`);const email=q('.email-card');if(email)email.setAttribute('aria-label',`${c.copyEmail} lucasdemrodrigues@gmail.com`);
     syncCopyLabel();const fs=qa('footer > span');if(fs[1])fs[1].textContent=c.footer;syncTheme();syncMenuLabel();qa('.language-switch button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.lang===lang)));
     document.dispatchEvent(new CustomEvent('portfolio:languagechange',{detail:{lang}}));
