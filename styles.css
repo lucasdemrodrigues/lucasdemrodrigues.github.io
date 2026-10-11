@@ -190,3 +190,15 @@ body.light-mode .question-line-right{color:#555}
 .tools-note{margin:0 0 24px;color:#828282;font-size:14px;line-height:1.55;font-weight:400}
 body.light-mode .tools-note{color:#666}
 @media(max-width:620px){.impact-tools .tool-label{margin-bottom:9px}.tools-note{margin-bottom:20px;font-size:13px}}
+
+/* Contatos: três cartões equilibrados no desktop, sem truncar os endereços. */
+@media(min-width:1080px){
+  .contact-inner{max-width:1180px}
+  .contact-links-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .contact-card{gap:10px;padding:18px 14px;min-width:0;min-height:120px}
+  .contact-card-value{font-size:clamp(12px,1.13vw,15px);white-space:normal;overflow-wrap:anywhere}
+  .contact-card-copy{min-width:0}
+  .email-card{padding-right:14px;padding-bottom:35px}
+  .email-card .contact-card-copy{max-width:none}
+  .email-card .copy-email{right:16px;bottom:12px;top:auto;transform:none}
+}
