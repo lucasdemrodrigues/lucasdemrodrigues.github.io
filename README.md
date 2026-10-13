@@ -150,6 +150,12 @@ A separação entre as duas camadas permite manter o portfólio público leve e 
 
 O Workspace também oferece **lembretes push configuráveis**, incluindo avisos de hidratação e alertas antecipados para compromissos, entrevistas e consultas. Os agendamentos são processados no servidor e as notificações são destinadas aos dispositivos autorizados; o recurso depende de permissão e configuração pelo usuário.
 
+<p align="center">
+  <img src="assets/IMG_7022.webp" alt="Exemplo real de notificação push de hidratação do Workspace na Central de Notificações do iPhone" width="350">
+  <br>
+  <sub>Exemplo real de notificação de hidratação no iOS.</sub>
+</p>
+
 ### Princípios adotados
 
 - Conteúdo pessoal não é armazenado no repositório público;
