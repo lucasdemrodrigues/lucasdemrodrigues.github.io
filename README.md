@@ -71,7 +71,7 @@ O projeto mantém um front-end público simples e leve, sem frameworks, e adicio
 - **Analytics:** Google Analytics 4
 - **Workspace privado:** Cloudflare Workers
 - **Banco e autenticação:** Supabase Auth + PostgreSQL
-- **Automações e notificações:** Cloudflare Workers (agendamentos), Google Apps Script e envio de e-mails via Google MailApp
+- **Automações e notificações:** Cloudflare Workers (agendamentos), Web Push com autenticação VAPID, Google Apps Script e envio de e-mails via Google MailApp
 - **IA no Workspace:** Groq, acionada sob demanda
 - **IA de apoio ao desenvolvimento:** ChatGPT e Gemini
 
@@ -144,9 +144,11 @@ Como evolução do portfólio, o projeto também possui uma área privada autent
 
 **Workspace privado → Cloudflare Workers → Supabase Auth → PostgreSQL com RLS → IA sob demanda via Groq**
 
-**Notificações privadas → Cloudflare Workers (agendamentos) → Google Apps Script → e-mail**
+**Notificações privadas → Cloudflare Workers (agendamentos) → e-mail via Google Apps Script ou notificações Web Push**
 
 A separação entre as duas camadas permite manter o portfólio público leve e acessível, enquanto autenticação, dados privados e processamento de IA permanecem isolados no Workspace.
+
+O Workspace também oferece **lembretes push configuráveis**, incluindo avisos de hidratação e alertas antecipados para compromissos, entrevistas e consultas. Os agendamentos são processados no servidor e as notificações são destinadas aos dispositivos autorizados; o recurso depende de permissão e configuração pelo usuário.
 
 ### Princípios adotados
 
