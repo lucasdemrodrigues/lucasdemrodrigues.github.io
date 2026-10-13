@@ -71,6 +71,7 @@ O projeto mantém um front-end público simples e leve, sem frameworks, e adicio
 - **Analytics:** Google Analytics 4
 - **Workspace privado:** Cloudflare Workers
 - **Banco e autenticação:** Supabase Auth + PostgreSQL
+- **Automações e notificações:** Cloudflare Workers (agendamentos), Google Apps Script e envio de e-mails via Google MailApp
 - **IA no Workspace:** Groq, acionada sob demanda
 - **IA de apoio ao desenvolvimento:** ChatGPT e Gemini
 
@@ -135,13 +136,15 @@ Assim, quando a consulta à API não está disponível, o site tenta utilizar um
 <a id="workspace-privado"></a>
 ## 🔐 Workspace privado
 
-Como evolução do portfólio, o projeto também possui uma área privada autenticada voltada à organização e ao acompanhamento de informações pessoais e profissionais. O conteúdo interno não é documentado neste repositório público; aqui é apresentada apenas a visão arquitetural necessária para contextualizar a solução.
+Como evolução do portfólio, o projeto também possui uma área privada autenticada, com versão instalável como aplicativo, voltada à organização e ao acompanhamento de informações pessoais e profissionais. O conteúdo interno não é documentado neste repositório público; aqui é apresentada apenas a visão arquitetural necessária para contextualizar a solução.
 
 ### Arquitetura resumida
 
 **Portfólio público → GitHub Pages → GitHub API + GA4**
 
 **Workspace privado → Cloudflare Workers → Supabase Auth → PostgreSQL com RLS → IA sob demanda via Groq**
+
+**Notificações privadas → Cloudflare Workers (agendamentos) → Google Apps Script → e-mail**
 
 A separação entre as duas camadas permite manter o portfólio público leve e acessível, enquanto autenticação, dados privados e processamento de IA permanecem isolados no Workspace.
 
