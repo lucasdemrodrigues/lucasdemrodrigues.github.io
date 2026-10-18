@@ -148,6 +148,8 @@ Como evolução do portfólio, o projeto também possui uma área privada autent
 
 A separação entre as duas camadas permite manter o portfólio público leve e acessível, enquanto autenticação, dados privados e processamento de IA permanecem isolados no Workspace.
 
+Entre as funcionalidades do Workspace está a **conversão cambial**: consulta de cotações atuais e históricas para estimar em reais os custos de compras em moedas estrangeiras, com distinção entre valores estimados e efetivamente pagos.
+
 O Workspace também oferece **lembretes push configuráveis**, incluindo avisos de hidratação e alertas antecipados para compromissos, entrevistas e consultas. Os agendamentos são processados no servidor e as notificações são destinadas aos dispositivos autorizados; o recurso depende de permissão e configuração pelo usuário.
 
 <p align="center">
