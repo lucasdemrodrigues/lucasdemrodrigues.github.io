@@ -18,6 +18,8 @@
   <img src="https://img.shields.io/badge/Supabase-Auth%20%26%20PostgreSQL-0F766E?logo=supabase&logoColor=white" alt="Supabase">
   <img src="https://img.shields.io/badge/Cloudflare-Workers-92400E?logo=cloudflare&logoColor=white" alt="Cloudflare Workers">
   <img src="https://img.shields.io/badge/Groq-IA-DB2777" alt="Groq">
+  <img src="https://img.shields.io/badge/Amazon%20Alexa-Voice%20Integration-00CAFF?logo=amazonalexa&logoColor=white" alt="Amazon Alexa — integração por voz">
+  <img src="https://img.shields.io/badge/Google%20Apps%20Script-MailApp-4285F4?logo=googleappsscript&logoColor=white" alt="Google Apps Script — MailApp">
 </p>
 
 <p align="center">
