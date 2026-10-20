@@ -72,6 +72,7 @@ O projeto mantém um front-end público simples e leve, sem frameworks, e adicio
 - **Workspace privado:** Cloudflare Workers
 - **Banco e autenticação:** Supabase Auth + PostgreSQL
 - **Automações e notificações:** Cloudflare Workers (agendamentos), Web Push com autenticação VAPID, Google Apps Script e envio de e-mails via Google MailApp
+- **Integração por voz:** Amazon Alexa (skill personalizada com Alexa-hosted/Node.js e API protegida no Cloudflare Workers)
 - **IA no Workspace:** Groq, acionada sob demanda
 - **IA de apoio ao desenvolvimento:** ChatGPT e Gemini
 
@@ -157,6 +158,8 @@ O Workspace também oferece **lembretes push configuráveis**, incluindo avisos 
   <br>
   <sub>Exemplo real de notificação de hidratação no iOS.</sub>
 </p>
+
+O Workspace dispõe ainda de **integração por voz com Amazon Alexa**, utilizando uma skill personalizada e comunicação autenticada com uma API do Cloudflare Workers para executar ações no ambiente privado. A integração foi **implementada e validada tanto no simulador quanto em um dispositivo Alexa físico**. Os comandos e dados pessoais envolvidos permanecem fora da documentação pública.
 
 ### Princípios adotados
 
