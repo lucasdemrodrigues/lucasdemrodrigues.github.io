@@ -2,12 +2,9 @@
   const block=document.querySelector('.focus-connection');
   if(!block)return;
   const buttons=[...block.querySelectorAll('[data-area]')];
-  const title=block.querySelector('.focus-venn-detail-title');
-  const description=block.querySelector('.focus-venn-detail-text');
-  const kicker=block.querySelector('.focus-venn-detail-kicker');
-  const heading=block.querySelector('.focus-connection-heading');
-  const intro=block.querySelector('.focus-connection-intro');
-  const panel=block.querySelector('.focus-venn-detail');
+  const title=block.querySelector('.focus-venn-tooltip-title');
+  const description=block.querySelector('.focus-venn-tooltip-text');
+  const tooltip=block.querySelector('.focus-venn-tooltip');
   const copies={
     pt:{heading:'COMO ESSAS ÁREAS SE CONECTAM',intro:'Clientes, dados e negócio: três perspectivas que se fortalecem quando trabalham juntas.',kicker:'NA PRÁTICA',areas:{
       center:['Minha atuação','Conecto clientes, dados e negócio para compreender cenários, identificar oportunidades, melhorar processos e apoiar decisões.'],
@@ -25,31 +22,34 @@
       bi:['Business Intelligence','Modelado de datos, dashboards e indicadores para transformar la información en análisis útiles para tomar decisiones.'],
       market:['Marketing y Mercado','Comportamiento del consumidor, investigación de mercado y rendimiento de campañas para orientar estrategias.']}}
   };
-  let current='center';
+  let current=null;
   let lang=document.documentElement.lang.toLowerCase().startsWith('en')?'en':document.documentElement.lang.toLowerCase().startsWith('es')?'es':'pt';
-  const render=(animate=false)=>{
+  const render=()=>{
     const copy=copies[lang];
-    heading.textContent=copy.heading;intro.textContent=copy.intro;kicker.textContent=copy.kicker;
-    buttons.forEach(b=>{
-      const area=b.dataset.area;
-      b.querySelector('span').textContent=area==='center'?({pt:'Meu foco',en:'My focus',es:'Mi enfoque'})[lang]:copy.areas[area][0];
-      b.classList.toggle('is-active',area===current);
-      b.setAttribute('aria-pressed',String(area===current));
-      b.setAttribute('aria-label',copy.areas[area][0]+': '+copy.areas[area][1]);
+    buttons.forEach(button=>{
+      const area=button.dataset.area;
+      button.querySelector('span').textContent=area==='center'?({pt:'Meu foco',en:'My focus',es:'Mi enfoque'})[lang]:copy.areas[area][0];
+      button.classList.toggle('is-active',area===current);
+      button.setAttribute('aria-pressed',String(area===current));
+      button.setAttribute('aria-label',copy.areas[area][0]+': '+copy.areas[area][1]);
     });
-    title.textContent=copy.areas[current][0];
-    description.textContent=copy.areas[current][1];
-    panel.classList.remove('is-changing');
-    if(animate&&!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-      void panel.offsetWidth;panel.classList.add('is-changing');
+    if(current){
+      title.textContent=copy.areas[current][0];
+      description.textContent=copy.areas[current][1];
+      tooltip.classList.add('is-visible');
+    }else{
+      tooltip.classList.remove('is-visible');
     }
   };
+  const activate=area=>{current=area;render()};
   buttons.forEach(button=>{
-    const activate=()=>{if(current!==button.dataset.area){current=button.dataset.area;render(true)}};
-    button.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse'||e.pointerType==='pen')activate()});
-    button.addEventListener('focus',activate);
-    button.addEventListener('click',activate);
+    button.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse'||e.pointerType==='pen')activate(button.dataset.area)});
+    button.addEventListener('focus',()=>activate(button.dataset.area));
+    button.addEventListener('click',()=>activate(button.dataset.area));
   });
+  block.addEventListener('pointerleave',e=>{if(e.pointerType==='mouse'||e.pointerType==='pen'){current=null;render()}});
+  block.addEventListener('focusout',e=>{if(!block.contains(e.relatedTarget)){current=null;render()}});
+  document.addEventListener('pointerdown',e=>{if(!block.contains(e.target)){current=null;render()}});
   document.addEventListener('portfolio:languagechange',e=>{lang=copies[e.detail?.lang]?e.detail.lang:'pt';render()});
   render();
 })();
